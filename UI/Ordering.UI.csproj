@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D9104700-2AC5-4DC7-983D-D5417C16668E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Willowsoft.Ordering.UI</RootNamespace>
+    <AssemblyName>Willowsoft.Ordering.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>Main.ico</ApplicationIcon>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Willowsoft.WillowLib.CodeGen">
+      <HintPath>..\..\..\Libraries\WillowLib\Willowsoft.WillowLib.CodeGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Willowsoft.WillowLib.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\WillowLib\Willowsoft.WillowLib.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Willowsoft.WillowLib.WinForm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\WillowLib\Willowsoft.WillowLib.WinForm.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers\ContactGridHelper.cs" />
+    <Compile Include="Helpers\ProductBrandGridHelper.cs" />
+    <Compile Include="Helpers\ProductCategoryGridHelper.cs" />
+    <Compile Include="Helpers\ProductSubCategoryGridHelper.cs" />
+    <Compile Include="Helpers\PurLineJoinGridHelper.cs" />
+    <Compile Include="Helpers\PurOrderGridHelper.cs" />
+    <Compile Include="Helpers\VendorGridHelper.cs" />
+    <Compile Include="Helpers\VendorProductHelper.cs" />
+    <Compile Include="Helpers\VPJoinGridHelper.cs" />
+    <Compile Include="MDIMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MDIMain.Designer.cs">
+      <DependentUpon>MDIMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MDIMain.resx">
+      <DependentUpon>MDIMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PurLineForm.resx">
+      <DependentUpon>PurLineForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PurOrderForm.resx">
+      <DependentUpon>PurOrderForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\HTMLReport.resx">
+      <DependentUpon>HTMLReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\ContactForm.resx">
+      <DependentUpon>ContactForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\ImportAddProductForm.resx">
+      <DependentUpon>ImportAddProductForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\ImportProductsForm.resx">
+      <DependentUpon>ImportProductsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\ProductBrandForm.resx">
+      <DependentUpon>ProductBrandForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\ProductCategoryForm.resx">
+      <DependentUpon>ProductCategoryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\ProductSubCategoryForm.resx">
+      <DependentUpon>ProductSubCategoryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\ProductWebHarvestForm.resx">
+      <DependentUpon>ProductWebHarvestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\PurOrderSummaryForm.resx">
+      <DependentUpon>PurOrderSummaryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\UseExistingProductForm.resx">
+      <DependentUpon>UseExistingProductForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\VendorForm.resx">
+      <DependentUpon>VendorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupForms\VendorProductForm.resx">
+      <DependentUpon>VendorProductForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SetupForms\SampleImportFile.ods" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PurLineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PurLineForm.Designer.cs">
+      <DependentUpon>PurLineForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PurOrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PurOrderForm.Designer.cs">
+      <DependentUpon>PurOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CheckInWriter.cs" />
+    <Compile Include="Reports\FaxOrderWriter.cs" />
+    <Compile Include="Reports\FilterAll.cs" />
+    <Compile Include="Reports\FilterOrderedOnly.cs" />
+    <Compile Include="Reports\HTMLOrderReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\HTMLReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\HTMLReport.Designer.cs">
+      <DependentUpon>HTMLReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\IOrderReportFilter.cs" />
+    <Compile Include="Reports\IOrderReportWriter.cs" />
+    <Compile Include="Reports\OrderReportWriter.cs" />
+    <Compile Include="Reports\ReportWriterBase.cs" />
+    <Compile Include="Reports\VendorProductReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\WorksheetWriter.cs" />
+    <Compile Include="SetupForms\ContactForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\ContactForm.Designer.cs">
+      <DependentUpon>ContactForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\ImportAddProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\ImportAddProductForm.Designer.cs">
+      <DependentUpon>ImportAddProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\ImportProductsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\ImportProductsForm.Designer.cs">
+      <DependentUpon>ImportProductsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\ProductBrandForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\ProductBrandForm.Designer.cs">
+      <DependentUpon>ProductBrandForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\ProductCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\ProductCategoryForm.Designer.cs">
+      <DependentUpon>ProductCategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\ProductSubCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\ProductSubCategoryForm.Designer.cs">
+      <DependentUpon>ProductSubCategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\ProductWebHarvestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\ProductWebHarvestForm.Designer.cs">
+      <DependentUpon>ProductWebHarvestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\PurOrderSummaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\PurOrderSummaryForm.Designer.cs">
+      <DependentUpon>PurOrderSummaryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\UseExistingProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\UseExistingProductForm.Designer.cs">
+      <DependentUpon>UseExistingProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\VendorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\VendorForm.Designer.cs">
+      <DependentUpon>VendorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupForms\VendorProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupForms\VendorProductForm.Designer.cs">
+      <DependentUpon>VendorProductForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Ordering.Core.csproj">
+      <Project>{7499F8E8-30E3-4B25-961C-EB3118A02766}</Project>
+      <Name>Ordering.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Help.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ordering\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

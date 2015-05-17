@@ -1,0 +1,391 @@
+﻿<html>
+<head>
+<title>Ordering Entry Help</title>
+<LINK href="Help.css" rel="stylesheet" type="text/css">
+</head>
+<body class="toplevel">
+<h1>Order Entry User's Guide</h1>
+<h2>Introduction</h2>
+<p>
+This order entry system has the following major uses:
+</p>
+<ul>
+<li>Describe the products we regularly carry.</li>
+<li>Help us prepare and place orders for those products.</li>
+<li>Receive shipments and price products.</li>
+</ul>
+<h2>Configuration and Setup</h2>
+<p>
+The system contains more information than just products and orders. It also contains
+lists of vendors, contacts, product categories, product subcategories, and
+brand names. All this information is entered through windows that may be accessed
+under the "Setup" option on the main menu bar. Most of this information is entered
+as part of initially setting up the system, but changes must still be made sometimes
+using these same windows.
+</p>
+<h3>Using Grids For Data Entry</h3>
+<p>
+Many of the windows in this software use the same kind of grid for data entry.
+There are several things it is helpful to know when using these grids.
+</p>
+<p>
+First, the software doesn't save what you change on a row until you either close
+the window containing the grid or click on a different row in the grid. At that point
+it will also check what you've entered on the row to make sure it is valid, and give
+you an error if it is not. You may find situations where things don't work as expected
+because you haven't saved the current row of a grid yet, for example you can't use
+a new product subcategory to create products because you haven't saved the new
+subcategory.
+</p>
+<p>
+Second, on some windows you may want to delete a line of the grid. For example,
+you may want to delete a brand name that was entered by mistake. The way to do this
+is to click on the very leftmost cell in the grid on that row, the little square one
+with no text in it. That selects the entire row, as opposed to just one cell in the
+row. Then you can delete the row by pressing the "Delete" key on the keyboard.
+</p>
+<p>
+Some grids do not allow you to delete rows - the most common example is the grid
+on the product details form. The only way to add or remove rows for an order is
+to set the categories on the order list window. If you try to delete a row on a grid
+that doesn't allow it you don't get an error, it simply does nothing.
+</p>
+<p>
+Third, on grids that allow you to add rows you can do this by scrolling to the bottom
+of the grid and clicking in any cell in the blank row at the bottom. There will be no
+such blank row at the bottom if you aren't allowed to add a row on this grid.
+</p>
+<h2>Describing Products</h2>
+<p>
+Probably the most important set of information in the system is the list of products.
+Each vendor has their own product list. The system is able to represent a single product
+that is available through multiple vendors, but we have not yet made use of this feature.
+You may see hints of this feature in naming conventions and a few options in the
+user interface. For example, on the vendor products window you can enter both "retail"
+and "vendor retail" prices. This just means that we can define a "normal" retail price
+for a product ("retail"), and an alternate price that applies if we buy it through
+this vendor ("vendor retail"). Several other pieces of information on the vendor
+products window have dual values the same way.
+</p>
+<h3>Product List</h3>
+<p>
+The product list for each vendor is entered on the vendor products window, which is
+listed under "Setup" on the main menu bar. On this window you can manage the product
+list for one product category of one vendor at a time. You cannot see all products
+for the vendor, just one product category. This is where you make price changes,
+cost changes, name changes, etc.
+</p>
+<p>
+For retail pricing, we generally only enter the price in the "Retail" column.
+We leave "Vendor Retail" zero, which tells it to always use the "Retail" column.
+</p>
+<p>
+Product cost (wholesale price) is either described as cost per item,
+or cost for a case (or other quantity larger than one). Cost per item is entered
+in the "Each Cost" column. Cost for a case, and the number of items in a case,
+are entered in the "Case Cost" and "Case Size" columns.
+</p>
+<p>
+Under normal circumstances, products will not appear on order sheets unless they
+are noted as "Active" on the vendor products window. To be "Active" both the
+"Product Active" and "V.P. Active" checkbox columns must be checked.
+</p>
+<p>
+The other important vendor product columns are "Sub Category", "Product Name", "Size", 
+and "Vendor Code". The size can be left blank, but the other three are required.
+</p>
+<h3>Adding Or Importing Products</h3>
+<p>
+You can manually type in new products one by one on the vendor products window,
+by showing the products for that vendor and product category and then typing them
+on the bottom row of the grid. This is the hard way of doing it, but it may be
+the only way available.
+</p>
+<p>
+If the product information is available in a spreadsheet, or on a web page,
+it is probably possible to put that information in a form where it can be imported
+into the software instead of re-typing it.
+</p>
+<p>
+Importing is done by clicking "Import Products Using This Vendor" on the
+vendor products window, which will display the "Import Products" window.
+This window contains a large box where you can enter lines of text, each
+defining one product to create. Each line contains ten pieces of information,
+separated by tabs. The pieces are named in the column headings above the
+input box, and also in some comments above it.
+</p>
+<p>
+The information entered is pretty self-explanatory. The only subtlety is that
+the names of the subcategories and brands must exactly match the names defined
+in the software in order to be recognized. The product subcategory MUST be 
+matched for the import to occur, but not the brand name. If the brand name is
+not recognized it will ask you if you want to create that brand name. We do it
+this way because new brand names happen all the time, but not new product 
+subcategories.
+</p>
+<p>
+Once the information is in the import products window, just click "Create Products".
+</p>
+<h3>Importing From Spreadsheets</h3>
+<p>
+The import products window is designed to be used by copying information from
+spreadsheets. This is why the information is separated by tabs - that's how
+spreadsheets format it when you cut and paste regions from them. So what we
+suggest is to prepare the information in spreadsheets, and then cut and paste
+it into the import products window.
+</p>
+<p>
+Two columns in your spreadsheet probably need special handling to make data
+entry easier - product brand and product subcategory. These columns should be
+equipped with dropdown lists in the spreadsheet to avoid mistakes in data entry.
+</p>
+<p>
+To add a dropdown list for a column takes several steps in Open Office Calc:
+</p>
+<ol>
+<li>Enter the list
+of possible values as a column in the spreadsheet. Normally you will create
+a separate sheet in the spreadsheet to hold the subcategory and brand lists, and put each 
+in a separate column in that sheet.</li>
+<li>To make it easy to make these lists, I've created a spreadsheet "Lists.ods"
+in "\\SUSANYAUKEY\dc\Public\2009 Vendor Inventory" that has the current
+lists of brand names and subcategories. You can cut and paste from "Lists.ods".
+If you add or change this information in
+the software please update the copy in "Lists.ods" as well.</li>
+<li>Select all the values in the copy of the list in your spreadsheet.</li>
+<li>Assign a name to the selected region. Do this by typing
+the name in the box where Open Office Calc shows the range you've selected,
+and then pressing enter. For consistency, use the name "SubCats" for the
+list of subcategories, and "Brands" for the list of brand names.</li>
+<li>If you mess up assigning the name, you can remove
+the name by clicking "Insert", "Names" and "Define" on the Open Office Calc
+menu bar, then deleting the named range you messed up.</li>
+<li>Click the top cell (NOT the column header) in the column where you want
+to add a dropdown list.</li>
+<li>Click "Data" and "Validity" on the menu bar. Select the "Criteria" tab.</li>
+<li>Set "Allow" to "Cell Range", uncheck "Allow Blank Cells", check "Show Selection List"
+and "Sort Entries Ascending", and set "Source" to the name of the range you defined
+with the list of choices ("Brands" or "SubCats").</li>
+<li>Select "Error Alert" tab. Check the "Show error message when invalid values
+are entered" box, and set "Action" to "stop".</li>
+<li>Click "OK".</li>
+<li>The first cell in the column should now have a dropdown list.</li>
+<li>Copy and paste that cell to the other cells in the column to give them
+the same dropdown list.</li>
+</ol>
+<h3>Importing From Web Pages</h3>
+<p>
+If the product information you want to enter is on a web page somewhere, you
+may be able to extract it from that web page with another feature of the software.
+Once you extract it from the web page you will be able to paste that information
+into a spreadsheet, and from there you can cut and paste it into the import
+products window.
+</p>
+<p>
+Under "Setup" on the main menu bar, click "Extract Vendor Products From Web".
+</p>
+<p>
+The software will open another window, which is a stripped down version of
+a Microsoft Internet Explorer window. All that's missing is the menu bar
+and all the toolbars. We added our own minimalist set of navigation controls -
+a box to type the URL of a web page into, a "Go" button to display that page,
+and buttons to navigate forward and back through your history.
+</p>
+<p>
+There are a bunch of controls at the bottom of the browser window to let you
+extract information from the current web page. <b>NONE OF THESE DO ANYTHING
+UNLESS THE "Extract Product Info" BOX IS CHECKED!</b> Once this box is checked,
+clicking on text on the web page extracts that text to use it as a product name,
+size, brand name, cost, etc.
+</p>
+<p>
+Each type of information that can be extracted has its own text box at the
+bottom of the window. The type of information that will be extracted when you
+click in the page is denoted by which box is colored light blue. If you click
+anywhere on the web page, the text you clicked on will be stored in the blue
+box and the color of the original text will be changed so you can keep track
+of what you've clicked on. Remember - clicking text has no effect unless you
+first check the "Extract Product Info" box!
+</p>
+<p>
+The software tries very hard to save you work by recognizing certain
+things about the information you click on. When you click on the product
+name or description, it looks for anything in that text that could be
+a size or weight. If it finds it, it removes it from the product name
+and stores it in the "Size" box. It also recognizes text like "ea" or "box"
+or "case" in prices and sets the correct boxes below.
+</p>
+<p>
+You will always extract text in the same order, which is the order of the
+boxes at the bottom of the window. Just look at which box is blue to known
+what you are extracting.
+</p>
+<p>
+Once you extract all the information for a product, click the "Save Product"
+button on the window. This will "complete" your product, and put on your
+clipboard the list of products extracted from the current web page. The
+information is in the same tab separated format used by the "Import Products"
+window, but you'll probably want to paste it into a spreadsheet instead because
+you'll need to massage the data a bit before it is ready to import. For example,
+you'll probably need to add or change brand names, and you'll definitely need
+to add product subcategories.
+</p>
+<p>
+If you make a mistake clicking on information, just click the "Undo Selection"
+button. You can click this as many times as you like, and it will keep rolling
+back one more step each time.
+</p>
+<h2>Orders</h2>
+<p>
+All the options for working with orders are under the "Ordering" option on the
+main menu bar.
+</p>
+<h3>The Order List</h3>
+<p>
+Click "Order List" to see a list of all orders, most recent first. It shows several
+pieces of information associated with each order, including dates, the freight,
+an invoice number, a discount percentage, terms, and general notes. Don't worry
+if you can't enter all the information, most of it is just for your information.
+</p>
+<p>
+For example, it doesn't matter if you enter the invoice number. If the vendor
+typically splits up an order onto multiple invoices you can enter their
+order number there instead.
+</p>
+<p>
+The only information that is actually used for anything is the vendor, the order
+date, and the freight amount. The order date is used to sort the order list window,
+and the freight is included in the running order total at the bottom of the order
+details window.
+</p>
+<h3>Creating Orders</h3>
+<p>
+To create a new order, open the order list window, scroll to the bottom of the
+grid, click on the last row (the blank one), select a vendor, and then click
+on a different row to save the new row.
+</p>
+<p>
+When first created, an order has no products in it. If you open it there will
+be no lines in it at all - so you can't even order anything. You'll know this
+is the case when you click on the order in the order list window and see there
+are no categories selected in the category list on the right.
+</p>
+<p>
+So the first thing you'll probably do is choose which product categories
+you want to work with on the order, and add products from those categories
+to the order. To do this simply click on the order, and click on the categories
+in the category list on the right that you want to include, and then click
+"Set Order Categories". When you click that button it will add all the products
+in those categories to your order. They'll all be zero quantity ordered, but
+now they'll be on the order so you can change the quantity ordered.
+</p>
+<p>
+When you click on an order in the order list window it always shows what categories
+are in the order over on the right.
+</p>
+<p>
+To remove product categories from an order, first click on that order in the order
+list window. It will select the current categories. Just click on any of those
+categories to un-select them in the list, and click "Set Order Categories".
+Whenever you click this button it adds the categories that are currently selected,
+and removes the ones that are unselected.
+</p>
+<p>
+Note that it will not remove products from the order if any of the quantity columns
+for that product are non-zero. So if you try to remove all product categories from
+an order where you've entered a bunch of quantities, what you'll get is an order
+with only the things you actually ordered.
+</p>
+<p>
+The other subtle thing you can do with "Set Order Categories" is to add new products
+to existing orders. If you add a product on the vendor products window, then click
+"Set Order Categories" for an order that includes that category, the new product 
+will be added to the order.
+</p>
+<h3>Viewing Orders and Changing Quantities</h3>
+<p>
+Once an order has the correct products in it, you can view all the lines and
+modify the quantities by clicking on the order in the order list window and
+then clicking the "Show Order Details" button.
+</p>
+<p>
+This will open the "Order Details" window for that order. This window is mostly
+a grid showing one product per line. Most of the columns show information from
+the vendor products window, and can't be modified here. The only information
+other than the grid is an order total at the bottom. This is the total cost
+of the order, including shipping from the order list window. The total cost is
+updated automatically as you change the numbers in the "Ordered" window and
+then move do a different line in the order.
+</p>
+<p>
+The columns you can
+modify are mostly the quantities: "Ordered", "Received", "Back Ordered", "Missing",
+"Damaged", and "On Hand". "Ordered" is the number you ordered, "Received" is how
+many were actually shipped, "Back Ordered" is how many the <b>vendor</b> said
+they backordered for you, "Missing" and "Damaged" is how many <b>you</b> decided were
+missing or damaged, and "On Hand" is how many were on our shelf when you created the
+order. The "On Hand" amount is just for your information, to help you decide how many to order.
+</p>
+<p>
+All these quantities (except "On Hand") mean individual items if the "Eaches" box 
+is checked for that line, otherwise they mean cases/boxes/packs/etc.
+</p>
+<h3>Other Useful Columns In Order Details</h3>
+<p>
+There are many, many columns on the order details window.
+</p>
+<p>
+Two very interesting columns are the margins for regular retail price and the vendor retail
+price. These are computed based on the actual cost that applies for the order. If you
+ordered by eaches then it will use the standard vendor each cost, unless you entered a
+non-zero amount in the "Special Each Cost" column. If you ordered by cases then it will
+use the standard order case cost, unless you entered a non-zero amount in the "Special
+Case Cost".
+</p>
+<h3>Printing and Faxing Orders</h3>
+<p>
+Whenever you like you can create several different printouts for the order.
+All are done using buttons at the bottom of the Order Details window.
+</p>
+<p>
+The "Purchase Order Fax" report shows the information you need to fax into the
+vendor to place the order. It is intended to print and fax directly, instead
+of transcribing the information onto another piece of information. It only
+shows lines that have a non-zero quantity.
+</p>
+<p>
+The "Order Worksheet" report shows ALL lines of the order, regardless of
+quantities. It is intended to print out, take downstairs onto the sales
+floor, and right the order quantities on. You can also add the amounts on
+hand on it if you like. Then take the printout upstairs and enter the
+amounts into the order on the order details window.
+</p>
+<p>
+The "Order Check-In" report includes lines with quantities, showing all those
+quantities and all pricing information. This is intended to be the sheet you
+work off of to price an order as it comes in.
+</p>
+<h2>Pricing Products</h2>
+<p>
+The general procedure is to print the "Order Check-In" report for the order,
+and compare the cost from the actual invoice to the cost we have in our
+system. If the cost is the same, use the retail price on the "Order Check-In"
+report.
+</p>
+<p>
+If the cost is different, figure out the new retail price and write both the
+new cost and retail price on the report.
+</p>
+<p>
+When the order is done, take the check-in report to the computer and update
+the vendor product list with the new costs and retail prices. <b>THIS IS VERY
+IMPORTANT!</b> If we don't keep the product list up to date then it becomes
+much more time consuming to create orders and process them when they arrive.
+</p>
+<p>
+There are paper handling procedures documented elsewhere related to this
+process - for example where to put all the printouts so the correct things
+are done with them at the correct times.
+</p>
+</body>
+</html>

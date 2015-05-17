@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7499F8E8-30E3-4B25-961C-EB3118A02766}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Willowsoft.Ordering.Core</RootNamespace>
+    <AssemblyName>Willowsoft.Ordering.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Willowsoft.WillowLib.Data">
+      <HintPath>..\..\..\Libraries\WillowLib\Willowsoft.WillowLib.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\Contact.cs" />
+    <Compile Include="Entities\ContactGen.cs" />
+    <Compile Include="Entities\JoinPlToVpToProd.cs" />
+    <Compile Include="Entities\JoinVpToProd.cs" />
+    <Compile Include="Entities\PurLine.cs" />
+    <Compile Include="Entities\PurLineGen.cs" />
+    <Compile Include="Entities\PurOrder.cs" />
+    <Compile Include="Entities\PurOrderGen.cs" />
+    <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\ProductBrand.cs" />
+    <Compile Include="Entities\ProductBrandGen.cs" />
+    <Compile Include="Entities\ProductCategory.cs" />
+    <Compile Include="Entities\ProductCategoryGen.cs" />
+    <Compile Include="Entities\ProductGen.cs" />
+    <Compile Include="Entities\ProductSubCategory.cs" />
+    <Compile Include="Entities\ProductSubCategoryGen.cs" />
+    <Compile Include="Entities\Vendor.cs" />
+    <Compile Include="Entities\VendorGen.cs" />
+    <Compile Include="Entities\VendorProduct.cs" />
+    <Compile Include="Entities\VendorProductGen.cs" />
+    <Compile Include="OrderingDataSet.cs">
+      <DependentUpon>OrderingDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OrderingDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderingDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\IContactRepository.cs" />
+    <Compile Include="Repositories\IPurLineRepository.cs" />
+    <Compile Include="Repositories\IPurOrderRepository.cs" />
+    <Compile Include="Repositories\IProductBrandRepository.cs" />
+    <Compile Include="Repositories\IProductCategoryRepository.cs" />
+    <Compile Include="Repositories\IProductRepository.cs" />
+    <Compile Include="Repositories\IProductSubCategoryRepository.cs" />
+    <Compile Include="Repositories\IVendorProductRepository.cs" />
+    <Compile Include="Repositories\IVendorRepository.cs" />
+    <Compile Include="Repositories\RepositoryFactory.cs" />
+    <Compile Include="Repositories\SqlContactRepository.cs" />
+    <Compile Include="Repositories\SqlPurLineRepository.cs" />
+    <Compile Include="Repositories\SqlPurOrderRepository.cs" />
+    <Compile Include="Repositories\SqlProductBrandRepository.cs" />
+    <Compile Include="Repositories\SqlProductCategoryRepository.cs" />
+    <Compile Include="Repositories\SqlProductRepository.cs" />
+    <Compile Include="Repositories\SqlProductSubCategoryRepository.cs" />
+    <Compile Include="Repositories\SqlVendorProductRepository.cs" />
+    <Compile Include="Repositories\SqlVendorRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities\Definitions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="OrderingDataSet.xsc">
+      <DependentUpon>OrderingDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="OrderingDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>OrderingDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="OrderingDataSet.xss">
+      <DependentUpon>OrderingDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Sql\StoredProcedures.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

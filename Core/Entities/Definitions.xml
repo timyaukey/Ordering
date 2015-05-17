@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<definitions>
+	<entity classname="Contact" idtype="ContactId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="FirstName" type="string" sqltype="varchar(60)" />
+			<field name="Initial" type="string" sqltype="varchar(1)" />
+			<field name="LastName" type="string" sqltype="varchar(60)" />
+			<field name="Street1" type="string" sqltype="varchar(60)" />
+			<field name="Street2" type="string" sqltype="varchar(60)" />
+			<field name="City" type="string" sqltype="varchar(60)" />
+			<field name="StateProvince" type="string" sqltype="varchar(10)" />
+			<field name="PostalCode" type="string" sqltype="varchar(12)" />
+			<field name="Country" type="string" sqltype="varchar(10)" />
+			<field name="PhoneNumber" type="string" sqltype="varchar(25)" />
+			<field name="CellNumber" type="string" sqltype="varchar(25)" />
+			<field name="FaxNumber" type="string" sqltype="varchar(25)" />
+			<field name="EmailAddress" type="string" sqltype="varchar(60)" />
+			<field name="Notes" type="string" sqltype="varchar(2048)" />
+			<field name="IsActive" type="bool" init="true" />
+		</fields>
+		<sql>
+			<constraint name="pkContact">
+				PRIMARY KEY (ContactId)
+			</constraint>
+			<constraint name="ckContact_Names">
+				CHECK (LEN(LastName)>0 AND LEN(FirstName)>0)
+			</constraint>
+			<index name="ContactIdx_Names" unique="true">
+				LastName, FirstName
+			</index>
+			<index name="ContactIdx_PhoneNumber">
+				PhoneNumber
+			</index>
+			<index name="ContactIdx_CellNumber">
+				CellNumber
+			</index>
+			<index name="ContactIdx_FaxNumber">
+				FaxNumber
+			</index>
+			<index name="ContactIdx_Email">
+				EmailAddress
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="Vendor" idtype="VendorId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="VendorName" type="string" sqltype="varchar(100)" />
+			<field name="Terms" type="string" sqltype="varchar(20)" />
+			<field name="PriceCode" type="int" init="0" />
+			<field name="Shipping" type="string" sqltype="varchar(50)" />
+			<field name="SortCode" type="string" sqltype="varchar(6)" />
+			<field name="RepContactId" type="ContactId" isid="true" nullable="true" /><!-- Sales rep -->
+			<field name="OrdContactId" type="ContactId" isid="true" nullable="true" /><!-- Ordering -->
+			<field name="ShpContactId" type="ContactId" isid="true" nullable="true" /><!-- Shipping -->
+			<field name="ActContactId" type="ContactId" isid="true" nullable="true" /><!-- Accounting -->
+			<field name="Notes" type="string" sqltype="varchar(2048)" />
+			<field name="PreferredVendor" type="bool" init="true" />
+			<field name="IsActive" type="bool" init="true" />
+			<field name="PricingRequiresReview" type="bool" init="false" />
+		</fields>
+		<sql>
+			<constraint name="pkVendor">
+				PRIMARY KEY (VendorId)
+			</constraint>
+			<constraint name="ckVendor_Name">
+				CHECK (LEN(VendorName)>0)
+			</constraint>
+			<constraint name="fkVendor_RepContact">
+				FOREIGN KEY (RepContactID) REFERENCES dbo.Contact(ContactId)
+			</constraint>
+			<constraint name="fkVendor_OrdContact">
+				FOREIGN KEY (OrdContactID) REFERENCES dbo.Contact(ContactId)
+			</constraint>
+			<constraint name="fkVendor_ShpContact">
+				FOREIGN KEY (ShpContactID) REFERENCES dbo.Contact(ContactId)
+			</constraint>
+			<constraint name="fkVendor_ActContact">
+				FOREIGN KEY (ActContactID) REFERENCES dbo.Contact(ContactId)
+			</constraint>
+			<index name="VendorIdx_VendorName" unique="true">
+				VendorName
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="ProductCategory" idtype="ProductCategoryId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="CategoryName" type="string" sqltype="varchar(40)" />
+			<field name="SortCode" type="string" sqltype="varchar(4)" />
+			<field name="Notes" type="string" sqltype="varchar(2048)" />
+			<field name="IsActive" type="bool" init="true" />
+		</fields>
+		<sql>
+			<constraint name="pkProductCategory">
+				PRIMARY KEY (ProductCategoryId)
+			</constraint>
+			<constraint name="ckProductCategory_Name">
+				CHECK (LEN(CategoryName)>0)
+			</constraint>
+			<constraint name="ckProductCategory_Sort">
+				CHECK (LEN(SortCode)>0)
+			</constraint>
+			<index name="ProductCategoryIdx_Name" unique="true">
+				CategoryName
+			</index>
+			<index name="ProductCategoryIdx_Sort">
+				SortCode
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="ProductSubCategory" idtype="ProductSubCategoryId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="SubCategoryName" type="string" sqltype="varchar(40)" />
+			<field name="SortCode" type="string" sqltype="varchar(6)" />
+			<field name="ProductCategoryId" type="ProductCategoryId" isid="true" />
+			<field name="DefaultProfitMargin" type="int" init="50" />
+			<field name="Notes" type="string" sqltype="varchar(2048)" />
+			<field name="IsActive" type="bool" init="true" />
+			<field name="PricingRequiresReview" type="bool" init="false" />
+		</fields>
+		<sql>
+			<constraint name="pkProductSubCategory">
+				PRIMARY KEY (ProductSubCategoryId)
+			</constraint>
+			<constraint name="ckProductSubCategory_Name">
+				CHECK (LEN(SubCategoryName)>0)
+			</constraint>
+			<constraint name="ckProductSubCategory_Sort">
+				CHECK (LEN(SortCode)>0)
+			</constraint>
+			<constraint name="fkProductSubCategory_Category">
+				FOREIGN KEY (ProductCategoryId) REFERENCES dbo.ProductCategory(ProductCategoryId)
+			</constraint>
+			<index name="ProductSubCategoryIdx_Name" unique="true">
+				SubCategoryName
+			</index>
+			<index name="ProductSubCategoryIdx_Sort">
+				SortCode
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="ProductBrand" idtype="ProductBrandId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="BrandName" type="string" sqltype="varchar(80)" />
+			<field name="Notes" type="string" sqltype="varchar(2048)" />
+			<field name="IsActive" type="bool" init="true" />
+		</fields>
+		<sql>
+			<constraint name="pkProductBrand">
+				PRIMARY KEY (ProductBrandId)
+			</constraint>
+			<constraint name="ckProductBrand_Name">
+				CHECK (LEN(BrandName)>0)
+			</constraint>
+			<index name="ProductBrandIdx_Name" unique="true">
+				BrandName
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="Product" idtype="ProductId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="ProductName" type="string" sqltype="varchar(100)" />
+			<field name="ProductSubCategoryId" type="ProductSubCategoryId" isid="true" />
+			<field name="Size" type="string" sqltype="varchar(30)" />
+			<field name="RetailPrice" type="decimal" />
+			<field name="ProductBrandId" type="ProductBrandId" isid="true" />
+			<field name="ManufacturerBarcode" type="string" sqltype="varchar(30)" />
+			<field name="ManufacturerPartNum" type="string" sqltype="varchar(30)" />
+			<field name="IsActive" type="bool" init="true" />
+			<field name="PricingRequiresReview" type="bool" init="false" />
+		</fields>
+		<sql>
+			<constraint name="pkProduct">
+				PRIMARY KEY (ProductId)
+			</constraint>
+			<constraint name="ckProduct_Name">
+				CHECK (LEN(ProductName)>0)
+			</constraint>
+			<constraint name="fkProduct_SubCat">
+				FOREIGN KEY (ProductSubCategoryId) REFERENCES dbo.ProductSubCategory(ProductSubCategoryId)
+			</constraint>
+			<constraint name="fkProduct_Brand">
+				FOREIGN KEY (ProductBrandId) REFERENCES dbo.ProductBrand(ProductBrandId)
+			</constraint>
+			<index name="Product_SubCat">
+				ProductSubCategoryId, ProductName
+			</index>
+			<index name="Product_Barcode">
+				ManufacturerBarcode
+			</index>
+			<index name="Product_PartNum">
+				ManufacturerPartNum
+			</index>
+			<index name="Product_Brand" unique="true">
+				ProductBrandId, ProductName, Size
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="VendorProduct" idtype="VendorProductId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="VendorId" type="VendorId" isid="true" />
+			<field name="ProductId" type="ProductId" isid="true" />
+			<field name="RetailPriceOverride" type="decimal" />
+			<field name="VendorPartNum" type="string" sqltype="varchar(30)" />
+			<field name="CaseCost" type="decimal" />
+			<field name="CountInCase" type="int" />
+			<field name="EachCost" type="decimal" />
+			<field name="PreferredSource" type="bool" init="true" />
+			<field name="IsActive" type="bool" init="true" />
+			<field name="PricingRequiresReview" type="bool" init="false" />
+			<field name="NumAndCostRequireReview" type="bool" init="false" />
+		</fields>
+		<sql>
+			<constraint name="pkVendorProduct">
+				PRIMARY KEY (VendorProductId)
+			</constraint>
+			<constraint name="fkVendorProduct_Vendor">
+				FOREIGN KEY (VendorId) REFERENCES dbo.Vendor(VendorId)
+			</constraint>
+			<constraint name="fkVendorProduct_Product">
+				FOREIGN KEY (ProductId) REFERENCES dbo.Product(ProductId)
+			</constraint>
+			<index name="VendorProduct_Vendor" unique="true">
+				VendorId, VendorPartNum
+			</index>
+			<index name="VendorProduct_Product">
+				ProductId
+			</index>
+			<index name="Product_PartNum">
+				VendorPartNum
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="PurOrder" idtype="PurOrderId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="VendorId" type="VendorId" isid="true" />
+			<field name="OrderNumber" type="string" sqltype="varchar(12)" />
+			<field name="OrderDate" type="DateTime" sqltype="smalldatetime" init="DateTime.Today" />
+			<field name="ShipDate" type="DateTime?" sqltype="smalldatetime" init="new DateTime(1980, 1, 1)" nullable="true" />
+			<field name="SubmitDate" type="DateTime?" sqltype="smalldatetime" init="new DateTime(1980, 1, 1)" nullable="true" />
+			<field name="CreatedBy" type="string" sqltype="varchar(20)" />
+			<field name="Discount" type="int" sqltype="int" />
+			<field name="InvoiceNumber" type="string" sqltype="varchar(12)" />
+			<field name="Freight" type="decimal" />
+			<field name="Terms" type="string" sqltype="varchar(20)" />
+			<field name="Notes" type="string" sqltype="varchar(2048)" />
+		</fields>
+		<sql>
+			<constraint name="pkPurOrder">
+				PRIMARY KEY (PurOrderId)
+			</constraint>
+			<constraint name="fkPurOrder_Vendor">
+				FOREIGN KEY (VendorId) REFERENCES dbo.Vendor(VendorId)
+			</constraint>
+			<index name="PurOrder_Vendor">
+				VendorId
+			</index>
+			<index name="PurOrder_Date">
+				OrderDate
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<entity classname="PurLine" idtype="PurLineId" namespace="Willowsoft.Ordering.Core.Entities">
+		<fields>
+			<field name="PurOrderId" type="PurOrderId" isid="true" />
+			<field name="VendorProductId" type="VendorProductId" isid="true" />
+			<field name="CaseCostOverride" type="decimal" />
+			<field name="EachCostOverride" type="decimal" />
+			<field name="OrderedEaches" type="bool" init="false" />
+			<field name="QtyOrdered" type="int" />
+			<field name="QtyReceived" type="int" />
+			<field name="QtyBackordered" type="int" />
+			<field name="QtyDamaged" type="int" />
+			<field name="QtyMissing" type="int" />
+			<field name="QtyOnHand" type="int" />
+			<field name="Notes" type="string" sqltype="varchar(80)" />
+		</fields>
+		<sql>
+			<constraint name="pkPurLine">
+				PRIMARY KEY (PurLineId)
+			</constraint>
+			<constraint name="fkPurLine_PurOrder">
+				FOREIGN KEY (PurOrderId) REFERENCES dbo.PurOrder(PurOrderId)
+			</constraint>
+			<constraint name="fkPurLine_VendorProduct">
+				FOREIGN KEY (VendorProductId) REFERENCES dbo.VendorProduct(VendorProductId)
+			</constraint>
+			<index name="PurLine_PurOrder">
+				PurOrderId
+			</index>
+		</sql>
+		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
+	</entity>
+	<sql role="Programs">
+	</sql>
+</definitions>
