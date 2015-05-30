@@ -33,16 +33,17 @@ namespace Willowsoft.Ordering.UI.Helpers
         {
             mVendorIdCol = AddComboBoxColumn("VendorId", "Vendor", 14, false, vendorList, "VendorName", "Id");
             mVendorIdCol.Frozen = true;
-            mOrderDateCol = AddTextBoxColumn("OrderDate", "Order Date", 6, false);
+            mOrderDateCol = AddDateColumn("OrderDate", "Order Date", 6, false);
             mOrderDateCol.Frozen = true;
             AddTextBoxColumn("OrderNumber", "Order Number", 8, false).Frozen = true;
-            mSubmitDateCol = AddTextBoxColumn("SubmitDate", "Submit Date", 6, false);
-            mShipDateCol = AddTextBoxColumn("ShipDate", "Ship Date", 6, false);
+            mSubmitDateCol = AddDateColumn("SubmitDate", "Submit Date", 6, false);
+            mShipDateCol = AddDateColumn("ShipDate", "Ship Date", 6, false);
             AddTextBoxColumn("CreatedBy", "Created By", 7, false);
             mDiscountCol = AddIntegerColumn("Discount", "Disc%", 4, false);
             mFreightCol = AddCurrencyColumn("Freight", "Freight", 6, false);
             AddTextBoxColumn("InvoiceNumber", "Invoice Number", 8, false);
             AddTextBoxColumn("Terms", "Terms", 7, false);
+            AddCheckBoxColumn("Imported", "Imported", 4, false);
             AddTextBoxColumn("Notes", "Notes", 30, false).DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             AddTextBoxColumn("Id", "ID", 5, true);
             AddTextBoxColumn("CreateDate", "Created", 10, true);

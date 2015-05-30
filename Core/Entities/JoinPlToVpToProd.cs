@@ -106,6 +106,96 @@ namespace Willowsoft.Ordering.Core.Entities
             set { mInnerPurLine.Notes = value; }
         }
 
+        public String PurLine_ProductName
+        {
+            get { return mInnerPurLine.ProductName; }
+            set { mInnerPurLine.ProductName = value; }
+        }
+
+        public ProductSubCategoryId PurLine_ProductSubCategoryId
+        {
+            get { return mInnerPurLine.ProductSubCategoryId; }
+            set { mInnerPurLine.ProductSubCategoryId = value; }
+        }
+
+        public String PurLine_Size
+        {
+            get { return mInnerPurLine.Size; }
+            set { mInnerPurLine.Size = value; }
+        }
+
+        public Decimal PurLine_RetailPrice
+        {
+            get { return mInnerPurLine.RetailPrice; }
+            set { mInnerPurLine.RetailPrice = value; }
+        }
+
+        public ProductBrandId PurLine_ProductBrandId
+        {
+            get { return mInnerPurLine.ProductBrandId; }
+            set { mInnerPurLine.ProductBrandId = value; }
+        }
+
+        public String PurLine_ManufacturerBarcode
+        {
+            get { return mInnerPurLine.ManufacturerBarcode; }
+            set { mInnerPurLine.ManufacturerBarcode = value; }
+        }
+
+        public String PurLine_ManufacturerPartNum
+        {
+            get { return mInnerPurLine.ManufacturerPartNum; }
+            set { mInnerPurLine.ManufacturerPartNum = value; }
+        }
+
+        public String PurLine_ShelfOrder
+        {
+            get { return mInnerPurLine.ShelfOrder; }
+            set { mInnerPurLine.ShelfOrder = value; }
+        }
+
+        public Decimal PurLine_RetailPriceOverride
+        {
+            get { return mInnerPurLine.RetailPriceOverride; }
+            set { mInnerPurLine.RetailPriceOverride = value; }
+        }
+
+        public String PurLine_VendorPartNum
+        {
+            get { return mInnerPurLine.VendorPartNum; }
+            set { mInnerPurLine.VendorPartNum = value; }
+        }
+
+        public Decimal PurLine_CaseCost
+        {
+            get { return mInnerPurLine.CaseCost; }
+            set { mInnerPurLine.CaseCost = value; }
+        }
+
+        public Int32 PurLine_CountInCase
+        {
+            get { return mInnerPurLine.CountInCase; }
+            set { mInnerPurLine.CountInCase = value; }
+        }
+
+        public Decimal PurLine_EachCost
+        {
+            get { return mInnerPurLine.EachCost; }
+            set { mInnerPurLine.EachCost = value; }
+        }
+
+        public Boolean PurLine_PreferredSource
+        {
+            get { return mInnerPurLine.PreferredSource; }
+            set { mInnerPurLine.PreferredSource = value; }
+        }
+
+        public Boolean PurLine_WholeCasesOnly
+        {
+            get { return mInnerPurLine.WholeCasesOnly; }
+            set { mInnerPurLine.WholeCasesOnly = value; }
+        }
+
         public PurLineId PurLine_Id
         {
             get { return mInnerPurLine.Id; }
@@ -192,6 +282,36 @@ namespace Willowsoft.Ordering.Core.Entities
             set { mInnerVendorProduct.NumAndCostRequireReview = value; }
         }
 
+        public DateTime VendorProduct_CostVerifiedDate
+        {
+            get { return mInnerVendorProduct.CostVerifiedDate; }
+            set { mInnerVendorProduct.CostVerifiedDate = value; }
+        }
+
+        public String VendorProduct_ShelfOrder
+        {
+            get { return mInnerVendorProduct.ShelfOrder; }
+            set { mInnerVendorProduct.ShelfOrder = value; }
+        }
+
+        public Boolean VendorProduct_IsProductDeleted
+        {
+            get { return mInnerVendorProduct.IsProductDeleted; }
+            set { mInnerVendorProduct.IsProductDeleted = value; }
+        }
+
+        public Boolean VendorProduct_WholeCasesOnly
+        {
+            get { return mInnerVendorProduct.WholeCasesOnly; }
+            set { mInnerVendorProduct.WholeCasesOnly = value; }
+        }
+
+        public String VendorProduct_Notes
+        {
+            get { return mInnerVendorProduct.Notes; }
+            set { mInnerVendorProduct.Notes = value; }
+        }
+
         public VendorProductId VendorProduct_Id
         {
             get { return mInnerVendorProduct.Id; }
@@ -266,6 +386,66 @@ namespace Willowsoft.Ordering.Core.Entities
             set { mInnerProduct.PricingRequiresReview = value; }
         }
 
+        public Boolean Product_ExceptionalRetailPrice
+        {
+            get { return mInnerProduct.ExceptionalRetailPrice; }
+            set { mInnerProduct.ExceptionalRetailPrice = value; }
+        }
+
+        public Boolean Product_IsProductDeleted
+        {
+            get { return mInnerProduct.IsProductDeleted; }
+            set { mInnerProduct.IsProductDeleted = value; }
+        }
+
+        public Boolean Product_MultipleVendors
+        {
+            get { return mInnerProduct.MultipleVendors; }
+            set { mInnerProduct.MultipleVendors = value; }
+        }
+
+        public Int32 Product_QtyBusyMin
+        {
+            get { return mInnerProduct.QtyBusyMin; }
+            set { mInnerProduct.QtyBusyMin = value; }
+        }
+
+        public Int32 Product_QtyBusyMax
+        {
+            get { return mInnerProduct.QtyBusyMax; }
+            set { mInnerProduct.QtyBusyMax = value; }
+        }
+
+        public Int32 Product_QtySlowMin
+        {
+            get { return mInnerProduct.QtySlowMin; }
+            set { mInnerProduct.QtySlowMin = value; }
+        }
+
+        public Int32 Product_QtySlowMax
+        {
+            get { return mInnerProduct.QtySlowMax; }
+            set { mInnerProduct.QtySlowMax = value; }
+        }
+
+        public String Product_Notes
+        {
+            get { return mInnerProduct.Notes; }
+            set { mInnerProduct.Notes = value; }
+        }
+
+        public Decimal Product_RetailPrice2
+        {
+            get { return mInnerProduct.RetailPrice2; }
+            set { mInnerProduct.RetailPrice2 = value; }
+        }
+
+        public Decimal Product_Price2SizeMultiplier
+        {
+            get { return mInnerProduct.Price2SizeMultiplier; }
+            set { mInnerProduct.Price2SizeMultiplier = value; }
+        }
+
         public ProductId Product_Id
         {
             get { return mInnerProduct.Id; }
@@ -330,6 +510,7 @@ namespace Willowsoft.Ordering.Core.Entities
 
         // You'll have to add your own Validate()...
     }
+    // end of generated code
 
     public partial class JoinPlToVpToProd
     {
@@ -342,8 +523,14 @@ namespace Willowsoft.Ordering.Core.Entities
             Dictionary<int, ProductBrand> brands,
             PurOrder order)
         {
-            mSubCategoryName = subCategories[mInnerProduct.ProductSubCategoryId.Value].SubCategoryName;
-            mBrandname = brands[mInnerProduct.ProductBrandId.Value].BrandName;
+            if (mInnerPurLine.ProductSubCategoryId.IsNull)
+                mSubCategoryName = string.Empty;
+            else
+                mSubCategoryName = subCategories[mInnerPurLine.ProductSubCategoryId.Value].SubCategoryName;
+            if (mInnerPurLine.ProductBrandId.IsNull)
+                mBrandname = string.Empty;
+            else
+                mBrandname = brands[mInnerPurLine.ProductBrandId.Value].BrandName;
             mOrder = order;
         }
 
@@ -368,19 +555,19 @@ namespace Willowsoft.Ordering.Core.Entities
             }
         }
 
-        public double NormalMargin
+        public double BestNormalMargin
         {
             get
             {
-                return VendorProduct.ComputeMargin(Product_RetailPrice, ActualEachCost, FreightPercent);
+                return VendorProduct.ComputeMargin(PurLine_RetailPrice, BestEachCost, FreightPercent);
             }
         }
 
-        public double VendorMargin
+        public double BestVendorMargin
         {
             get
             {
-                return VendorProduct.ComputeMargin(VendorProduct_RetailPriceOverride, ActualEachCost, FreightPercent);
+                return VendorProduct.ComputeMargin(PurLine_RetailPriceOverride, BestEachCost, FreightPercent);
             }
         }
 
@@ -388,10 +575,7 @@ namespace Willowsoft.Ordering.Core.Entities
         {
             get
             {
-                if (PurLine_CaseCostOverride > 0m)
-                    return PurLine_CaseCostOverride;
-                else
-                    return VendorProduct_CaseCost;
+                return VendorProduct.NominalCaseCost(PurLine_CaseCost, PurLine_CaseCostOverride);
             }
         }
 
@@ -399,10 +583,7 @@ namespace Willowsoft.Ordering.Core.Entities
         {
             get
             {
-                if (PurLine_EachCostOverride > 0m)
-                    return PurLine_EachCostOverride;
-                else
-                    return VendorProduct_EachCost;
+                return VendorProduct.NominalEachCost(PurLine_EachCost, PurLine_EachCostOverride);
             }
         }
 
@@ -417,33 +598,32 @@ namespace Willowsoft.Ordering.Core.Entities
             }
         }
 
-        private decimal EachCostFromCaseCost
+        public decimal EachCostFromNominalCaseCost
         {
             get
             {
-                if (VendorProduct_CountInCase == 0)
-                    return 0m;
-                return (decimal)((double)NominalCaseCost / VendorProduct_CountInCase);
+                return VendorProduct.EachCostFromNominalCaseCost(PurLine_CountInCase, PurLine_CaseCost, PurLine_CaseCostOverride); 
             }
         }
 
-        public decimal ActualEachCost
+        public decimal BestEachCost
         {
             get
             {
                 decimal cost;
-                if (PurLine_OrderedEaches)
+                decimal nominalEach = NominalEachCost;
+                if (PurLine_CountInCase > 0)
                 {
-                    cost = NominalEachCost;
-                    if (cost == 0m)
-                        cost = EachCostFromCaseCost;
+                    if (!PurLine_OrderedEaches || (PurLine_QtyOrdered % PurLine_CountInCase) == 0)
+                    {
+                        cost = EachCostFromNominalCaseCost;
+                        if (cost > 0m && (cost < nominalEach || nominalEach == 0m))
+                            return cost;
+                    }
                 }
-                else
-                {
-                    cost = EachCostFromCaseCost;
-                    if (cost == 0m)
-                        cost = NominalEachCost;
-                }
+                cost = nominalEach;
+                if (cost == 0m)
+                    cost = EachCostFromNominalCaseCost;
                 return cost;
             }
         }
@@ -452,11 +632,15 @@ namespace Willowsoft.Ordering.Core.Entities
         {
             get
             {
-                decimal orderTotalWithoutFreight = mOrder.UnpersistedTotal - mOrder.Freight;
-                if (orderTotalWithoutFreight == 0m)
-                    return 0.0;
-                else
-                    return (double)(mOrder.Freight / orderTotalWithoutFreight);
+                if (mOrder != null)
+                {
+                    decimal orderTotalWithoutFreight = mOrder.UnpersistedTotal - mOrder.Freight;
+                    if (orderTotalWithoutFreight == 0m)
+                        return 0.0;
+                    else
+                        return (double)(mOrder.Freight / orderTotalWithoutFreight);
+                }
+                return 0d;
             }
         }
 
@@ -464,7 +648,7 @@ namespace Willowsoft.Ordering.Core.Entities
         {
             get
             {
-                return PurLine_OrderedEaches ? "each" : "case/" + VendorProduct_CountInCase.ToString();
+                return PurLine_OrderedEaches ? "each" : "case/" + PurLine_CountInCase.ToString();
             }
         }
 
@@ -472,25 +656,36 @@ namespace Willowsoft.Ordering.Core.Entities
         {
             get
             {
-                return string.IsNullOrEmpty(Product_Size) ? "-" : Product_Size;
+                return string.IsNullOrEmpty(PurLine_Size) ? "-" : PurLine_Size;
+            }
+        }
+
+        public string ProductNameAndModel
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(PurLine_ManufacturerPartNum))
+                    return PurLine_ProductName + " (" + PurLine_ManufacturerPartNum + ")";
+                else
+                    return PurLine_ProductName;
             }
         }
 
         public void Validate(ErrorList errors)
         {
             mInnerPurLine.Validate(errors);
-            mInnerVendorProduct.Validate(errors);
-            mInnerProduct.Validate(errors);
+            //mInnerVendorProduct.Validate(errors);
+            //mInnerProduct.Validate(errors);
             if (PurLine_QtyOrdered > 0)
             {
                 if (PurLine_OrderedEaches)
                 {
-                    if (VendorProduct_EachCost == 0m && PurLine_EachCostOverride == 0m)
+                    if (PurLine_EachCost == 0m && PurLine_EachCostOverride == 0m)
                         errors.Add(new EntityValidationError("You may not order in eaches without an each cost"));
                 }
                 else
                 {
-                    if (VendorProduct_CaseCost == 0m && PurLine_CaseCostOverride == 0m)
+                    if (PurLine_CaseCost == 0m && PurLine_CaseCostOverride == 0m)
                         errors.Add(new EntityValidationError("You may not order in cases without a case cost"));
                 }
             }
@@ -498,9 +693,7 @@ namespace Willowsoft.Ordering.Core.Entities
 
         public override string ToString()
         {
-            return InnerPurLine.ToString() + " - " + 
-                InnerVendorProduct.ToString() + " - " + 
-                InnerProduct.ToString();
+            return InnerPurLine.ToString();
         }
     }
 
@@ -517,6 +710,7 @@ namespace Willowsoft.Ordering.Core.Entities
 
         public static JoinPlToVpToProdBindingList GetOrderLines(
             PurOrderId orderId,
+            bool shelfOrder,
             List<ProductCategory> categories,
             Dictionary<int, ProductSubCategory> subCategories,
             Dictionary<int, ProductBrand> brands,
@@ -547,12 +741,29 @@ namespace Willowsoft.Ordering.Core.Entities
                 }
 
                 // Construct a JoinPlToVpToProd for each PurLine in order.
-                List<PurLine> purLines = OrderingRepositories.PurLine.Get(orderId);
+                List<PurLine> purLines;
+                if (shelfOrder)
+                    purLines = OrderingRepositories.PurLine.GetInShelfOrder(orderId);
+                else
+                    purLines = OrderingRepositories.PurLine.Get(orderId);
                 foreach (PurLine purLine in purLines)
                 {
-                    VendorProduct vendorProduct = vendorProductDict[purLine.VendorProductId.Value];
-                    Product product = productDict[vendorProduct.ProductId.Value];
-                    JoinPlToVpToProd join = new JoinPlToVpToProd(purLine, vendorProduct, product);
+                    VendorProduct vendorProduct;
+                    Product product;
+                    JoinPlToVpToProd join;
+                    if (purLine.VendorProductId.IsNull)
+                    {
+                        // Must have actual objects because some generated
+                        // code calls methods of these inner objects.
+                        vendorProduct = new VendorProduct();
+                        product = new Product();
+                    }
+                    else
+                    {
+                        vendorProduct = vendorProductDict[purLine.VendorProductId.Value];
+                        product = productDict[vendorProduct.ProductId.Value];
+                    }
+                    join = new JoinPlToVpToProd(purLine, vendorProduct, product);
                     join.SetExternalData(subCategories, brands, order);
                     venprodJoinList.Add(join);
                 }
@@ -562,12 +773,12 @@ namespace Willowsoft.Ordering.Core.Entities
 
         protected override void Delete(JoinPlToVpToProd entity)
         {
-            throw new InvalidOperationException();
+            OrderingRepositories.PurLine.Delete(entity.InnerPurLine);
         }
 
         protected override void Insert(JoinPlToVpToProd entity)
         {
-            throw new InvalidOperationException();
+            OrderingRepositories.PurLine.Insert(entity.InnerPurLine);
         }
 
         protected override void Update(JoinPlToVpToProd entity)

@@ -29,6 +29,7 @@ namespace Willowsoft.Ordering.UI.Helpers
             AddComboBoxColumn("OrdContactId", "Order Contact", 10, false, contactList, "ContactName", "Id");
             AddComboBoxColumn("ShpContactId", "Ship Contact", 10, false, contactList, "ContactName", "Id");
             AddComboBoxColumn("ActContactId", "Accounting", 10, false, contactList, "ContactName", "Id");
+            AddCurrencyColumn("MinimumOrder", "Min Order", 6, false);
             AddCheckBoxColumn("PreferredVendor", "Preferred", 3, false);
             AddCheckBoxColumn("IsActive", "Active", 3, false);
             AddTextBoxColumn("Notes", "Notes", 30, false).DefaultCellStyle.WrapMode = DataGridViewTriState.True;

@@ -58,6 +58,7 @@
 			<field name="PreferredVendor" type="bool" init="true" />
 			<field name="IsActive" type="bool" init="true" />
 			<field name="PricingRequiresReview" type="bool" init="false" />
+      <field name="MinimumOrder" type="decimal" revision="yes" />
 		</fields>
 		<sql>
 			<constraint name="pkVendor">
@@ -119,7 +120,7 @@
 			<field name="Notes" type="string" sqltype="varchar(2048)" />
 			<field name="IsActive" type="bool" init="true" />
 			<field name="PricingRequiresReview" type="bool" init="false" />
-		</fields>
+    </fields>
 		<sql>
 			<constraint name="pkProductSubCategory">
 				PRIMARY KEY (ProductSubCategoryId)
@@ -147,7 +148,8 @@
 			<field name="BrandName" type="string" sqltype="varchar(80)" />
 			<field name="Notes" type="string" sqltype="varchar(2048)" />
 			<field name="IsActive" type="bool" init="true" />
-		</fields>
+      <field name="BarcodePrefix" type="string" sqltype="varchar(10)" revision="yes" />
+    </fields>
 		<sql>
 			<constraint name="pkProductBrand">
 				PRIMARY KEY (ProductBrandId)
@@ -172,7 +174,17 @@
 			<field name="ManufacturerPartNum" type="string" sqltype="varchar(30)" />
 			<field name="IsActive" type="bool" init="true" />
 			<field name="PricingRequiresReview" type="bool" init="false" />
-		</fields>
+      <field name="ExceptionalRetailPrice" type="bool" init="false" revision="yes" />
+      <field name="IsProductDeleted" type="bool" init="false" revision="yes" />
+      <field name="MultipleVendors" type="bool" init="false" revision="yes" />
+      <field name="QtyBusyMin" type="int" sqltype="int" init="0" revision="yes" />
+      <field name="QtyBusyMax" type="int" sqltype="int" init="0" revision="yes" />
+      <field name="QtySlowMin" type="int" sqltype="int" init="0" revision="yes" />
+      <field name="QtySlowMax" type="int" sqltype="int" init="0" revision="yes" />
+      <field name="Notes" type="string" sqltype="varchar(80)" revision="yes" />
+      <field name="RetailPrice2" type="decimal" revision="yes" />
+      <field name="Price2SizeMultiplier" type="decimal" revision="yes" />
+    </fields>
 		<sql>
 			<constraint name="pkProduct">
 				PRIMARY KEY (ProductId)
@@ -213,8 +225,13 @@
 			<field name="PreferredSource" type="bool" init="true" />
 			<field name="IsActive" type="bool" init="true" />
 			<field name="PricingRequiresReview" type="bool" init="false" />
-			<field name="NumAndCostRequireReview" type="bool" init="false" />
-		</fields>
+      <field name="NumAndCostRequireReview" type="bool" init="false" />
+      <field name="CostVerifiedDate" type="DateTime" sqltype="smalldatetime" init="new DateTime(1980, 1, 1)" revision="yes" />
+      <field name="ShelfOrder" type="string" sqltype="varchar(10)" revision="yes" />
+      <field name="IsProductDeleted" type="bool" init="false" revision="yes" />
+      <field name="WholeCasesOnly" type="bool" init="false" revision="yes" />"
+      <field name="Notes" type="string" sqltype="varchar(80)" revision="yes" />
+    </fields>
 		<sql>
 			<constraint name="pkVendorProduct">
 				PRIMARY KEY (VendorProductId)
@@ -250,7 +267,8 @@
 			<field name="Freight" type="decimal" />
 			<field name="Terms" type="string" sqltype="varchar(20)" />
 			<field name="Notes" type="string" sqltype="varchar(2048)" />
-		</fields>
+      <field name="Imported" type="bool" init="false" revision="yes" />
+    </fields>
 		<sql>
 			<constraint name="pkPurOrder">
 				PRIMARY KEY (PurOrderId)
@@ -270,7 +288,7 @@
 	<entity classname="PurLine" idtype="PurLineId" namespace="Willowsoft.Ordering.Core.Entities">
 		<fields>
 			<field name="PurOrderId" type="PurOrderId" isid="true" />
-			<field name="VendorProductId" type="VendorProductId" isid="true" />
+			<field name="VendorProductId" type="VendorProductId" isid="true" nullable="true" revision="yes" />
 			<field name="CaseCostOverride" type="decimal" />
 			<field name="EachCostOverride" type="decimal" />
 			<field name="OrderedEaches" type="bool" init="false" />
@@ -280,8 +298,26 @@
 			<field name="QtyDamaged" type="int" />
 			<field name="QtyMissing" type="int" />
 			<field name="QtyOnHand" type="int" />
-			<field name="Notes" type="string" sqltype="varchar(80)" />
-		</fields>
+      <field name="SpecialOrder" type="bool" init="false" revision="yes" />
+      <field name="Notes" type="string" sqltype="varchar(80)" />
+      <!-- Copied from Product table -->
+      <field name="ProductName" type="string" sqltype="varchar(100)" revision="yes" />
+      <field name="ProductSubCategoryId" type="ProductSubCategoryId" isid="true" revision="yes" />
+      <field name="Size" type="string" sqltype="varchar(30)" revision="yes" />
+      <field name="RetailPrice" type="decimal" revision="yes" />
+      <field name="ProductBrandId" type="ProductBrandId" isid="true" revision="yes" />
+      <field name="ManufacturerBarcode" type="string" sqltype="varchar(30)" revision="yes" />
+      <field name="ManufacturerPartNum" type="string" sqltype="varchar(30)" revision="yes" />
+      <field name="ShelfOrder" type="string" sqltype="varchar(10)" revision="yes" />
+      <!-- Copied from VendorProduct table -->
+      <field name="RetailPriceOverride" type="decimal" revision="yes" />
+      <field name="VendorPartNum" type="string" sqltype="varchar(30)" revision="yes" />
+      <field name="CaseCost" type="decimal" revision="yes" />
+      <field name="CountInCase" type="int" revision="yes" />
+      <field name="EachCost" type="decimal" revision="yes" />
+      <field name="PreferredSource" type="bool" init="true" revision="yes" />
+      <field name="WholeCasesOnly" type="bool" init="false" revision="yes" />"
+    </fields>
 		<sql>
 			<constraint name="pkPurLine">
 				PRIMARY KEY (PurLineId)

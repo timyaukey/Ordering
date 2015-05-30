@@ -34,6 +34,15 @@ namespace Willowsoft.Ordering.Core.Repositories
                 });
         }
 
+        public List<PurLine> GetInShelfOrder(PurOrderId orderId)
+        {
+            return Search("dbo.GetPurLineByShelfOrder",
+                delegate(SqlCommand cmd)
+                {
+                    SqlHelper.AddParamInputId(cmd, "@OrderId", orderId.Value);
+                });
+        }
+
         public void AddCategory(PurOrderId orderId, ProductCategoryId categoryId, bool includeInactive)
         {
             ExecuteNonQuery("dbo.PurLineAddCategory",

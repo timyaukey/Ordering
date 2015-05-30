@@ -31,6 +31,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             InitializeComponent();
             mHelper = new VPJoinGridHelper(bindingSource, grdMain, this);
             mFreightPercent = 0.0;
+            mVendor = null;
         }
 
         public static void Show(Form mdiParent)
@@ -110,10 +111,24 @@ namespace Willowsoft.Ordering.UI.SetupForms
 
         private void LoadList(Vendor vendor, ProductCategory category)
         {
-            mVendor = vendor;
+            if (vendor != mVendor)
+            {
+                mVendor = vendor;
+                if (mVendor.Shipping.EndsWith("%"))
+                {
+                    txtFreightPercent.Text = mVendor.Shipping.Substring(0, mVendor.Shipping.Length - 1);
+                }
+                else
+                {
+                    txtFreightPercent.Text = "";
+                }
+            }
             mProductCategory = category;
             mHelper.DataSource = null;
-            mHelper.SetProductSubCategories(GetSubCategoriesOfCategory());
+            if (chkShowAllSubcats.Checked)
+                mHelper.SetProductSubCategories(GetAllSubCategories());
+            else
+                mHelper.SetProductSubCategories(GetSubCategoriesOfCategory());
             mUnfilteredVendorProducts = GetVendorProducts(vendor.Id);
             mHelper.DataSource = mUnfilteredVendorProducts;
             mHelper.VendorId = vendor.Id;
@@ -143,6 +158,17 @@ namespace Willowsoft.Ordering.UI.SetupForms
             return subCats;
         }
 
+        private ProductSubCategoryBindingList GetAllSubCategories()
+        {
+            ProductSubCategoryBindingList subCats = new ProductSubCategoryBindingList();
+            subCats.AddNew();
+            foreach (ProductSubCategory subCat in mAllSubCategories)
+            {
+                subCats.Add(subCat);
+            }
+            return subCats;
+        }
+
         private JoinVpToProdBindingList GetVendorProducts(VendorId vendorId)
         {
             JoinVpToProdBindingList venprodJoinList = new JoinVpToProdBindingList();
@@ -152,12 +178,22 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 List<VendorProduct> venprodList;
                 VendorProductHelper.LoadForCategory(vendorId, mProductCategory.Id,
                     out productDict, out venprodList);
+                bool showInactive = chkShowInactive.Checked;
+                bool showDeleted = chkShowDeleted.Checked;
                 foreach (VendorProduct venprod in venprodList)
                 {
                     Product product = productDict[venprod.ProductId.Value];
-                    JoinVpToProd join = new JoinVpToProd(venprod, product);
-                    join.SetExternalData(this);
-                    venprodJoinList.Add(join);
+                    bool showProduct = true;
+                    if ((product.IsProductDeleted || venprod.IsProductDeleted) && !showDeleted)
+                        showProduct = false;
+                    if ((!product.IsActive || !venprod.IsActive) && !showInactive)
+                        showProduct = false;
+                    if (showProduct)
+                    {
+                        JoinVpToProd join = new JoinVpToProd(venprod, product);
+                        join.SetExternalData(this);
+                        venprodJoinList.Add(join);
+                    }
                 }
             }
             return venprodJoinList;
@@ -223,7 +259,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
         {
             ImportProductsForm form = new ImportProductsForm();
             Vendor vendor = (Vendor)cboVendor.SelectedItem;
-            ProductSubCategoryBindingList subCategories = GetSubCategoriesOfCategory();
+            //ProductSubCategoryBindingList subCategories = GetSubCategoriesOfCategory();
             form.Show(vendor, mAllSubCategories);
             LoadBrandList();
             LoadCurrentVendorAndCategory();

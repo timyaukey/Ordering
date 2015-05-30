@@ -28,6 +28,7 @@ namespace Willowsoft.Ordering.UI.Reports
             TableHeader("Description");
             TableHeader("Size");
             TableHeader("Brand");
+            TableHeader("Levels");
         }
 
         public override void OutputLine(JoinPlToVpToProd line)
@@ -36,9 +37,23 @@ namespace Willowsoft.Ordering.UI.Reports
             TableCellRight(line.PurLine_QtyOnHand.ToString());
             TableCellRight(line.PurLine_QtyOrdered.ToString());
             TableCellLeft(line.OrderingUnit);
-            TableCellLeft(line.Product_ProductName);
+            TableCellLeft(line.ProductNameAndModel);
             TableCellLeft(line.NonBlankSize);
             TableCellLeft(line.BrandName);
+            string levels = string.Empty;
+            string busyLevels = string.Empty;
+            string slowLevels = string.Empty;
+            if (line.Product_QtyBusyMin != 0 || line.Product_QtyBusyMax != 0)
+                busyLevels = line.Product_QtyBusyMin.ToString() + "/" + line.Product_QtyBusyMax.ToString();
+            if (line.Product_QtySlowMin != 0 || line.Product_QtySlowMax != 0)
+                slowLevels = line.Product_QtySlowMin.ToString() + "/" + line.Product_QtySlowMax.ToString();
+            if (busyLevels == string.Empty)
+                levels = slowLevels;
+            else if (slowLevels == string.Empty)
+                levels = busyLevels;
+            else
+                levels = busyLevels + ":" + slowLevels;
+            TableCellLeft(levels);
         }
 
     }

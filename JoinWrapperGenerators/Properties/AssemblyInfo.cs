@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Willow Creek Ordering UI")]
+[assembly: AssemblyTitle("JoinWrapperGenerators")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Willow Creek Software")]
-[assembly: AssemblyProduct("Willow Creek Ordering")]
-[assembly: AssemblyCopyright("© 2008-2013 Willow Creek Software")]
+[assembly: AssemblyCompany("Toshiba")]
+[assembly: AssemblyProduct("JoinWrapperGenerators")]
+[assembly: AssemblyCopyright("Copyright © Toshiba 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("50021077-8169-4c98-877b-a33d8960830d")]
+[assembly: Guid("6ce1b321-360f-4980-9df1-a580966b3698")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,7 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-// NOTE: Also increment the version numbers in all DLL's, or installing
-// the MSI won't replace them!
-[assembly: AssemblyVersion("3.0.0")]
-[assembly: AssemblyFileVersion("3.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

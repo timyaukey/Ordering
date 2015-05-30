@@ -16,10 +16,17 @@ namespace Willowsoft.Ordering.UI.Helpers
         private VendorId mVendorId;
         private DataGridViewComboBoxColumn mSubCatColumn;
         private DataGridViewColumn mRetailPriceColumn;
+        private DataGridViewColumn mRetailPrice2Column;
+        private DataGridViewColumn mMultiplierColumn;
         private DataGridViewColumn mRetailPriceOverrideColumn;
         private DataGridViewColumn mCaseCostColumn;
         private DataGridViewColumn mCountInCaseColumn;
         private DataGridViewColumn mEachCostColumn;
+        private DataGridViewColumn mCostVerifiedDateColumn;
+        private DataGridViewColumn mQtyBusyMinColumn;
+        private DataGridViewColumn mQtyBusyMaxColumn;
+        private DataGridViewColumn mQtySlowMinColumn;
+        private DataGridViewColumn mQtySlowMaxColumn;
         private DataGridViewComboBoxColumn mBrandColumn;
 
         public VPJoinGridHelper(BindingSource bindingSource, DataGridView grid, Form form)
@@ -34,9 +41,14 @@ namespace Willowsoft.Ordering.UI.Helpers
             mSubCatColumn = AddComboBoxColumn("Product_ProductSubCategoryId", "Sub Category", 10, false, subcategoryList, "SubCategoryName", "Id");
             mSubCatColumn.Frozen = true;
             AddTextBoxColumn("Product_ProductName", "Product Name", 20, false).Frozen = true;
+            AddTextBoxColumn("Product_ManufacturerPartNum", "Model Number", 4, false);
             AddTextBoxColumn("Product_Size", "Size", 4, false);
+            AddTextBoxColumn("VendorProduct_ShelfOrder", "Shelf Order", 4, false);
             mBrandColumn = AddComboBoxColumn("Product_ProductBrandId", "Brand", 8, false, brandList, "BrandName", "Id");
             mRetailPriceColumn = AddCurrencyColumn("Product_RetailPrice", "Normal Retail", 4, false);
+            mRetailPrice2Column = AddCurrencyColumn("Product_RetailPrice2", "Retail Price 2", 4, false);
+            mMultiplierColumn = AddTextBoxColumn("Product_Price2SizeMultiplier", "Size Multiplier", 4, false);
+            AddCheckBoxColumn("Product_ExceptionalRetailPrice", "Special Price", 4, false);
             mRetailPriceOverrideColumn = AddCurrencyColumn("VendorProduct_RetailPriceOverride", "Vendor Retail", 4, false);
             col = AddTextBoxColumn("NormalMargin", "Normal Margin", 4, true);
             col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -47,15 +59,26 @@ namespace Willowsoft.Ordering.UI.Helpers
             AddTextBoxColumn("VendorProduct_VendorPartNum", "Vendor Code", 8, false);
             mCaseCostColumn = AddCurrencyColumn("VendorProduct_CaseCost", "Case Cost", 4, false);
             mCountInCaseColumn = AddIntegerColumn("VendorProduct_CountInCase", "Case Size", 3, false);
+            AddCurrencyColumn("EachCostFromNominalCaseCost", "Each In Case", 4, true);
             mEachCostColumn = AddCurrencyColumn("VendorProduct_EachCost", "Each Cost", 4, false);
+            AddCheckBoxColumn("VendorProduct_WholeCasesOnly", "Whole Cases Only", 4, false);
+            mCostVerifiedDateColumn = AddDateColumn("VendorProduct_CostVerifiedDate", "Cost Verified Date", 5, false);
+            mQtyBusyMinColumn = AddIntegerColumn("Product_QtyBusyMin", "Qty Busy Min", 3, false);
+            mQtyBusyMaxColumn = AddIntegerColumn("Product_QtyBusyMax", "Qty Busy Max", 3, false);
+            mQtySlowMinColumn = AddIntegerColumn("Product_QtySlowMin", "Qty Slow Min", 3, false);
+            mQtySlowMaxColumn = AddIntegerColumn("Product_QtySlowMax", "Qty Slow Max", 3, false);
             AddCheckBoxColumn("Product_IsActive", "Product Active", 4, false);
             AddCheckBoxColumn("VendorProduct_IsActive", "V.P. Active", 4, false);
-            AddCheckBoxColumn("VendorProduct_PreferredSource", "Pref. Source", 5, false);
-            AddTextBoxColumn("Product_ManufacturerBarcode", "Barcode", 3, false);
-            AddTextBoxColumn("Product_ManufacturerPartNum", "Man. Part", 3, false);
-            AddCheckBoxColumn("Product_PricingRequiresReview", "Prod. Review Price", 3, false);
+            AddCheckBoxColumn("Product_IsProductDeleted", "Product Deleted", 4, false);
+            AddCheckBoxColumn("VendorProduct_IsProductDeleted", "V.P. Deleted", 4, false);
+            AddCheckBoxColumn("Product_MultipleVendors", "Multiple Vendors", 4, false);
+            AddCheckBoxColumn("VendorProduct_PreferredSource", "Pref. Source", 4, false);
+            AddTextBoxColumn("Product_ManufacturerBarcode", "Barcode", 8, false);
+            AddCheckBoxColumn("Product_PricingRequiresReview", "Prod. Review Price", 5, false);
             AddCheckBoxColumn("VendorProduct_PricingRequiresReview", "Vendor Review Price", 5, false);
             AddCheckBoxColumn("VendorProduct_NumAndCostRequireReview", "Vendor Review Info", 5, false);
+            AddTextBoxColumn("Product_Notes", "Product Notes", 20, false);
+            AddTextBoxColumn("VendorProduct_Notes", "Vendor Product Notes", 20, false);
             AddTextBoxColumn("VendorProduct_Id", "ID", 5, true);
             AddTextBoxColumn("VendorProduct_CreateDate", "Created", 10, true);
             AddTextBoxColumn("VendorProduct_ModifyDate", "Modified", 10, true);
@@ -65,6 +88,10 @@ namespace Willowsoft.Ordering.UI.Helpers
         {
             if (!ValidDecimalCell(column, mRetailPriceColumn, value))
                 return "Invalid retail price";
+            if (!ValidDecimalCell(column, mRetailPrice2Column, value))
+                return "Invalid retail price 2";
+            if (!ValidDecimalCell(column, mMultiplierColumn, value))
+                return "Invalid price 2 size multiplier";
             if (!ValidDecimalCell(column, mRetailPriceOverrideColumn, value))
                 return "Invalid vendor retail price";
             if (!ValidDecimalCell(column, mCaseCostColumn, value))
@@ -73,6 +100,16 @@ namespace Willowsoft.Ordering.UI.Helpers
                 return "Invalid each cost";
             if (!ValidInt32Cell(column, mCountInCaseColumn, value))
                 return "Invalid case size";
+            if (!ValidDateCell(column, mCostVerifiedDateColumn, value))
+                return "Invalid cost verified date";
+            if (!ValidInt32Cell(column, mQtyBusyMinColumn, value))
+                return "Invalid qty busy min";
+            if (!ValidInt32Cell(column, mQtyBusyMaxColumn, value))
+                return "Invalid qty busy max";
+            if (!ValidInt32Cell(column, mQtySlowMinColumn, value))
+                return "Invalid qty slow min";
+            if (!ValidInt32Cell(column, mQtySlowMaxColumn, value))
+                return "Invalid qty slow max";
             return null;
         }
 

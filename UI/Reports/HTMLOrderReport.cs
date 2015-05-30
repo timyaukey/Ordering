@@ -18,6 +18,7 @@ namespace Willowsoft.Ordering.UI.Reports
         private Vendor mVendor;
         private IOrderReportWriter mWriter;
         private IOrderReportFilter mFilter;
+        private bool mShelfOrder;
 
         private List<ProductCategory> mCategories;
         private Dictionary<int, ProductSubCategory> mSubCategories;
@@ -26,12 +27,13 @@ namespace Willowsoft.Ordering.UI.Reports
         private PurOrder mOrder;
 
         public void Run(PurOrderId orderId, IOrderReportWriter writer, IOrderReportFilter filter,
-            string title, Form mdiParent)
+            bool shelfOrder, string title, Form mdiParent)
         {
             mTitle = title;
             mOrderId = orderId;
             mWriter = writer;
             mFilter = filter;
+            mShelfOrder = shelfOrder;
             using (Ambient.DbSession.Activate())
             {
                 PurOrder order = OrderingRepositories.PurOrder.Get(orderId);
@@ -73,10 +75,10 @@ namespace Willowsoft.Ordering.UI.Reports
 
         protected override void WriteContent(TextWriter textWriter)
         {
-            JoinPlToVpToProdBindingList data = JoinPlToVpToProdBindingList.GetOrderLines(
-                mOrderId, mCategories, mSubCategories, mBrands, out mOrder);
+            JoinPlToVpToProdBindingList sortedData = JoinPlToVpToProdBindingList.GetOrderLines(
+                mOrderId, mShelfOrder, mCategories, mSubCategories, mBrands, out mOrder);
             decimal totalCost = 0m;
-            foreach (JoinPlToVpToProd join in data)
+            foreach (JoinPlToVpToProd join in sortedData)
             {
                 totalCost += join.ExtendedCost;
             }
@@ -96,7 +98,7 @@ namespace Willowsoft.Ordering.UI.Reports
             textWriter.WriteLine("<tr>");
             mWriter.OutputTableHeader();
             textWriter.WriteLine("</tr>");
-            foreach (JoinPlToVpToProd line in data)
+            foreach (JoinPlToVpToProd line in sortedData)
             {
                 if (mFilter.IncludeLine(line))
                 {

@@ -33,8 +33,8 @@ namespace Willowsoft.Ordering.UI.Reports
         {
             TableCellRight(line.PurLine_QtyOrdered.ToString());
             TableCellLeft(line.OrderingUnit);
-            TableCellLeft(line.VendorProduct_VendorPartNum);
-            TableCellLeft(line.Product_ProductName);
+            TableCellLeft(line.PurLine_VendorPartNum);
+            TableCellLeft(line.ProductNameAndModel);
             TableCellLeft(line.NonBlankSize);
             TableCellLeft(line.BrandName);
         }

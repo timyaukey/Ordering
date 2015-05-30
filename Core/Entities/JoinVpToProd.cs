@@ -95,6 +95,36 @@ namespace Willowsoft.Ordering.Core.Entities
             set { mInnerVendorProduct.NumAndCostRequireReview = value; }
         }
 
+        public DateTime VendorProduct_CostVerifiedDate
+        {
+            get { return mInnerVendorProduct.CostVerifiedDate; }
+            set { mInnerVendorProduct.CostVerifiedDate = value; }
+        }
+
+        public String VendorProduct_ShelfOrder
+        {
+            get { return mInnerVendorProduct.ShelfOrder; }
+            set { mInnerVendorProduct.ShelfOrder = value; }
+        }
+
+        public Boolean VendorProduct_IsProductDeleted
+        {
+            get { return mInnerVendorProduct.IsProductDeleted; }
+            set { mInnerVendorProduct.IsProductDeleted = value; }
+        }
+
+        public Boolean VendorProduct_WholeCasesOnly
+        {
+            get { return mInnerVendorProduct.WholeCasesOnly; }
+            set { mInnerVendorProduct.WholeCasesOnly = value; }
+        }
+
+        public String VendorProduct_Notes
+        {
+            get { return mInnerVendorProduct.Notes; }
+            set { mInnerVendorProduct.Notes = value; }
+        }
+
         public VendorProductId VendorProduct_Id
         {
             get { return mInnerVendorProduct.Id; }
@@ -169,6 +199,66 @@ namespace Willowsoft.Ordering.Core.Entities
             set { mInnerProduct.PricingRequiresReview = value; }
         }
 
+        public Boolean Product_ExceptionalRetailPrice
+        {
+            get { return mInnerProduct.ExceptionalRetailPrice; }
+            set { mInnerProduct.ExceptionalRetailPrice = value; }
+        }
+
+        public Boolean Product_IsProductDeleted
+        {
+            get { return mInnerProduct.IsProductDeleted; }
+            set { mInnerProduct.IsProductDeleted = value; }
+        }
+
+        public Boolean Product_MultipleVendors
+        {
+            get { return mInnerProduct.MultipleVendors; }
+            set { mInnerProduct.MultipleVendors = value; }
+        }
+
+        public Int32 Product_QtyBusyMin
+        {
+            get { return mInnerProduct.QtyBusyMin; }
+            set { mInnerProduct.QtyBusyMin = value; }
+        }
+
+        public Int32 Product_QtyBusyMax
+        {
+            get { return mInnerProduct.QtyBusyMax; }
+            set { mInnerProduct.QtyBusyMax = value; }
+        }
+
+        public Int32 Product_QtySlowMin
+        {
+            get { return mInnerProduct.QtySlowMin; }
+            set { mInnerProduct.QtySlowMin = value; }
+        }
+
+        public Int32 Product_QtySlowMax
+        {
+            get { return mInnerProduct.QtySlowMax; }
+            set { mInnerProduct.QtySlowMax = value; }
+        }
+
+        public String Product_Notes
+        {
+            get { return mInnerProduct.Notes; }
+            set { mInnerProduct.Notes = value; }
+        }
+
+        public Decimal Product_RetailPrice2
+        {
+            get { return mInnerProduct.RetailPrice2; }
+            set { mInnerProduct.RetailPrice2 = value; }
+        }
+
+        public Decimal Product_Price2SizeMultiplier
+        {
+            get { return mInnerProduct.Price2SizeMultiplier; }
+            set { mInnerProduct.Price2SizeMultiplier = value; }
+        }
+
         public ProductId Product_Id
         {
             get { return mInnerProduct.Id; }
@@ -228,6 +318,7 @@ namespace Willowsoft.Ordering.Core.Entities
 
         // You'll have to add your own Validate()...
     }
+    // end of generated code
 
     public partial class JoinVpToProd
     {
@@ -286,6 +377,14 @@ namespace Willowsoft.Ordering.Core.Entities
                     return VendorProduct_CaseCost / VendorProduct_CountInCase;
                 else
                     return VendorProduct_EachCost;
+            }
+        }
+
+        public decimal EachCostFromCaseCost
+        {
+            get
+            {
+                return VendorProduct.EachCostFromNominalCaseCost(VendorProduct_CountInCase, VendorProduct_CaseCost, 0m);
             }
         }
 

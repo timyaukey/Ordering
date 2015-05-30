@@ -16,6 +16,7 @@ DROP PROC dbo.GetProductsByBrandNameSize
 DROP PROC dbo.GetPurOrderByOrderDate
 DROP PROC dbo.GetPurOrderByVendorProduct
 DROP PROC dbo.GetPurLineByPurOrder
+DROP PROC dbo.GetPurLineByShelfOrder
 DROP PROC dbo.PurLineGetCategories
 DROP PROC dbo.PurLineAddCategory
 DROP PROC dbo.PurLineRemoveCategory
@@ -318,7 +319,6 @@ AS
 SELECT	* 
 FROM	PurLinesForProduct
 WHERE	VendorProductIdSel = @VendorProductId
-		AND QtyOrdered <> 0
 ORDER BY
 		OrderDate DESC
 
@@ -333,25 +333,44 @@ CREATE PROC dbo.GetPurLineByPurOrder
 	@OrderId int
 AS
 
-SELECT	*
+SELECT	pl.*
 FROM	PurLine pl
-		JOIN VendorProduct vp
-			ON pl.VendorProductId = vp.VendorProductId
-		JOIN Product pr
-			ON vp.ProductId = pr.ProductId
 		JOIN ProductSubCategory ps
-			ON pr.ProductSubCategoryId = ps.ProductSubCategoryId
+			ON pl.ProductSubCategoryId = ps.ProductSubCategoryId
 		JOIN ProductCategory pc
 			ON ps.ProductCategoryId = pc.ProductCategoryId
 		JOIN ProductBrand pb
-			ON pb.ProductBrandId = pr.ProductBrandId
+			ON pb.ProductBrandId = pl.ProductBrandId
 WHERE	pl.PurOrderId = @OrderId
 ORDER BY
-		pc.SortCode, ps.SortCode, pb.BrandName, pr.ProductName, pr.Size
+		pc.SortCode, ps.SortCode, pb.BrandName, pl.ProductName, pl.Size
 
 GO
 
 GRANT EXECUTE ON dbo.GetPurLineByPurOrder TO Programs
+GO
+
+-----------------------------------------------------
+
+CREATE PROC dbo.GetPurLineByShelfOrder
+	@OrderId int
+AS
+
+SELECT	pl.*
+FROM	PurLine pl
+		JOIN ProductSubCategory ps
+			ON pl.ProductSubCategoryId = ps.ProductSubCategoryId
+		JOIN ProductCategory pc
+			ON ps.ProductCategoryId = pc.ProductCategoryId
+		JOIN ProductBrand pb
+			ON pb.ProductBrandId = pl.ProductBrandId
+WHERE	pl.PurOrderId = @OrderId
+ORDER BY
+		pc.SortCode, ps.SortCode, pl.ShelfOrder, pb.BrandName, pl.ProductName, pl.Size
+
+GO
+
+GRANT EXECUTE ON dbo.GetPurLineByShelfOrder TO Programs
 GO
 
 -----------------------------------------------------
@@ -393,14 +412,20 @@ SELECT	@VendorId = VendorId
 FROM	PurOrder
 WHERE	PurOrderId = @OrderId
 
-INSERT	PurLine (PurOrderId, VendorProductId,
-		CaseCostOverride, EachCostOverride, OrderedEaches,
+INSERT	PurLine (PurOrderId, VendorProductId, ProductName, ProductSubCategoryId, Size,
+		ProductBrandId, RetailPrice, RetailPriceOverride, CaseCostOverride, EachCostOverride,
+		OrderedEaches,
 		QtyOrdered, QtyReceived, QtyBackordered, QtyDamaged, QtyMissing, QtyOnHand,
-		Notes, CreateDate, ModifyDate)
-SELECT	@OrderId, vp.VendorProductId,
-		0, 0, 1,
+		ManufacturerBarcode, ManufacturerPartNum, Notes, ShelfOrder, VendorPartNum,
+		CaseCost, CountInCase, EachCost, PreferredSource, WholeCasesOnly,
+		SpecialOrder, CreateDate, ModifyDate)
+SELECT	@OrderId, vp.VendorProductId, pr.ProductName, pr.ProductSubCategoryId, pr.Size,
+		pr.ProductBrandId, pr.RetailPrice, vp.RetailPriceOverride, 0, 0,
+		CASE WHEN vp.CaseCost>0 THEN 0 ELSE 1 END,
 		0, 0, 0, 0, 0, 0,
-		'', getdate(), getdate()
+		pr.ManufacturerBarcode, pr.ManufacturerPartNum, '', vp.ShelfOrder, vp.VendorPartNum,
+		vp.CaseCost, vp.CountInCase, vp.EachCost, vp.PreferredSource, vp.WholeCasesOnly,
+		0, getdate(), getdate()
 FROM	VendorProduct vp
 		JOIN Product pr
 			ON vp.ProductId = pr.ProductId
@@ -409,6 +434,7 @@ FROM	VendorProduct vp
 WHERE	ps.ProductCategoryId = @CategoryId
 		AND vp.VendorId = @VendorId
 		AND ((vp.IsActive > 0 AND pr.IsActive > 0) OR (@IncludeInactive > 0))
+		AND (vp.IsProductDeleted = 0 AND pr.IsProductDeleted = 0)
 		AND NOT EXISTS
 		(
 		SELECT	*

@@ -148,7 +148,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
                         "New Brand Name", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (newBrandAnswer != DialogResult.Yes)
                         return true;
-                    brandToUse = new ProductBrand(new ProductBrandId(), brandName, string.Empty, true,
+                    brandToUse = new ProductBrand(new ProductBrandId(), brandName, string.Empty, true, string.Empty,
                         DateTime.Now, DateTime.Now);
                     brands.Add(brandToUse);
                 }
@@ -181,10 +181,11 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 NewProductData rec = new NewProductData();
                 rec.Product = new Product(new ProductId(), fields[0], subCatToUse.Id, fields[1],
                     retailPrice, brandToUse.Id, string.Empty, string.Empty, isActive,
-                    false, DateTime.Now, DateTime.Now);
+                    false, false, false, false, 0, 0, 0, 0, string.Empty, 0.0m, 0.0m, DateTime.Now, DateTime.Now);
                 rec.VendorProduct = new VendorProduct(new VendorProductId(), mVendor.Id, new ProductId(),
                     0m, fields[2], caseCost, countInCase, eachCost, isActive, isActive,
-                    false, false, DateTime.Now, DateTime.Now);
+                    false, false, new DateTime(1980, 1, 1), string.Empty, false, false, string.Empty,
+                    DateTime.Now, DateTime.Now);
                 rec.BrandName = brandName;
                 productDataToSave.Add(rec);
             }

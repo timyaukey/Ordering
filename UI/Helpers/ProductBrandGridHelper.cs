@@ -21,6 +21,7 @@ namespace Willowsoft.Ordering.UI.Helpers
         {
             AddTextBoxColumn("BrandName", "Brand Name", 14, false).Frozen = true;
             AddCheckBoxColumn("IsActive", "Active", 3, false);
+            AddTextBoxColumn("BarcodePrefix", "Barcode Prefix", 10, false);
             AddTextBoxColumn("Notes", "Notes", 30, false).DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             AddTextBoxColumn("Id", "ID", 5, true);
             AddTextBoxColumn("CreateDate", "Created", 10, true);

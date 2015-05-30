@@ -40,26 +40,26 @@ namespace Willowsoft.Ordering.UI.Reports
         public override void OutputLine(JoinPlToVpToProd line)
         {
             //TableCellLeft(line.SubCategoryName);
-            TableCellLeftHilite(line.VendorProduct_VendorPartNum);
+            TableCellLeftHilite(line.PurLine_VendorPartNum);
             TableCellRight(line.PurLine_QtyOrdered.ToString());
             TableCellLeft(line.OrderingUnit);
-            TableCellLeft(line.Product_ProductName);
+            TableCellLeft(line.ProductNameAndModel);
             TableCellLeft(line.NonBlankSize);
             TableCellLeft(line.BrandName);
-            TableCellRightHilite(line.Product_RetailPrice.ToString("c"));
+            TableCellRightHilite(line.PurLine_RetailPrice.ToString("c"));
             /*
             string vendorRetail = "(same)";
             if (line.VendorProduct_RetailPriceOverride > 0)
                 vendorRetail = line.VendorProduct_RetailPriceOverride.ToString("c");
             TableCellRight(vendorRetail);
-            TableCellRight((line.NormalMargin*100.0D).ToString("F1") + "%");
+            TableCellRight((line.BestNormalMargin*100.0D).ToString("F1") + "%");
             string vendorMargin = "(same)";
-            if (line.VendorMargin != line.NormalMargin)
-                vendorMargin = (line.VendorMargin*100.0D).ToString("F1") + "%";
+            if (line.BestVendorMargin != line.BestNormalMargin)
+                vendorMargin = (line.BestVendorMargin*100.0D).ToString("F1") + "%";
             TableCellRight(vendorMargin);
             */
             TableCellRight(line.CostPerUnitOrdered.ToString("c"));
-            TableCellRight(line.ActualEachCost.ToString("c"));
+            TableCellRight(line.BestEachCost.ToString("c"));
         }
 
     }

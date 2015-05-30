@@ -47,21 +47,24 @@
             this.txtFreightPercent = new System.Windows.Forms.TextBox();
             this.lblFreightPercent = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
+            this.chkShowInactive = new System.Windows.Forms.CheckBox();
+            this.chkShowDeleted = new System.Windows.Forms.CheckBox();
+            this.chkShowAllSubcats = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.grdMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // grdMain
             // 
-            this.grdMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grdMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grdMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdMain.Location = new System.Drawing.Point(12, 33);
+            this.grdMain.Location = new System.Drawing.Point(12, 56);
             this.grdMain.Name = "grdMain";
             this.grdMain.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdMain.Size = new System.Drawing.Size(1014, 390);
-            this.grdMain.TabIndex = 8;
+            this.grdMain.Size = new System.Drawing.Size(1022, 367);
+            this.grdMain.TabIndex = 10;
             this.grdMain.Visible = false;
             // 
             // bindingSource
@@ -118,7 +121,7 @@
             this.btnUseExistingProduct.Location = new System.Drawing.Point(247, 429);
             this.btnUseExistingProduct.Name = "btnUseExistingProduct";
             this.btnUseExistingProduct.Size = new System.Drawing.Size(211, 23);
-            this.btnUseExistingProduct.TabIndex = 11;
+            this.btnUseExistingProduct.TabIndex = 13;
             this.btnUseExistingProduct.Text = "Use Existing Product Of This Brand";
             this.btnUseExistingProduct.UseVisualStyleBackColor = true;
             this.btnUseExistingProduct.Visible = false;
@@ -131,7 +134,7 @@
             this.cboBrand.Location = new System.Drawing.Point(56, 431);
             this.cboBrand.Name = "cboBrand";
             this.cboBrand.Size = new System.Drawing.Size(185, 21);
-            this.cboBrand.TabIndex = 10;
+            this.cboBrand.TabIndex = 12;
             this.cboBrand.Visible = false;
             // 
             // lblBrand
@@ -141,17 +144,17 @@
             this.lblBrand.Location = new System.Drawing.Point(12, 434);
             this.lblBrand.Name = "lblBrand";
             this.lblBrand.Size = new System.Drawing.Size(38, 13);
-            this.lblBrand.TabIndex = 9;
+            this.lblBrand.TabIndex = 11;
             this.lblBrand.Text = "Brand:";
             this.lblBrand.Visible = false;
             // 
             // btnImport
             // 
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImport.Location = new System.Drawing.Point(789, 429);
+            this.btnImport.Location = new System.Drawing.Point(797, 429);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(115, 23);
-            this.btnImport.TabIndex = 14;
+            this.btnImport.TabIndex = 17;
             this.btnImport.Text = "Import For Vendor";
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Visible = false;
@@ -160,10 +163,10 @@
             // btnShowOrdersUsedBy
             // 
             this.btnShowOrdersUsedBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowOrdersUsedBy.Location = new System.Drawing.Point(910, 429);
+            this.btnShowOrdersUsedBy.Location = new System.Drawing.Point(918, 429);
             this.btnShowOrdersUsedBy.Name = "btnShowOrdersUsedBy";
             this.btnShowOrdersUsedBy.Size = new System.Drawing.Size(116, 23);
-            this.btnShowOrdersUsedBy.TabIndex = 15;
+            this.btnShowOrdersUsedBy.TabIndex = 18;
             this.btnShowOrdersUsedBy.Text = "Purchase History";
             this.btnShowOrdersUsedBy.UseVisualStyleBackColor = true;
             this.btnShowOrdersUsedBy.Visible = false;
@@ -205,7 +208,7 @@
             this.txtFreightPercent.Location = new System.Drawing.Point(566, 431);
             this.txtFreightPercent.Name = "txtFreightPercent";
             this.txtFreightPercent.Size = new System.Drawing.Size(41, 20);
-            this.txtFreightPercent.TabIndex = 13;
+            this.txtFreightPercent.TabIndex = 15;
             this.txtFreightPercent.Text = "0.0";
             this.txtFreightPercent.Visible = false;
             this.txtFreightPercent.TextChanged += new System.EventHandler(this.txtFreightPercent_TextChanged);
@@ -218,14 +221,14 @@
             this.lblFreightPercent.Location = new System.Drawing.Point(478, 434);
             this.lblFreightPercent.Name = "lblFreightPercent";
             this.lblFreightPercent.Size = new System.Drawing.Size(82, 13);
-            this.lblFreightPercent.TabIndex = 12;
+            this.lblFreightPercent.TabIndex = 14;
             this.lblFreightPercent.Text = "Freight Percent:";
             this.lblFreightPercent.Visible = false;
             // 
             // btnPrint
             // 
             this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrint.Location = new System.Drawing.Point(729, 429);
+            this.btnPrint.Location = new System.Drawing.Point(737, 429);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(54, 23);
             this.btnPrint.TabIndex = 16;
@@ -234,11 +237,44 @@
             this.btnPrint.Visible = false;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
+            // chkShowInactive
+            // 
+            this.chkShowInactive.AutoSize = true;
+            this.chkShowInactive.Location = new System.Drawing.Point(62, 33);
+            this.chkShowInactive.Name = "chkShowInactive";
+            this.chkShowInactive.Size = new System.Drawing.Size(139, 17);
+            this.chkShowInactive.TabIndex = 8;
+            this.chkShowInactive.Text = "Show Inactive Products";
+            this.chkShowInactive.UseVisualStyleBackColor = true;
+            // 
+            // chkShowDeleted
+            // 
+            this.chkShowDeleted.AutoSize = true;
+            this.chkShowDeleted.Location = new System.Drawing.Point(366, 33);
+            this.chkShowDeleted.Name = "chkShowDeleted";
+            this.chkShowDeleted.Size = new System.Drawing.Size(138, 17);
+            this.chkShowDeleted.TabIndex = 9;
+            this.chkShowDeleted.Text = "Show Deleted Products";
+            this.chkShowDeleted.UseVisualStyleBackColor = true;
+            // 
+            // chkShowAllSubcats
+            // 
+            this.chkShowAllSubcats.AutoSize = true;
+            this.chkShowAllSubcats.Location = new System.Drawing.Point(717, 33);
+            this.chkShowAllSubcats.Name = "chkShowAllSubcats";
+            this.chkShowAllSubcats.Size = new System.Drawing.Size(136, 17);
+            this.chkShowAllSubcats.TabIndex = 19;
+            this.chkShowAllSubcats.Text = "Allow All Subcategories";
+            this.chkShowAllSubcats.UseVisualStyleBackColor = true;
+            // 
             // VendorProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1038, 464);
+            this.ClientSize = new System.Drawing.Size(1046, 464);
+            this.Controls.Add(this.chkShowAllSubcats);
+            this.Controls.Add(this.chkShowDeleted);
+            this.Controls.Add(this.chkShowInactive);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.lblFreightPercent);
             this.Controls.Add(this.txtFreightPercent);
@@ -258,8 +294,8 @@
             this.Controls.Add(this.grdMain);
             this.Name = "VendorProductForm";
             this.Text = "Products by Vendor and Category";
-            this.Load += new System.EventHandler(this.VendorProductForm_Load);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.VendorProductForm_FormClosed);
+            this.Load += new System.EventHandler(this.VendorProductForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -287,5 +323,8 @@
         private System.Windows.Forms.TextBox txtFreightPercent;
         private System.Windows.Forms.Label lblFreightPercent;
         private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.CheckBox chkShowInactive;
+        private System.Windows.Forms.CheckBox chkShowDeleted;
+        private System.Windows.Forms.CheckBox chkShowAllSubcats;
     }
 }

@@ -93,6 +93,12 @@
     <Compile Include="Helpers\VendorGridHelper.cs" />
     <Compile Include="Helpers\VendorProductHelper.cs" />
     <Compile Include="Helpers\VPJoinGridHelper.cs" />
+    <Compile Include="ImportPurLineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportPurLineForm.Designer.cs">
+      <DependentUpon>ImportPurLineForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MDIMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ImportPurLineForm.resx">
+      <DependentUpon>ImportPurLineForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MDIMain.resx">
       <DependentUpon>MDIMain.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -320,6 +329,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ImportSamples\" />
     <Folder Include="Ordering\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
