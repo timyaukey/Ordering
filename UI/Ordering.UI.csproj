@@ -60,6 +60,7 @@
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -304,6 +305,11 @@
     <Content Include="Help.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ImportSamples\Animal Supply.txt" />
+    <Content Include="ImportSamples\Horizon 809090-6-2-2014.txt" />
+    <Content Include="ImportSamples\Horizon 810708-5-27-2014.txt" />
+    <Content Include="ImportSamples\Horizon 812966-6-10-2014.txt" />
+    <Content Include="ImportSamples\Horizon 813461-6-28-2014.txt" />
     <Content Include="Main.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -329,7 +335,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ImportSamples\" />
     <Folder Include="Ordering\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
