@@ -30,10 +30,12 @@ namespace Willowsoft.Ordering.UI.SetupForms
         public void Show(Vendor vendor, List<ProductSubCategory> allSubcategories)
         {
             mVendor = vendor;
-            mAllSubcategories = allSubcategories;
             lblVendor.Text = "Vendor: " + vendor.VendorName;
-            if (ParseInput())
-                return;
+            mAllSubcategories = allSubcategories;
+            using (Ambient.DbSession.Activate())
+            {
+                mBrands = OrderingRepositories.ProductBrand.GetAll();
+            }
             this.ShowDialog();
         }
 
@@ -120,16 +122,20 @@ namespace Willowsoft.Ordering.UI.SetupForms
             MessageBox.Show(string.Format("{0} products created", recordsCreated));
         }
 
-        private bool ParseInput()
+        private void btnReadClipboard_Click(object sender, EventArgs e)
+        {
+            lvwNewProducts.Items.Clear();
+            ParseInput();
+        }
+
+        private void ParseInput()
         {
             
             StringReader reader = new StringReader(System.Windows.Forms.Clipboard.GetText());
             mProductDataToSave = new List<NewProductData>();
-            using (Ambient.DbSession.Activate())
-            {
-                mBrands = OrderingRepositories.ProductBrand.GetAll();
-            }
             int lineNumber = 0;
+            int errorCount = 0;
+            const int maxErrors = 10;
             for (; ; )
             {
                 string line = reader.ReadLine();
@@ -137,10 +143,16 @@ namespace Willowsoft.Ordering.UI.SetupForms
                     break;
                 lineNumber++;
                 string[] fields = line.Split('\t');
-                if (TryProcessFields(fields, lineNumber))
-                    return true;
+                if (!TryProcessFields(fields, lineNumber))
+                {
+                    if (++errorCount > maxErrors)
+                    {
+                        MessageBox.Show("Stopping after " + maxErrors.ToString() + " errors", "Stopping",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
             }
-            return false;
         }
 
         private bool TryProcessFields(string[] fields, int lineNumber)
@@ -148,29 +160,29 @@ namespace Willowsoft.Ordering.UI.SetupForms
             if (fields.Length != 10)
             {
                 MessageBox.Show(string.Format("Wrong number of fields on line {0}", lineNumber));
-                return true;
+                return false;
             }
             if (ValidateString("Product name", fields[0], 4, 100, lineNumber))
-                return true;
+                return false;
             if (ValidateString("Product size", fields[1], 0, 30, lineNumber))
-                return true;
+                return false;
             if (ValidateString("Vendor code", fields[2], 1, 30, lineNumber))
-                return true;
+                return false;
             decimal retailPrice;
             if (ValidateDecimal("Retail price", fields[3], out retailPrice, lineNumber))
-                return true;
+                return false;
             decimal caseCost;
             if (ValidateDecimal("Case cost", fields[4], out caseCost, lineNumber))
-                return true;
+                return false;
             int countInCase;
             if (ValidateInt("Count in case", fields[5], out countInCase, lineNumber))
-                return true;
+                return false;
             decimal eachCost;
             if (ValidateDecimal("Each cost", fields[6], out eachCost, lineNumber))
-                return true;
+                return false;
             string brandName = fields[7];
             if (ValidateString("Brand name", brandName, 3, 80, lineNumber))
-                return true;
+                return false;
             ProductBrand brandToUse = null;
             foreach (ProductBrand existingBrand in mBrands)
             {
@@ -187,7 +199,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
                     "Brand name \"{0}\" not found. Do you want to create it?", brandName),
                     "New Brand Name", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (newBrandAnswer != DialogResult.Yes)
-                    return true;
+                    return false;
                 brandToUse = new ProductBrand(new ProductBrandId(), brandName, string.Empty, true, string.Empty,
                     DateTime.Now, DateTime.Now);
                 mBrands.Add(brandToUse);
@@ -206,7 +218,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             {
                 MessageBox.Show(string.Format("Subcategory \"{0}\" not found.", subCatName),
                     "No such subcategory", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return true;
+                return false;
             }
             bool isActive;
             if (fields[9].ToUpper() == "Y")
@@ -216,7 +228,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             else
             {
                 MessageBox.Show(string.Format("Invalid active flag on line {0}", lineNumber));
-                return true;
+                return false;
             }
             NewProductData rec = new NewProductData();
             rec.Product = new Product(new ProductId(), fields[0], subCatToUse.Id, fields[1],
@@ -229,7 +241,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             rec.BrandName = brandName;
             mProductDataToSave.Add(rec);
             ShowNewProductData(rec);
-            return false;
+            return true;
         }
 
         private bool ValidateString(string fieldName, string value, int minLength, int maxLength, int lineNumber)
