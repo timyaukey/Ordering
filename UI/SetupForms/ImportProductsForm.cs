@@ -45,24 +45,21 @@ namespace Willowsoft.Ordering.UI.SetupForms
             {
                 using (Ambient.DbSession.Activate())
                 {
-                    List<VendorProduct> partNumMatches = OrderingRepositories.VendorProduct.Get(
-                        mVendor.Id, rec.VendorProduct.VendorPartNum);
-                    if (partNumMatches.Count > 0)
-                    {
-                        MessageBox.Show(string.Format("Vendor code {0} already exists in database.",
-                            rec.VendorProduct.VendorPartNum));
-                        return;
-                    }
                     if (!rec.Product.ProductBrandId.IsNull)
                     {
-                        List<Product> brandNameSizeMatches = OrderingRepositories.Product.Get(
-                            rec.Product.ProductBrandId, rec.Product.ProductName, rec.Product.Size);
-                        if (brandNameSizeMatches.Count > 0)
+                        List<VendorProduct> partNumMatches = OrderingRepositories.VendorProduct.Get(
+                            mVendor.Id, rec.VendorProduct.VendorPartNum);
+                        if (partNumMatches.Count == 0)
                         {
-                            MessageBox.Show(string.Format(
-                                "Product name \"{0}\", brand \"{1}\" and size \"{2}\" already exists in database.",
-                                rec.Product.ProductName, rec.BrandName, rec.Product.Size));
-                            return;
+                            List<Product> brandNameSizeMatches = OrderingRepositories.Product.Get(
+                                rec.Product.ProductBrandId, rec.Product.ProductName, rec.Product.Size);
+                            if (brandNameSizeMatches.Count > 0)
+                            {
+                                MessageBox.Show(string.Format(
+                                    "Product name \"{0}\", brand \"{1}\" and size \"{2}\" already exists in database.",
+                                    rec.Product.ProductName, rec.BrandName, rec.Product.Size));
+                                return;
+                            }
                         }
                     }
                 }
@@ -103,23 +100,54 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 }
             }
             int recordsCreated = 0;
+            int recordsUpdated = 0;
             foreach (NewProductData objToSave in mProductDataToSave)
             {
                 using (ITranScope tranScope = Ambient.DbSession.CreateTranScope())
                 {
                     using (IDbSession session = Ambient.DbSession.Activate())
                     {
-                        OrderingRepositories.Product.Insert(objToSave.Product);
-                        objToSave.VendorProduct.ProductId = objToSave.Product.Id;
-                        OrderingRepositories.VendorProduct.Insert(objToSave.VendorProduct);
+                        List<VendorProduct> partNumMatches = OrderingRepositories.VendorProduct.Get(
+                            mVendor.Id, objToSave.VendorProduct.VendorPartNum);
+                        if (partNumMatches.Count == 1)
+                        {
+                            VendorProduct venProdToUpdate = partNumMatches[0];
+                            venProdToUpdate.EachCost = objToSave.VendorProduct.EachCost;
+                            venProdToUpdate.CaseCost = objToSave.VendorProduct.CaseCost;
+                            venProdToUpdate.CountInCase = objToSave.VendorProduct.CountInCase;
+                            OrderingRepositories.VendorProduct.Update(venProdToUpdate);
+
+                            Product prodToUpdate = OrderingRepositories.Product.Get(venProdToUpdate.ProductId);
+                            prodToUpdate.ProductName = objToSave.Product.ProductName;
+                            prodToUpdate.Size = objToSave.Product.Size;
+                            prodToUpdate.RetailPrice = objToSave.Product.RetailPrice;
+                            prodToUpdate.ProductBrandId = objToSave.Product.ProductBrandId;
+                            prodToUpdate.ProductSubCategoryId = objToSave.Product.ProductSubCategoryId;
+                            prodToUpdate.ManufacturerBarcode = objToSave.Product.ManufacturerBarcode;
+                            prodToUpdate.ManufacturerPartNum = objToSave.Product.ManufacturerPartNum;
+                            OrderingRepositories.Product.Update(prodToUpdate);
+
+                            recordsUpdated++;
+                        }
+                        else if (partNumMatches.Count == 0)
+                        {
+                            OrderingRepositories.Product.Insert(objToSave.Product);
+                            objToSave.VendorProduct.ProductId = objToSave.Product.Id;
+                            OrderingRepositories.VendorProduct.Insert(objToSave.VendorProduct);
+                            recordsCreated++;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Multiple matches to vendor part number " + objToSave.VendorProduct.VendorPartNum);
+                        }
                     }
                     tranScope.Complete();
-                    recordsCreated++;
                 }
-                //MessageBox.Show(string.Format("Create {0} {1} {2}",
-                //    objToSave.Product.ProductName, objToSave.Product.Size, objToSave.VendorProduct.VendorPartNum));
             }
-            MessageBox.Show(string.Format("{0} products created", recordsCreated));
+            MessageBox.Show(string.Format("{0} products created, {1} updated.", recordsCreated, recordsUpdated));
+            btnCreate.Enabled = false;
+            btnEnter.Enabled = false;
+            btnReadClipboard.Enabled = false;
         }
 
         private void btnReadClipboard_Click(object sender, EventArgs e)
@@ -157,7 +185,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
 
         private bool TryProcessFields(string[] fields, int lineNumber)
         {
-            if (fields.Length != 10)
+            if (fields.Length < 10)
             {
                 MessageBox.Show(string.Format("Wrong number of fields on line {0}", lineNumber));
                 return false;
@@ -180,6 +208,8 @@ namespace Willowsoft.Ordering.UI.SetupForms
             decimal eachCost;
             if (ValidateDecimal("Each cost", fields[6], out eachCost, lineNumber))
                 return false;
+            
+            // Brand
             string brandName = fields[7];
             if (ValidateString("Brand name", brandName, 3, 80, lineNumber))
                 return false;
@@ -204,6 +234,8 @@ namespace Willowsoft.Ordering.UI.SetupForms
                     DateTime.Now, DateTime.Now);
                 mBrands.Add(brandToUse);
             }
+
+            // Subcategory
             ProductSubCategory subCatToUse = null;
             string subCatName = fields[8];
             foreach (ProductSubCategory subCat in mAllSubcategories)
@@ -220,6 +252,8 @@ namespace Willowsoft.Ordering.UI.SetupForms
                     "No such subcategory", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+
+            // IsActive
             bool isActive;
             if (fields[9].ToUpper() == "Y")
                 isActive = true;
@@ -230,9 +264,20 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 MessageBox.Show(string.Format("Invalid active flag on line {0}", lineNumber));
                 return false;
             }
+            
+            // Barcode
+            string barcode = fields.Length < 11 ? String.Empty : fields[10];
+            if (ValidateString("Barcode", barcode, 0, 30, lineNumber))
+                return false;
+
+            // Model
+            string model = fields.Length < 12 ? string.Empty : fields[11];
+            if (ValidateString("Model", model, 0, 30, lineNumber))
+                return false;
+
             NewProductData rec = new NewProductData();
             rec.Product = new Product(new ProductId(), fields[0], subCatToUse.Id, fields[1],
-                retailPrice, brandToUse.Id, string.Empty, string.Empty, isActive,
+                retailPrice, brandToUse.Id, barcode, model, isActive,
                 false, false, false, false, 0, 0, 0, 0, string.Empty, 0.0m, 0.0m, DateTime.Now, DateTime.Now);
             rec.VendorProduct = new VendorProduct(new VendorProductId(), mVendor.Id, new ProductId(),
                 0m, fields[2], caseCost, countInCase, eachCost, isActive, isActive,
@@ -303,7 +348,9 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 newProd.VendorProduct.EachCost.ToString("C2"),
                 newProd.BrandName,
                 mAllSubcategories.Find(subcat=>newProd.Product.ProductSubCategoryId==subcat.Id).SubCategoryName,
-                newProd.Product.IsActive.ToString()
+                newProd.Product.IsActive.ToString(),
+                newProd.Product.ManufacturerBarcode,
+                newProd.Product.ManufacturerPartNum
                 });
             lvwNewProducts.Items.Add(item);
         }
