@@ -6,10 +6,12 @@ DROP PROC dbo.GetVendorsBySubCategoryUse
 DROP PROC dbo.GetAllProductBrands
 DROP PROC dbo.GetAllProductCategories
 DROP PROC dbo.GetAllProductSubCategories
+DROP PROC dbo.GetVendorProductsByVendor
 DROP PROC dbo.GetVendorProductsByVendorCategory
 DROP PROC dbo.GetVendorProductsByProduct
 DROP PROC dbo.GetVendorProductsByPartNum
 DROP PROC dbo.GetVendorCategoryByBrand
+DROP PROC dbo.GetProductsByVendor
 DROP PROC dbo.GetProductsByVendorCategory
 DROP PROC dbo.GetProductsByBrandCategory
 DROP PROC dbo.GetProductsByBrandNameSize
@@ -150,6 +152,31 @@ GO
 
 -----------------------------------------------------
 
+CREATE PROC dbo.GetVendorProductsByVendor
+	@VendorId int
+AS
+
+SELECT	vp.*
+FROM	VendorProduct vp
+		JOIN Product p
+				ON vp.ProductId = p.ProductId
+		JOIN ProductSubCategory sc
+				ON p.ProductSubCategoryId = sc.ProductSubCategoryId
+		JOIN ProductCategory pc
+				ON sc.ProductCategoryId = pc.ProductCategoryId
+		JOIN ProductBrand pb
+			ON pb.ProductBrandId = p.ProductBrandId
+WHERE	vp.VendorId = @VendorId
+ORDER BY
+		pc.SortCode, sc.SortCode, pb.BrandName, p.ProductName, p.Size
+
+GO
+
+GRANT EXECUTE ON dbo.GetVendorProductsByVendor TO Programs
+GO
+
+-----------------------------------------------------
+
 CREATE PROC dbo.GetVendorProductsByVendorCategory
 	@VendorId int,
 	@ProductCategoryId int
@@ -224,6 +251,29 @@ ORDER BY
 GO
 
 GRANT EXECUTE ON dbo.GetVendorCategoryByBrand TO Programs
+GO
+
+-----------------------------------------------------
+
+CREATE PROC dbo.GetProductsByVendor
+	@VendorId int
+AS
+
+SELECT	p.*
+FROM	VendorProduct vp
+		JOIN Product p
+				ON vp.ProductId = p.ProductId
+		JOIN ProductSubCategory sc
+				ON p.ProductSubCategoryId = sc.ProductSubCategoryId
+		JOIN ProductCategory pc
+				ON sc.ProductCategoryId = pc.ProductCategoryId
+WHERE	vp.VendorId = @VendorId
+ORDER BY
+		pc.SortCode, sc.SortCode, p.ProductName, p.Size
+
+GO
+
+GRANT EXECUTE ON dbo.GetProductsByVendor TO Programs
 GO
 
 -----------------------------------------------------

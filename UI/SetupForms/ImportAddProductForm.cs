@@ -16,7 +16,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
     public partial class ImportAddProductForm : Form
     {
         private VendorId mVendorId;
-        private List<ProductSubCategory> mAllSubcategories;
+        private List<ProductSubCategory> mAllowedSubcategories;
         private string mImportLine;
 
         public ImportAddProductForm()
@@ -24,10 +24,10 @@ namespace Willowsoft.Ordering.UI.SetupForms
             InitializeComponent();
         }
 
-        public string GetImportLine(VendorId vendorId, List<ProductSubCategory> allSubcategories)
+        public string GetImportLine(VendorId vendorId, List<ProductSubCategory> allowedSubcategories)
         {
             mVendorId = vendorId;
-            mAllSubcategories = allSubcategories;
+            mAllowedSubcategories = allowedSubcategories;
             mImportLine = null;
             using (Ambient.DbSession.Activate())
             {
@@ -38,7 +38,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 }
             }
             cboSubcategory.Items.Clear();
-            foreach (ProductSubCategory subCat in mAllSubcategories)
+            foreach (ProductSubCategory subCat in mAllowedSubcategories)
             {
                 cboSubcategory.Items.Add(subCat.SubCategoryName);
             }
@@ -92,7 +92,9 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 (string.IsNullOrEmpty(txtEachCost.Text) ? "0" : txtEachCost.Text) + "\t" +
                 cboBrandName.Text + "\t" +
                 cboSubcategory.Text + "\t" +
-                (chkIsActive.Checked ? "Y" : "N");
+                (chkIsActive.Checked ? "Y" : "N") + "\t" +
+                txtBarcode.Text + "\t" +
+                txtModel.Text;
             this.Close();
         }
 

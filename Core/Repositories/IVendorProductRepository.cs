@@ -8,6 +8,7 @@ namespace Willowsoft.Ordering.Core.Repositories
 {
     public interface IVendorProductRepository : IEntityRepository<VendorProduct, VendorProductId>
     {
+        List<VendorProduct> Get(VendorId vendorId);
         List<VendorProduct> Get(VendorId vendorId, ProductCategoryId productCategoryId);
         List<VendorProduct> Get(VendorId vendorId, string vendorPartNum);
         List<VendorProduct> Get(ProductId productId);

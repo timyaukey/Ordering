@@ -18,7 +18,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
     public partial class ImportProductsForm : Form
     {
         private Vendor mVendor;
-        private List<ProductSubCategory> mAllSubcategories;
+        private List<ProductSubCategory> mAllowedSubcategories;
         List<ProductBrand> mBrands;
         List<NewProductData> mProductDataToSave;
 
@@ -27,11 +27,11 @@ namespace Willowsoft.Ordering.UI.SetupForms
             InitializeComponent();
         }
 
-        public void Show(Vendor vendor, List<ProductSubCategory> allSubcategories)
+        public void Show(Vendor vendor, List<ProductSubCategory> allowedSubcategories)
         {
             mVendor = vendor;
             lblVendor.Text = "Vendor: " + vendor.VendorName;
-            mAllSubcategories = allSubcategories;
+            mAllowedSubcategories = allowedSubcategories;
             using (Ambient.DbSession.Activate())
             {
                 mBrands = OrderingRepositories.ProductBrand.GetAll();
@@ -153,12 +153,6 @@ namespace Willowsoft.Ordering.UI.SetupForms
         private void btnReadClipboard_Click(object sender, EventArgs e)
         {
             lvwNewProducts.Items.Clear();
-            ParseInput();
-        }
-
-        private void ParseInput()
-        {
-            
             StringReader reader = new StringReader(System.Windows.Forms.Clipboard.GetText());
             mProductDataToSave = new List<NewProductData>();
             int lineNumber = 0;
@@ -238,7 +232,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             // Subcategory
             ProductSubCategory subCatToUse = null;
             string subCatName = fields[8];
-            foreach (ProductSubCategory subCat in mAllSubcategories)
+            foreach (ProductSubCategory subCat in mAllowedSubcategories)
             {
                 if (subCat.SubCategoryName.Equals(subCatName, StringComparison.OrdinalIgnoreCase))
                 {
@@ -329,9 +323,11 @@ namespace Willowsoft.Ordering.UI.SetupForms
         private void btnEnter_Click(object sender, EventArgs e)
         {
             ImportAddProductForm enterForm = new ImportAddProductForm();
-            string importLine = enterForm.GetImportLine(mVendor.Id, mAllSubcategories);
+            string importLine = enterForm.GetImportLine(mVendor.Id, mAllowedSubcategories);
             if (!string.IsNullOrEmpty(importLine))
             {
+                if (mProductDataToSave == null)
+                    mProductDataToSave = new List<NewProductData>();
                 TryProcessFields(importLine.Split('\t'), 1);
             }
         }
@@ -347,11 +343,11 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 newProd.VendorProduct.CountInCase.ToString(),
                 newProd.VendorProduct.EachCost.ToString("C2"),
                 newProd.BrandName,
-                mAllSubcategories.Find(subcat=>newProd.Product.ProductSubCategoryId==subcat.Id).SubCategoryName,
+                mAllowedSubcategories.Find(subcat=>newProd.Product.ProductSubCategoryId==subcat.Id).SubCategoryName,
                 newProd.Product.IsActive.ToString(),
                 newProd.Product.ManufacturerBarcode,
                 newProd.Product.ManufacturerPartNum
-                });
+            });
             lvwNewProducts.Items.Add(item);
         }
     }

@@ -106,8 +106,10 @@ namespace Willowsoft.Ordering.UI.Reports
             {
                 Dictionary<int, Product> productDict;
                 List<VendorProduct> venprodList;
-                VendorProductHelper.LoadForCategory(vendorId, catId,
-                    out productDict, out venprodList);
+                if (catId.Value == VendorProductHelper.AllCategoriesId)
+                    VendorProductHelper.LoadForAllCategories(vendorId, out productDict, out venprodList);
+                else
+                    VendorProductHelper.LoadForCategory(vendorId, catId, out productDict, out venprodList);
                 foreach (VendorProduct venprod in venprodList)
                 {
                     Product product = productDict[venprod.ProductId.Value];

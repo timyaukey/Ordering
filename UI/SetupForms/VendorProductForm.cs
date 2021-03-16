@@ -66,6 +66,10 @@ namespace Willowsoft.Ordering.UI.SetupForms
                 List<Vendor> allVendors = OrderingRepositories.Vendor.GetAll();
                 cboVendor.DataSource = allVendors;
                 List<ProductCategory> allCategories = OrderingRepositories.ProductCategory.GetAll();
+                ProductCategory allowAll = new ProductCategory(
+                    new ProductCategoryId(VendorProductHelper.AllCategoriesId),
+                    "(all categories)", "0", "", true, DateTime.Now, DateTime.Now);
+                allCategories.Insert(0, allowAll);
                 cboCategory.DataSource = allCategories;
                 mAllSubCategories = OrderingRepositories.ProductSubCategory.GetAll();
             }
@@ -125,7 +129,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             }
             mProductCategory = category;
             mHelper.DataSource = null;
-            if (chkShowAllSubcats.Checked)
+            if (chkShowAllSubcats.Checked  || category.Id.Value == VendorProductHelper.AllCategoriesId)
                 mHelper.SetProductSubCategories(GetAllSubCategories());
             else
                 mHelper.SetProductSubCategories(GetSubCategoriesOfCategory());
@@ -176,8 +180,10 @@ namespace Willowsoft.Ordering.UI.SetupForms
             {
                 Dictionary<int, Product> productDict;
                 List<VendorProduct> venprodList;
-                VendorProductHelper.LoadForCategory(vendorId, mProductCategory.Id,
-                    out productDict, out venprodList);
+                if (mProductCategory.Id.Value == VendorProductHelper.AllCategoriesId)
+                    VendorProductHelper.LoadForAllCategories(vendorId, out productDict, out venprodList);
+                else
+                    VendorProductHelper.LoadForCategory(vendorId, mProductCategory.Id, out productDict, out venprodList);
                 bool showInactive = chkShowInactive.Checked;
                 bool showDeleted = chkShowDeleted.Checked;
                 foreach (VendorProduct venprod in venprodList)
@@ -205,6 +211,11 @@ namespace Willowsoft.Ordering.UI.SetupForms
             if (brand == null || brand.Id.IsNull)
             {
                 MessageBox.Show("Select a brand first.", "Select Brand");
+                return;
+            }
+            if (mProductCategory.Id.Value == VendorProductHelper.AllCategoriesId)
+            {
+                MessageBox.Show("Select a single category first.", "Select Category");
                 return;
             }
             if (!mHelper.IsOkayToChangeDataSource("use existing product"))
@@ -259,8 +270,11 @@ namespace Willowsoft.Ordering.UI.SetupForms
         {
             ImportProductsForm form = new ImportProductsForm();
             Vendor vendor = (Vendor)cboVendor.SelectedItem;
-            //ProductSubCategoryBindingList subCategories = GetSubCategoriesOfCategory();
-            form.Show(vendor, mAllSubCategories);
+            List<ProductSubCategory> allowedSubCats = mAllSubCategories.FindAll(subCat =>
+                (subCat.ProductCategoryId.Value == mProductCategory.Id.Value) ||
+                (mProductCategory.Id.Value == VendorProductHelper.AllCategoriesId)
+                );
+            form.Show(vendor, allowedSubCats);
             LoadBrandList();
             LoadCurrentVendorAndCategory();
         }

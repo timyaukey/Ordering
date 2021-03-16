@@ -22,6 +22,15 @@ namespace Willowsoft.Ordering.Core.Repositories
 
         #region IVendorProductRepository Members
 
+        public List<VendorProduct> Get(VendorId vendorId)
+        {
+            return Search("dbo.GetVendorProductsByVendor",
+                delegate (SqlCommand cmd)
+                {
+                    SqlHelper.AddParamInputId(cmd, "@VendorId", vendorId.Value);
+                });
+        }
+
         public List<VendorProduct> Get(VendorId vendorId, ProductCategoryId productCategoryId)
         {
             return Search("dbo.GetVendorProductsByVendorCategory",

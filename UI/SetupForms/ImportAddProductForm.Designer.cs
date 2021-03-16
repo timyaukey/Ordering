@@ -50,6 +50,10 @@
             this.lblBrandInstructions = new System.Windows.Forms.Label();
             this.cboSubcategory = new System.Windows.Forms.ComboBox();
             this.lblSubcategory = new System.Windows.Forms.Label();
+            this.txtBarcode = new System.Windows.Forms.TextBox();
+            this.lblBarcode = new System.Windows.Forms.Label();
+            this.txtModel = new System.Windows.Forms.TextBox();
+            this.lblModel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblVendorCode
@@ -167,20 +171,22 @@
             // 
             // btnOkay
             // 
-            this.btnOkay.Location = new System.Drawing.Point(115, 274);
+            this.btnOkay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOkay.Location = new System.Drawing.Point(265, 337);
             this.btnOkay.Name = "btnOkay";
             this.btnOkay.Size = new System.Drawing.Size(75, 23);
-            this.btnOkay.TabIndex = 20;
+            this.btnOkay.TabIndex = 24;
             this.btnOkay.Text = "OK";
             this.btnOkay.UseVisualStyleBackColor = true;
             this.btnOkay.Click += new System.EventHandler(this.btnOkay_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(196, 274);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Location = new System.Drawing.Point(346, 337);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 21;
+            this.btnCancel.TabIndex = 25;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -244,11 +250,47 @@
             this.lblSubcategory.TabIndex = 17;
             this.lblSubcategory.Text = "Subcategory:";
             // 
+            // txtBarcode
+            // 
+            this.txtBarcode.Location = new System.Drawing.Point(115, 274);
+            this.txtBarcode.Name = "txtBarcode";
+            this.txtBarcode.Size = new System.Drawing.Size(143, 20);
+            this.txtBarcode.TabIndex = 21;
+            // 
+            // lblBarcode
+            // 
+            this.lblBarcode.AutoSize = true;
+            this.lblBarcode.Location = new System.Drawing.Point(13, 277);
+            this.lblBarcode.Name = "lblBarcode";
+            this.lblBarcode.Size = new System.Drawing.Size(50, 13);
+            this.lblBarcode.TabIndex = 20;
+            this.lblBarcode.Text = "Barcode:";
+            // 
+            // txtModel
+            // 
+            this.txtModel.Location = new System.Drawing.Point(115, 300);
+            this.txtModel.Name = "txtModel";
+            this.txtModel.Size = new System.Drawing.Size(143, 20);
+            this.txtModel.TabIndex = 23;
+            // 
+            // lblModel
+            // 
+            this.lblModel.AutoSize = true;
+            this.lblModel.Location = new System.Drawing.Point(13, 303);
+            this.lblModel.Name = "lblModel";
+            this.lblModel.Size = new System.Drawing.Size(39, 13);
+            this.lblModel.TabIndex = 22;
+            this.lblModel.Text = "Model:";
+            // 
             // ImportAddProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(433, 316);
+            this.ClientSize = new System.Drawing.Size(433, 372);
+            this.Controls.Add(this.txtModel);
+            this.Controls.Add(this.lblModel);
+            this.Controls.Add(this.txtBarcode);
+            this.Controls.Add(this.lblBarcode);
             this.Controls.Add(this.cboSubcategory);
             this.Controls.Add(this.lblSubcategory);
             this.Controls.Add(this.lblBrandInstructions);
@@ -305,5 +347,9 @@
         private System.Windows.Forms.Label lblBrandInstructions;
         private System.Windows.Forms.ComboBox cboSubcategory;
         private System.Windows.Forms.Label lblSubcategory;
+        private System.Windows.Forms.TextBox txtBarcode;
+        private System.Windows.Forms.Label lblBarcode;
+        private System.Windows.Forms.TextBox txtModel;
+        private System.Windows.Forms.Label lblModel;
     }
 }
