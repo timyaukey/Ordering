@@ -19,6 +19,18 @@ using Willowsoft.Ordering.UI.SetupForms;
 
 namespace Willowsoft.Ordering.UI
 {
+    /// <summary>
+    /// Read tab separated lines from the clipboard and use them to add or update PurLine
+    /// rows. Lines must contain a subset of the columns exported to clipboard from the
+    /// PurLineForm form. Any additional columns are ignored. Columns are identified
+    /// in export and import by column header names, which are the same in both places.
+    /// Column order does not matter - they are identified by header name.
+    /// Import lines must find a matching vendor product code, either in an existing
+    /// PurLine or VendorProduct row. If found in PurLine then updates order quantities
+    /// in that line, otherwise it creates a new PurLine linked to that VendorProduct
+    /// and copies all necessary columns from that VendorProduct and Product row.
+    /// </summary>
+
     public partial class ImportPurLineForm : Form
     {
         private VendorId mVendorId;

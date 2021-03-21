@@ -43,9 +43,9 @@
             this.colEaCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colBrand = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSubCat = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colIsActive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colBarcode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colModel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colIsActive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnReadClipboard = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -74,7 +74,7 @@
             this.lblExplain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblExplain.Location = new System.Drawing.Point(490, 13);
             this.lblExplain.Name = "lblExplain";
-            this.lblExplain.Size = new System.Drawing.Size(513, 84);
+            this.lblExplain.Size = new System.Drawing.Size(513, 92);
             this.lblExplain.TabIndex = 1;
             this.lblExplain.Text = resources.GetString("lblExplain.Text");
             // 
@@ -165,6 +165,10 @@
             this.colSubCat.Text = "Subcategory";
             this.colSubCat.Width = 100;
             // 
+            // colIsActive
+            // 
+            this.colIsActive.Text = "Is Active";
+            // 
             // colBarcode
             // 
             this.colBarcode.Text = "Barcode";
@@ -173,10 +177,6 @@
             // colModel
             // 
             this.colModel.Text = "Model";
-            // 
-            // colIsActive
-            // 
-            this.colIsActive.Text = "Is Active";
             // 
             // btnReadClipboard
             // 

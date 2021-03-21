@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblExplain.Text" xml:space="preserve">
-    <value>Use "Read From Clipboard" to read tab separated lines of text from the clipboard into the grid below, typically by copying from a spreadsheet. Then click "Create/Update Products". Columns must match the columns in the list below. The active flag must be "Y" or "N". The only required information is product name, vendor code, brand, subcategory name, and active flag. Unused number fields should be zero. Will insert rows that do not match vendor code for the current vendor, otherwise will update existing rows.
+    <value>Use "Read From Clipboard" to read tab separated lines of text from the clipboard into the grid below, typically by copying from a spreadsheet. Then click "Create/Update Products". The first row must contain column names, and must include all the column names in the list below, in any order. Additional columns are ignored. The active flag must be "Y" or "N". The only required information is product name, vendor code, brand, subcategory name, and active flag. Unused number fields should be zero. Will insert rows that do not match vendor code for the current vendor, otherwise will update existing rows.
 </value>
   </data>
 </root>

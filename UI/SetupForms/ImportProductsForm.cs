@@ -19,8 +19,21 @@ namespace Willowsoft.Ordering.UI.SetupForms
     {
         private Vendor mVendor;
         private List<ProductSubCategory> mAllowedSubcategories;
-        List<ProductBrand> mBrands;
-        List<NewProductData> mProductDataToSave;
+        private List<ProductBrand> mBrands;
+        private List<NewProductData> mProductDataToSave;
+
+        private int mColProductName;
+        private int mColProductSize;
+        private int mColVendorCode;
+        private int mColRetail;
+        private int mColCsCost;
+        private int mColCsSize;
+        private int mColEaCost;
+        private int mColBrand;
+        private int mColSubcategory;
+        private int mColIsActive;
+        private int mColBarcode;
+        private int mColModel;
 
         public ImportProductsForm()
         {
@@ -154,6 +167,20 @@ namespace Willowsoft.Ordering.UI.SetupForms
         {
             lvwNewProducts.Items.Clear();
             StringReader reader = new StringReader(System.Windows.Forms.Clipboard.GetText());
+            string headerLine = reader.ReadLine();
+            string[] headerNames = headerLine.Split('\t');
+            if (!TryFindColumn(headerNames, "Name", out mColProductName)) return;
+            if (!TryFindColumn(headerNames, "Size", out mColProductSize)) return;
+            if (!TryFindColumn(headerNames, "Vendor Code", out mColVendorCode)) return;
+            if (!TryFindColumn(headerNames, "Retail", out mColRetail)) return;
+            if (!TryFindColumn(headerNames, "Cs Cost", out mColCsCost)) return;
+            if (!TryFindColumn(headerNames, "Cs Size", out mColCsSize)) return;
+            if (!TryFindColumn(headerNames, "Ea Cost", out mColEaCost)) return;
+            if (!TryFindColumn(headerNames, "Brand", out mColBrand)) return;
+            if (!TryFindColumn(headerNames, "Subcategory", out mColSubcategory)) return;
+            if (!TryFindColumn(headerNames, "Is Active", out mColIsActive)) return;
+            if (!TryFindColumn(headerNames, "Barcode", out mColBarcode)) return;
+            if (!TryFindColumn(headerNames, "Model", out mColModel)) return;
             mProductDataToSave = new List<NewProductData>();
             int lineNumber = 0;
             int errorCount = 0;
@@ -177,34 +204,52 @@ namespace Willowsoft.Ordering.UI.SetupForms
             }
         }
 
+        private bool TryFindColumn(string[] columnNames, string columnName, out int colIndex)
+        {
+            for (int testIdx=0;testIdx<columnNames.Length;testIdx++)
+            {
+                if (columnNames[testIdx] == columnName)
+                {
+                    colIndex = testIdx;
+                    return true;
+                }
+            }
+            colIndex = -1;
+            MessageBox.Show("Cannot find input column header named \"" + columnName + "\"");
+            return false;
+        }
+
         private bool TryProcessFields(string[] fields, int lineNumber)
         {
             if (fields.Length < 10)
             {
-                MessageBox.Show(string.Format("Wrong number of fields on line {0}", lineNumber));
+                MessageBox.Show(string.Format("Not enough fields on line {0}", lineNumber));
                 return false;
             }
-            if (ValidateString("Product name", fields[0], 4, 100, lineNumber))
+            string productName = GetInputColumn(fields, mColProductName).Trim();
+            if (ValidateString("Product name", productName, 4, 100, lineNumber))
                 return false;
-            if (ValidateString("Product size", fields[1], 0, 30, lineNumber))
+            string productSize = GetInputColumn(fields, mColProductSize).Trim();
+            if (ValidateString("Product size", productSize, 0, 30, lineNumber))
                 return false;
-            if (ValidateString("Vendor code", fields[2], 1, 30, lineNumber))
+            string vendorCode = GetInputColumn(fields, mColVendorCode);
+            if (ValidateString("Vendor code", vendorCode, 1, 30, lineNumber))
                 return false;
             decimal retailPrice;
-            if (ValidateDecimal("Retail price", fields[3], out retailPrice, lineNumber))
+            if (ValidateDecimal("Retail price", GetInputColumn(fields, mColRetail), out retailPrice, lineNumber))
                 return false;
             decimal caseCost;
-            if (ValidateDecimal("Case cost", fields[4], out caseCost, lineNumber))
+            if (ValidateDecimal("Case cost", GetInputColumn(fields, mColCsCost), out caseCost, lineNumber))
                 return false;
             int countInCase;
-            if (ValidateInt("Count in case", fields[5], out countInCase, lineNumber))
+            if (ValidateInt("Count in case", GetInputColumn(fields, mColCsSize), out countInCase, lineNumber))
                 return false;
             decimal eachCost;
-            if (ValidateDecimal("Each cost", fields[6], out eachCost, lineNumber))
+            if (ValidateDecimal("Each cost", GetInputColumn(fields, mColEaCost), out eachCost, lineNumber))
                 return false;
             
             // Brand
-            string brandName = fields[7];
+            string brandName = GetInputColumn(fields, mColBrand).Trim();
             if (ValidateString("Brand name", brandName, 3, 80, lineNumber))
                 return false;
             ProductBrand brandToUse = null;
@@ -231,7 +276,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
 
             // Subcategory
             ProductSubCategory subCatToUse = null;
-            string subCatName = fields[8];
+            string subCatName = GetInputColumn(fields, mColSubcategory);
             foreach (ProductSubCategory subCat in mAllowedSubcategories)
             {
                 if (subCat.SubCategoryName.Equals(subCatName, StringComparison.OrdinalIgnoreCase))
@@ -248,10 +293,11 @@ namespace Willowsoft.Ordering.UI.SetupForms
             }
 
             // IsActive
+            string isActiveText = GetInputColumn(fields, mColIsActive).ToUpper();
             bool isActive;
-            if (fields[9].ToUpper() == "Y")
+            if (isActiveText == "Y")
                 isActive = true;
-            else if (fields[9].ToUpper() == "N")
+            else if (isActiveText == "N")
                 isActive = false;
             else
             {
@@ -260,27 +306,34 @@ namespace Willowsoft.Ordering.UI.SetupForms
             }
             
             // Barcode
-            string barcode = fields.Length < 11 ? String.Empty : fields[10];
+            string barcode =GetInputColumn(fields, mColBarcode);
             if (ValidateString("Barcode", barcode, 0, 30, lineNumber))
                 return false;
 
             // Model
-            string model = fields.Length < 12 ? string.Empty : fields[11];
+            string model = GetInputColumn(fields, mColModel);
             if (ValidateString("Model", model, 0, 30, lineNumber))
                 return false;
 
             NewProductData rec = new NewProductData();
-            rec.Product = new Product(new ProductId(), fields[0], subCatToUse.Id, fields[1],
+            rec.Product = new Product(new ProductId(), productName, subCatToUse.Id, productSize,
                 retailPrice, brandToUse.Id, barcode, model, isActive,
                 false, false, false, false, 0, 0, 0, 0, string.Empty, 0.0m, 0.0m, DateTime.Now, DateTime.Now);
             rec.VendorProduct = new VendorProduct(new VendorProductId(), mVendor.Id, new ProductId(),
-                0m, fields[2], caseCost, countInCase, eachCost, isActive, isActive,
+                0m, vendorCode, caseCost, countInCase, eachCost, isActive, isActive,
                 false, false, new DateTime(1980, 1, 1), string.Empty, false, false, string.Empty,
                 DateTime.Now, DateTime.Now);
             rec.BrandName = brandName;
             mProductDataToSave.Add(rec);
             ShowNewProductData(rec);
             return true;
+        }
+
+        private string GetInputColumn(string[] colValues, int colIndex)
+        {
+            if (colIndex < colValues.Length)
+                return colValues[colIndex];
+            return string.Empty;
         }
 
         private bool ValidateString(string fieldName, string value, int minLength, int maxLength, int lineNumber)

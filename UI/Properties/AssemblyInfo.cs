@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Willow Creek Software")]
 [assembly: AssemblyProduct("Willow Creek Ordering")]
-[assembly: AssemblyCopyright("© 2008-2013 Willow Creek Software")]
+[assembly: AssemblyCopyright("© 2008-2021 Willow Creek Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,5 +34,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 // NOTE: Also increment the version numbers in all DLL's, or installing
 // the MSI won't replace them!
-[assembly: AssemblyVersion("3.0.0")]
-[assembly: AssemblyFileVersion("3.0.0")]
+[assembly: AssemblyVersion("3.1.0")]
+[assembly: AssemblyFileVersion("3.1.0")]
