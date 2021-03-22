@@ -232,7 +232,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             string productSize = GetInputColumn(fields, mColProductSize).Trim();
             if (ValidateString("Product size", productSize, 0, 30, lineNumber))
                 return false;
-            string vendorCode = GetInputColumn(fields, mColVendorCode);
+            string vendorCode = GetInputColumn(fields, mColVendorCode).Trim();
             if (ValidateString("Vendor code", vendorCode, 1, 30, lineNumber))
                 return false;
             decimal retailPrice;
