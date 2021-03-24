@@ -50,31 +50,29 @@ namespace Willowsoft.Ordering.UI.Helpers
             ProductBrandBindingList brandList)
         {
             DataGridViewTextBoxColumn col;
-            
-            //AddTextBoxColumn("SubCategoryName", "Sub Category", 10, true).Frozen = true;
-            AddComboBoxColumn("PurLine_ProductSubCategoryId", "Sub Category", 11, false, subcategoryList, "SubCategoryName", "Id").Frozen = true;
-            AddTextBoxColumn("PurLine_ProductName", "Product Name", 20, false).Frozen = true;
-            AddTextBoxColumn("PurLine_Size", "Size", 5, false).Frozen = true; ;
-            mPurLine_QtyOrderedColumn = AddIntegerColumn("PurLine_QtyOrdered", "Qty Ord", 3, false);
-            mPurLine_QtyOrderedColumn.Frozen = true;
-            mPurLine_OrderedEachesColumn = AddCheckBoxColumn("PurLine_OrderedEaches", "Order Eaches", 4, false);
-            mPurLine_OrderedEachesColumn.Frozen = true;
+
             mPurLine_QtyOnHandColumn = AddIntegerColumn("PurLine_QtyOnHand", "On Hand", 3, false);
+            AddComboBoxColumn("PurLine_ProductSubCategoryId", "Sub Category", 10, false, subcategoryList, "SubCategoryName", "Id").Frozen = true;
+            AddComboBoxColumn("PurLine_ProductBrandId", "Brand", 8, false, brandList, "BrandName", "Id").Frozen = true;
+            AddTextBoxColumn("PurLine_ProductName", "Product Name", 20, false).Frozen = true;
+            AddTextBoxColumn("PurLine_Size", "Size", 4, false).Frozen = true; ;
             AddTextBoxColumn("PurLine_ManufacturerPartNum", "Model Number", 4, false);
             AddTextBoxColumn("PurLine_VendorPartNum", "Vendor Code", 8, false);
-            AddCheckBoxColumn("PurLine_SpecialOrder", "Special Order", 4, false);
+            mPurLine_QtyOrderedColumn = AddIntegerColumn("PurLine_QtyOrdered", "Qty Ord", 3, false);
+            //mPurLine_QtyOrderedColumn.Frozen = true;
+            mPurLine_OrderedEachesColumn = AddCheckBoxColumn("PurLine_OrderedEaches", "Order Eaches", 4, false);
+            //mPurLine_OrderedEachesColumn.Frozen = true;
             AddCurrencyColumn("ExtendedCost", "Extended Cost", 5, true);
-            //AddTextBoxColumn("BrandName", "Brand", 10, true);
-            AddComboBoxColumn("PurLine_ProductBrandId", "Brand", 11, false, brandList, "BrandName", "Id");
+            mPurLine_EachCostColumn = AddCurrencyColumn("PurLine_EachCost", "Regular Each Cost", 4, false);
+            mPurLine_CaseCostColumn = AddCurrencyColumn("PurLine_CaseCost", "Regular Case Cost", 4, false);
+            mPurLine_CountInCaseColumn = AddIntegerColumn("PurLine_CountInCase", "Case Size", 4, false);
+            AddCheckBoxColumn("PurLine_SpecialOrder", "Special Order", 4, false);
             AddTextBoxColumn("Product_QtyBusyMin", "Qty Busy Min", 3, true);
             AddTextBoxColumn("Product_QtyBusyMax", "Qty Busy Max", 3, true);
             AddTextBoxColumn("Product_QtySlowMin", "Qty Slow Min", 3, true);
             AddTextBoxColumn("Product_QtySlowMax", "Qty Slow Max", 3, true);
-            mPurLine_CaseCostColumn = AddCurrencyColumn("PurLine_CaseCost", "Regular Case Cost", 4, false);
             mPurLine_CaseCostOverrideColumn = AddCurrencyColumn("PurLine_CaseCostOverride", "Special Case Cost", 4, false);
-            mPurLine_CountInCaseColumn = AddIntegerColumn("PurLine_CountInCase", "Case Size", 4, false);
             AddCurrencyColumn("EachCostFromNominalCaseCost", "Best Each In Case", 4, true);
-            mPurLine_EachCostColumn = AddCurrencyColumn("PurLine_EachCost", "Regular Each Cost", 4, false);
             mPurLine_EachCostOverrideColumn = AddCurrencyColumn("PurLine_EachCostOverride", "Special Each Cost", 4, false);
             AddCurrencyColumn("BestEachCost", "Best Each Cost", 4, true);
             mPurLine_RetailPriceColumn = AddCurrencyColumn("PurLine_RetailPrice", "Normal Retail", 4, false);
