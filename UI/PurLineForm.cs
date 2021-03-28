@@ -444,5 +444,30 @@ namespace Willowsoft.Ordering.UI
                 ShowTotalCost();
             }
         }
+
+        private void btnExportOrder_Click(object sender, EventArgs e)
+        {
+            StringBuilder output = new StringBuilder();
+            string headerLine = "On Hand\tSub Category\tBrand\tProduct Name\tSize\tModel Number\tVendor Code\tQty Ord\tOrder Eaches\tCase Size";
+            output.AppendLine(headerLine);
+            PersistedBindingList<JoinPlToVpToProd> data = mHelper.DataSource;
+            foreach (JoinPlToVpToProd row in data)
+            {
+                string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}",
+                    row.PurLine_QtyOnHand,
+                    row.SubCategoryName,
+                    row.BrandName,
+                    row.Product_ProductName,
+                    row.Product_Size,
+                    row.Product_ManufacturerPartNum,
+                    row.VendorProduct_VendorPartNum,
+                    row.PurLine_QtyOrdered,
+                    (row.PurLine_OrderedEaches ? "Y" : "N"),
+                    row.VendorProduct_CountInCase);
+                output.AppendLine(line);
+            }
+            System.Windows.Forms.Clipboard.SetText(output.ToString(), TextDataFormat.UnicodeText);
+            MessageBox.Show("Order lines exported to clipboard in tab separated format.");
+        }
     }
 }
