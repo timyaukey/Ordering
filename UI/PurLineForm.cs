@@ -439,16 +439,41 @@ namespace Willowsoft.Ordering.UI
         {
             using (ImportPurLineForm frm = new ImportPurLineForm())
             {
-                frm.Show(mOrder.VendorId, mOrderId);
+                frm.Show(mOrder.VendorId, mOrderId, mHelper.DataSource);
                 ShowLines();
                 ShowTotalCost();
             }
         }
 
+        public const string ColNameOnHand = "On Hand";
+        public const string ColNameSubCategory = "Sub Category";
+        public const string ColNameBrand = "Brand";
+        public const string ColNameProduct = "Product Name";
+        public const string ColNameSize = "Size";
+        public const string ColNameModel = "Model";
+        public const string ColNameVendorCode = "Vendor Code";
+        public const string ColNameOrdered = "Qty Ord";
+        public const string ColNameOrderEaches = "Order Eaches";
+        public const string ColNameEachCost = "Each Cost";
+        public const string ColNameCaseCost = "Case Cost";
+        public const string ColNameCaseSize = "Case Size";
+
         private void btnExportOrder_Click(object sender, EventArgs e)
         {
             StringBuilder output = new StringBuilder();
-            string headerLine = "On Hand\tSub Category\tBrand\tProduct Name\tSize\tModel Number\tVendor Code\tQty Ord\tOrder Eaches\tEach Cost\tCase Cost\tCase Size";
+            string headerLine = 
+                ColNameOnHand + "\t" +
+                ColNameSubCategory + "\t" +
+                ColNameBrand + "\t" +
+                ColNameProduct + "\t" +
+                ColNameSize + "\t" +
+                ColNameModel + "\t" +
+                ColNameVendorCode + "\t" +
+                ColNameOrdered +"\t" +
+                ColNameOrderEaches + "\t" +
+                ColNameEachCost + "\t" +
+                ColNameCaseCost + "\t" +
+                ColNameCaseSize;
             output.AppendLine(headerLine);
             PersistedBindingList<JoinPlToVpToProd> data = mHelper.DataSource;
             foreach (JoinPlToVpToProd row in data)

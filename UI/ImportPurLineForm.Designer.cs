@@ -28,137 +28,164 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dlgSelectFile = new System.Windows.Forms.OpenFileDialog();
-            this.btnSelectFile = new System.Windows.Forms.Button();
-            this.lblSelectedFile = new System.Windows.Forms.Label();
-            this.cboDefaultSubCat = new System.Windows.Forms.ComboBox();
-            this.lblDefaultSubCat = new System.Windows.Forms.Label();
-            this.lblDefaultBrand = new System.Windows.Forms.Label();
-            this.cboDefaultBrand = new System.Windows.Forms.ComboBox();
-            this.btnImportFile = new System.Windows.Forms.Button();
-            this.lblFileFormat = new System.Windows.Forms.Label();
-            this.cboFileFormat = new System.Windows.Forms.ComboBox();
+            this.btnCreateOrderLines = new System.Windows.Forms.Button();
+            this.btnReadClipboard = new System.Windows.Forms.Button();
+            this.lvwImportLines = new System.Windows.Forms.ListView();
+            this.colOnHand = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSubCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colBrand = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colProductName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colModel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colVendorCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colOrdered = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colOrderEaches = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colEachCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colCaseCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colCaseSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
-            // btnSelectFile
+            // btnCreateOrderLines
             // 
-            this.btnSelectFile.Location = new System.Drawing.Point(12, 12);
-            this.btnSelectFile.Name = "btnSelectFile";
-            this.btnSelectFile.Size = new System.Drawing.Size(111, 23);
-            this.btnSelectFile.TabIndex = 0;
-            this.btnSelectFile.Text = "Select File";
-            this.btnSelectFile.UseVisualStyleBackColor = true;
-            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
+            this.btnCreateOrderLines.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCreateOrderLines.Location = new System.Drawing.Point(1074, 493);
+            this.btnCreateOrderLines.Name = "btnCreateOrderLines";
+            this.btnCreateOrderLines.Size = new System.Drawing.Size(117, 23);
+            this.btnCreateOrderLines.TabIndex = 8;
+            this.btnCreateOrderLines.Text = "Create Order Lines";
+            this.btnCreateOrderLines.UseVisualStyleBackColor = true;
+            this.btnCreateOrderLines.Click += new System.EventHandler(this.btnCreateOrderLines_Click);
             // 
-            // lblSelectedFile
+            // btnReadClipboard
             // 
-            this.lblSelectedFile.AutoSize = true;
-            this.lblSelectedFile.Location = new System.Drawing.Point(13, 43);
-            this.lblSelectedFile.Name = "lblSelectedFile";
-            this.lblSelectedFile.Size = new System.Drawing.Size(69, 13);
-            this.lblSelectedFile.TabIndex = 1;
-            this.lblSelectedFile.Text = "(selected file)";
+            this.btnReadClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReadClipboard.Location = new System.Drawing.Point(951, 493);
+            this.btnReadClipboard.Name = "btnReadClipboard";
+            this.btnReadClipboard.Size = new System.Drawing.Size(117, 23);
+            this.btnReadClipboard.TabIndex = 9;
+            this.btnReadClipboard.Text = "Read Clipboard";
+            this.btnReadClipboard.UseVisualStyleBackColor = true;
+            this.btnReadClipboard.Click += new System.EventHandler(this.btnReadClipboard_Click);
             // 
-            // cboDefaultSubCat
+            // lvwImportLines
             // 
-            this.cboDefaultSubCat.DisplayMember = "ProductSubcategoryId";
-            this.cboDefaultSubCat.FormattingEnabled = true;
-            this.cboDefaultSubCat.Location = new System.Drawing.Point(146, 71);
-            this.cboDefaultSubCat.Name = "cboDefaultSubCat";
-            this.cboDefaultSubCat.Size = new System.Drawing.Size(256, 21);
-            this.cboDefaultSubCat.TabIndex = 3;
-            this.cboDefaultSubCat.ValueMember = "ProductSubCategoryId";
+            this.lvwImportLines.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvwImportLines.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colOnHand,
+            this.colSubCategory,
+            this.colBrand,
+            this.colProductName,
+            this.colSize,
+            this.colModel,
+            this.colVendorCode,
+            this.colOrdered,
+            this.colOrderEaches,
+            this.colEachCost,
+            this.colCaseCost,
+            this.colCaseSize});
+            this.lvwImportLines.FullRowSelect = true;
+            this.lvwImportLines.HideSelection = false;
+            this.lvwImportLines.Location = new System.Drawing.Point(12, 12);
+            this.lvwImportLines.Name = "lvwImportLines";
+            this.lvwImportLines.Size = new System.Drawing.Size(1179, 475);
+            this.lvwImportLines.TabIndex = 10;
+            this.lvwImportLines.UseCompatibleStateImageBehavior = false;
+            this.lvwImportLines.View = System.Windows.Forms.View.Details;
             // 
-            // lblDefaultSubCat
+            // colOnHand
             // 
-            this.lblDefaultSubCat.AutoSize = true;
-            this.lblDefaultSubCat.Location = new System.Drawing.Point(10, 74);
-            this.lblDefaultSubCat.Name = "lblDefaultSubCat";
-            this.lblDefaultSubCat.Size = new System.Drawing.Size(107, 13);
-            this.lblDefaultSubCat.TabIndex = 2;
-            this.lblDefaultSubCat.Text = "Default Subcategory:";
+            this.colOnHand.Text = "Onh";
             // 
-            // lblDefaultBrand
+            // colSubCategory
             // 
-            this.lblDefaultBrand.AutoSize = true;
-            this.lblDefaultBrand.Location = new System.Drawing.Point(10, 101);
-            this.lblDefaultBrand.Name = "lblDefaultBrand";
-            this.lblDefaultBrand.Size = new System.Drawing.Size(75, 13);
-            this.lblDefaultBrand.TabIndex = 4;
-            this.lblDefaultBrand.Text = "Default Brand:";
+            this.colSubCategory.Text = "Subcat";
+            this.colSubCategory.Width = 120;
             // 
-            // cboDefaultBrand
+            // colBrand
             // 
-            this.cboDefaultBrand.DisplayMember = "ProductBrandId";
-            this.cboDefaultBrand.FormattingEnabled = true;
-            this.cboDefaultBrand.Location = new System.Drawing.Point(146, 98);
-            this.cboDefaultBrand.Name = "cboDefaultBrand";
-            this.cboDefaultBrand.Size = new System.Drawing.Size(256, 21);
-            this.cboDefaultBrand.TabIndex = 5;
-            this.cboDefaultBrand.ValueMember = "ProductBrandId";
+            this.colBrand.Text = "Brd";
+            this.colBrand.Width = 120;
             // 
-            // btnImportFile
+            // colProductName
             // 
-            this.btnImportFile.Location = new System.Drawing.Point(12, 181);
-            this.btnImportFile.Name = "btnImportFile";
-            this.btnImportFile.Size = new System.Drawing.Size(117, 23);
-            this.btnImportFile.TabIndex = 8;
-            this.btnImportFile.Text = "Import File";
-            this.btnImportFile.UseVisualStyleBackColor = true;
-            this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
+            this.colProductName.Text = "ProdName";
+            this.colProductName.Width = 300;
             // 
-            // lblFileFormat
+            // colSize
             // 
-            this.lblFileFormat.AutoSize = true;
-            this.lblFileFormat.Location = new System.Drawing.Point(10, 128);
-            this.lblFileFormat.Name = "lblFileFormat";
-            this.lblFileFormat.Size = new System.Drawing.Size(61, 13);
-            this.lblFileFormat.TabIndex = 6;
-            this.lblFileFormat.Text = "File Format:";
+            this.colSize.Text = "Siz";
             // 
-            // cboFileFormat
+            // colModel
             // 
-            this.cboFileFormat.FormattingEnabled = true;
-            this.cboFileFormat.Location = new System.Drawing.Point(146, 125);
-            this.cboFileFormat.Name = "cboFileFormat";
-            this.cboFileFormat.Size = new System.Drawing.Size(256, 21);
-            this.cboFileFormat.TabIndex = 7;
+            this.colModel.Text = "Ndl";
+            // 
+            // colVendorCode
+            // 
+            this.colVendorCode.Text = "VC";
+            this.colVendorCode.Width = 80;
+            // 
+            // colOrdered
+            // 
+            this.colOrdered.Text = "Ord";
+            this.colOrdered.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // colOrderEaches
+            // 
+            this.colOrderEaches.Text = "OE";
+            this.colOrderEaches.Width = 80;
+            // 
+            // colEachCost
+            // 
+            this.colEachCost.Text = "EaCs";
+            this.colEachCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.colEachCost.Width = 70;
+            // 
+            // colCaseCost
+            // 
+            this.colCaseCost.Text = "CsCst";
+            this.colCaseCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.colCaseCost.Width = 70;
+            // 
+            // colCaseSize
+            // 
+            this.colCaseSize.Text = "CsSz";
+            this.colCaseSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.colCaseSize.Width = 70;
             // 
             // ImportPurLineForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 216);
-            this.Controls.Add(this.lblFileFormat);
-            this.Controls.Add(this.cboFileFormat);
-            this.Controls.Add(this.btnImportFile);
-            this.Controls.Add(this.lblDefaultBrand);
-            this.Controls.Add(this.cboDefaultBrand);
-            this.Controls.Add(this.lblDefaultSubCat);
-            this.Controls.Add(this.cboDefaultSubCat);
-            this.Controls.Add(this.lblSelectedFile);
-            this.Controls.Add(this.btnSelectFile);
+            this.ClientSize = new System.Drawing.Size(1203, 528);
+            this.Controls.Add(this.lvwImportLines);
+            this.Controls.Add(this.btnReadClipboard);
+            this.Controls.Add(this.btnCreateOrderLines);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ImportPurLineForm";
             this.Text = "Import Order Lines";
             this.Load += new System.EventHandler(this.ImportPurLineForm_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.OpenFileDialog dlgSelectFile;
-        private System.Windows.Forms.Button btnSelectFile;
-        private System.Windows.Forms.Label lblSelectedFile;
-        private System.Windows.Forms.ComboBox cboDefaultSubCat;
-        private System.Windows.Forms.Label lblDefaultSubCat;
-        private System.Windows.Forms.Label lblDefaultBrand;
-        private System.Windows.Forms.ComboBox cboDefaultBrand;
-        private System.Windows.Forms.Button btnImportFile;
-        private System.Windows.Forms.Label lblFileFormat;
-        private System.Windows.Forms.ComboBox cboFileFormat;
+        private System.Windows.Forms.Button btnCreateOrderLines;
+        private System.Windows.Forms.Button btnReadClipboard;
+        private System.Windows.Forms.ListView lvwImportLines;
+        private System.Windows.Forms.ColumnHeader colOnHand;
+        private System.Windows.Forms.ColumnHeader colSubCategory;
+        private System.Windows.Forms.ColumnHeader colBrand;
+        private System.Windows.Forms.ColumnHeader colProductName;
+        private System.Windows.Forms.ColumnHeader colSize;
+        private System.Windows.Forms.ColumnHeader colModel;
+        private System.Windows.Forms.ColumnHeader colOrdered;
+        private System.Windows.Forms.ColumnHeader colOrderEaches;
+        private System.Windows.Forms.ColumnHeader colVendorCode;
+        private System.Windows.Forms.ColumnHeader colEachCost;
+        private System.Windows.Forms.ColumnHeader colCaseCost;
+        private System.Windows.Forms.ColumnHeader colCaseSize;
     }
 }
