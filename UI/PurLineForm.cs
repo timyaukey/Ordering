@@ -448,12 +448,12 @@ namespace Willowsoft.Ordering.UI
         private void btnExportOrder_Click(object sender, EventArgs e)
         {
             StringBuilder output = new StringBuilder();
-            string headerLine = "On Hand\tSub Category\tBrand\tProduct Name\tSize\tModel Number\tVendor Code\tQty Ord\tOrder Eaches\tCase Size";
+            string headerLine = "On Hand\tSub Category\tBrand\tProduct Name\tSize\tModel Number\tVendor Code\tQty Ord\tOrder Eaches\tEach Cost\tCase Cost\tCase Size";
             output.AppendLine(headerLine);
             PersistedBindingList<JoinPlToVpToProd> data = mHelper.DataSource;
             foreach (JoinPlToVpToProd row in data)
             {
-                string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}",
+                string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}",
                     row.PurLine_QtyOnHand,
                     row.SubCategoryName,
                     row.BrandName,
@@ -463,6 +463,8 @@ namespace Willowsoft.Ordering.UI
                     row.VendorProduct_VendorPartNum,
                     row.PurLine_QtyOrdered,
                     (row.PurLine_OrderedEaches ? "Y" : "N"),
+                    row.VendorProduct_EachCost.ToString("F2"),
+                    row.VendorProduct_CaseCost.ToString("F2"),
                     row.VendorProduct_CountInCase);
                 output.AppendLine(line);
             }
