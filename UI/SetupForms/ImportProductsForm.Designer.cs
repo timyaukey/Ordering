@@ -95,18 +95,18 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvwNewProducts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colSubCat,
+            this.colBrand,
             this.colName,
             this.colSize,
+            this.colModel,
             this.colVendorCode,
             this.colRetail,
+            this.colEaCost,
             this.colCsCost,
             this.colCsSize,
-            this.colEaCost,
-            this.colBrand,
-            this.colSubCat,
             this.colIsActive,
-            this.colBarcode,
-            this.colModel});
+            this.colBarcode});
             this.lvwNewProducts.FullRowSelect = true;
             this.lvwNewProducts.GridLines = true;
             this.lvwNewProducts.HideSelection = false;

@@ -43,14 +43,15 @@
             this.colEachCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colCaseCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colCaseSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnUpdateQuantities = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCreateOrderLines
             // 
             this.btnCreateOrderLines.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCreateOrderLines.Location = new System.Drawing.Point(1074, 493);
+            this.btnCreateOrderLines.Location = new System.Drawing.Point(1041, 497);
             this.btnCreateOrderLines.Name = "btnCreateOrderLines";
-            this.btnCreateOrderLines.Size = new System.Drawing.Size(117, 23);
+            this.btnCreateOrderLines.Size = new System.Drawing.Size(153, 23);
             this.btnCreateOrderLines.TabIndex = 8;
             this.btnCreateOrderLines.Text = "Create Order Lines";
             this.btnCreateOrderLines.UseVisualStyleBackColor = true;
@@ -59,11 +60,11 @@
             // btnReadClipboard
             // 
             this.btnReadClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReadClipboard.Location = new System.Drawing.Point(951, 493);
+            this.btnReadClipboard.Location = new System.Drawing.Point(723, 497);
             this.btnReadClipboard.Name = "btnReadClipboard";
-            this.btnReadClipboard.Size = new System.Drawing.Size(117, 23);
+            this.btnReadClipboard.Size = new System.Drawing.Size(153, 23);
             this.btnReadClipboard.TabIndex = 9;
-            this.btnReadClipboard.Text = "Read Clipboard";
+            this.btnReadClipboard.Text = "Read From Clipboard";
             this.btnReadClipboard.UseVisualStyleBackColor = true;
             this.btnReadClipboard.Click += new System.EventHandler(this.btnReadClipboard_Click);
             // 
@@ -86,10 +87,11 @@
             this.colCaseCost,
             this.colCaseSize});
             this.lvwImportLines.FullRowSelect = true;
+            this.lvwImportLines.GridLines = true;
             this.lvwImportLines.HideSelection = false;
             this.lvwImportLines.Location = new System.Drawing.Point(12, 12);
             this.lvwImportLines.Name = "lvwImportLines";
-            this.lvwImportLines.Size = new System.Drawing.Size(1179, 475);
+            this.lvwImportLines.Size = new System.Drawing.Size(1182, 479);
             this.lvwImportLines.TabIndex = 10;
             this.lvwImportLines.UseCompatibleStateImageBehavior = false;
             this.lvwImportLines.View = System.Windows.Forms.View.Details;
@@ -154,11 +156,23 @@
             this.colCaseSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.colCaseSize.Width = 70;
             // 
+            // btnUpdateQuantities
+            // 
+            this.btnUpdateQuantities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdateQuantities.Location = new System.Drawing.Point(882, 497);
+            this.btnUpdateQuantities.Name = "btnUpdateQuantities";
+            this.btnUpdateQuantities.Size = new System.Drawing.Size(153, 23);
+            this.btnUpdateQuantities.TabIndex = 11;
+            this.btnUpdateQuantities.Text = "Update Order Quantities";
+            this.btnUpdateQuantities.UseVisualStyleBackColor = true;
+            this.btnUpdateQuantities.Click += new System.EventHandler(this.btnUpdateQuantities_Click);
+            // 
             // ImportPurLineForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1203, 528);
+            this.ClientSize = new System.Drawing.Size(1206, 532);
+            this.Controls.Add(this.btnUpdateQuantities);
             this.Controls.Add(this.lvwImportLines);
             this.Controls.Add(this.btnReadClipboard);
             this.Controls.Add(this.btnCreateOrderLines);
@@ -187,5 +201,6 @@
         private System.Windows.Forms.ColumnHeader colEachCost;
         private System.Windows.Forms.ColumnHeader colCaseCost;
         private System.Windows.Forms.ColumnHeader colCaseSize;
+        private System.Windows.Forms.Button btnUpdateQuantities;
     }
 }

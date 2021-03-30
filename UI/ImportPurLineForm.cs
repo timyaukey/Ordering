@@ -36,6 +36,7 @@ namespace Willowsoft.Ordering.UI
         private VendorId mVendorId;
         private PurOrderId mOrderId;
         private PersistedBindingList<JoinPlToVpToProd> mPurLines;
+        private Dictionary<string, JoinPlToVpToProd> mPurLineDictionary;
         private List<ProductSubCategory> mSubCats;
         private List<ProductBrand> mBrands;
 
@@ -59,21 +60,27 @@ namespace Willowsoft.Ordering.UI
             InitializeComponent();
         }
 
-        public void Show(VendorId vendorId, PurOrderId purOrderId, PersistedBindingList<JoinPlToVpToProd> purLines)
+        public void Show(VendorId vendorId, PurOrderId purOrderId,
+            PersistedBindingList<JoinPlToVpToProd> purLines,
+            List<ProductSubCategory> subCats,
+            List<ProductBrand> brands)
         {
             mVendorId = vendorId;
             mOrderId = purOrderId;
             mPurLines = purLines;
+            mPurLineDictionary = new Dictionary<string, JoinPlToVpToProd>();
+            foreach(JoinPlToVpToProd purLine in mPurLines)
+            {
+                if (!string.IsNullOrEmpty(purLine.PurLine_VendorPartNum))
+                    mPurLineDictionary.Add(purLine.PurLine_VendorPartNum, purLine);
+            }
+            mSubCats = subCats;
+            mBrands = brands;
             this.ShowDialog();
         }
 
         private void ImportPurLineForm_Load(object sender, EventArgs e)
         {
-            using (Ambient.DbSession.Activate())
-            {
-                mSubCats = OrderingRepositories.ProductSubCategory.GetAll();
-                mBrands = OrderingRepositories.ProductBrand.GetAll();
-            }
             colSubCategory.Text = PurLineForm.ColNameSubCategory;
             colBrand.Text = PurLineForm.ColNameBrand;
             colProductName.Text = PurLineForm.ColNameProduct;
@@ -101,18 +108,18 @@ namespace Willowsoft.Ordering.UI
                 }
                 lineNumber++;
                 string[] colNames = headerLine.Split('\t');
-                if (!TryFindRequiredColumnName(PurLineForm.ColNameOnHand, colNames, out mColQtyOnHand)) return;
+                FindColumnName(PurLineForm.ColNameOnHand, colNames, out mColQtyOnHand);
                 if (!TryFindRequiredColumnName(PurLineForm.ColNameSubCategory, colNames, out mColSubCategory)) return;
                 if (!TryFindRequiredColumnName(PurLineForm.ColNameBrand, colNames, out mColBrand)) return;
                 if (!TryFindRequiredColumnName(PurLineForm.ColNameProduct, colNames, out mColProductName)) return;
                 if (!TryFindRequiredColumnName(PurLineForm.ColNameSize, colNames, out mColSize)) return;
-                if (!TryFindRequiredColumnName(PurLineForm.ColNameModel, colNames, out mColModel)) return;
+                FindColumnName(PurLineForm.ColNameModel, colNames, out mColModel);
                 if (!TryFindRequiredColumnName(PurLineForm.ColNameVendorCode, colNames, out mColVendorCode)) return;
-                if (!TryFindRequiredColumnName(PurLineForm.ColNameOrdered, colNames, out mColQtyOrdered)) return;
-                if (!TryFindRequiredColumnName(PurLineForm.ColNameOrderEaches, colNames, out mColOrderEaches)) return;
-                if (!TryFindRequiredColumnName(PurLineForm.ColNameEachCost, colNames, out mColEachCost)) return;
-                if (!TryFindRequiredColumnName(PurLineForm.ColNameCaseCost, colNames, out mColCaseCost)) return;
-                if (!TryFindRequiredColumnName(PurLineForm.ColNameCaseSize, colNames, out mColCaseSize)) return;
+                FindColumnName(PurLineForm.ColNameOrdered, colNames, out mColQtyOrdered);
+                FindColumnName(PurLineForm.ColNameOrderEaches, colNames, out mColOrderEaches);
+                FindColumnName(PurLineForm.ColNameEachCost, colNames, out mColEachCost);
+                FindColumnName(PurLineForm.ColNameCaseCost, colNames, out mColCaseCost);
+                FindColumnName(PurLineForm.ColNameCaseSize, colNames, out mColCaseSize);
 
                 mImportedLines = new List<ImportedPurLine>();
                 lvwImportLines.Items.Clear();
@@ -125,6 +132,7 @@ namespace Willowsoft.Ordering.UI
                     lineNumber++;
                     string[] fields = inputLine.Split('\t');
                     ImportedPurLine importedLine = new ImportedPurLine();
+                    
                     importedLine.SubCategoryName = GetField(fields, mColSubCategory);
                     ProductSubCategory subCat = mSubCats.Find(s => s.SubCategoryName == importedLine.SubCategoryName);
                     if (subCat == null)
@@ -133,6 +141,7 @@ namespace Willowsoft.Ordering.UI
                         return;
                     }
                     importedLine.SubCategoryId = subCat.Id;
+                    
                     importedLine.BrandName = GetField(fields, mColBrand);
                     ProductBrand brand = mBrands.Find(b => b.BrandName == importedLine.BrandName);
                     if (brand == null)
@@ -140,6 +149,8 @@ namespace Willowsoft.Ordering.UI
                         MessageBox.Show(string.Format("Unrecognized brand name\"{0}\" on line {1}", importedLine.BrandName, lineNumber));
                         return;
                     }
+                    importedLine.BrandId = brand.Id;
+                    
                     importedLine.ProductName = GetField(fields, mColProductName);
                     importedLine.Size = GetField(fields, mColSize);
                     importedLine.Model = GetField(fields, mColModel);
@@ -245,11 +256,157 @@ namespace Willowsoft.Ordering.UI
 
         private void btnCreateOrderLines_Click(object sender, EventArgs e)
         {
-            int importCount = 0;
-            int productCount = 0;
-            MessageBox.Show("Created " + importCount.ToString() +
-                " order line items, of which " + productCount.ToString() + " are for new products. " +
-                "Use \"Create Products\" to turn these order lines into products.");
+            int linesAdded = 0;
+            int invalidPartNumbers = 0;
+            if (MessageBox.Show("Are you sure you want to create order lines?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2) != DialogResult.OK)
+                return;
+            if (mColQtyOrdered == MissingColumn)
+            {
+                MessageBox.Show(string.Format("Cannot create order lines, because import data does not contain \"{0}\" column.", PurLineForm.ColNameOrdered));
+                return;
+            }
+            if (mColOrderEaches == MissingColumn)
+            {
+                MessageBox.Show(string.Format("Cannot create order lines, because import data does not contain \"{0}\" column.", PurLineForm.ColNameOrderEaches));
+                return;
+            }
+            using (Ambient.DbSession.Activate())
+            {
+                foreach (var importLine in mImportedLines)
+                {
+                    if (!mPurLineDictionary.TryGetValue(importLine.VendorCode, out var purJoinLine))
+                    {
+                        List<VendorProduct> vendorProducts = OrderingRepositories.VendorProduct.Get(mVendorId, importLine.VendorCode);
+                        if (vendorProducts.Count == 1)
+                        {
+                            VendorProduct vendorProduct = vendorProducts[0];
+                            Product product = OrderingRepositories.Product.Get(vendorProduct.ProductId);
+                            PurLine purLine = new PurLine(
+                                Id_: new PurLineId(), 
+                                PurOrderId_: mOrderId, 
+                                VendorProductId_: vendorProduct.Id, 
+                                CaseCostOverride_: 0M, 
+                                EachCostOverride_: 0M, 
+                                OrderedEaches_: importLine.OrderEaches,
+                                QtyOrdered_: importLine.QtyOrd, 
+                                QtyReceived_: 0, 
+                                QtyBackordered_: 0, 
+                                QtyDamaged_: 0, 
+                                QtyMissing_: 0, 
+                                QtyOnHand_: importLine.OnHand, 
+                                SpecialOrder_: false, 
+                                Notes_: string.Empty,
+                                ProductName_: product.ProductName, 
+                                ProductSubCategoryId_: product.ProductSubCategoryId, 
+                                Size_: product.Size, 
+                                RetailPrice_: product.RetailPrice,
+                                ProductBrandId_: product.ProductBrandId, 
+                                ManufacturerBarcode_: product.ManufacturerBarcode, 
+                                ManufacturerPartNum_: product.ManufacturerPartNum,
+                                ShelfOrder_: vendorProduct.ShelfOrder,
+                                RetailPriceOverride_: vendorProduct.RetailPriceOverride, 
+                                VendorPartNum_: importLine.VendorCode, 
+                                CaseCost_: importLine.CaseCost,
+                                CountInCase_: importLine.CaseSize, 
+                                EachCost_: importLine.EachCost,
+                                PreferredSource_: vendorProduct.PreferredSource,
+                                WholeCasesOnly_: vendorProduct.WholeCasesOnly, 
+                                CreateDate_:DateTime.Now, 
+                                ModifyDate_: DateTime.Now);
+                            OrderingRepositories.PurLine.Insert(purLine);
+                            linesAdded++;
+                        }
+                        else if (vendorProducts.Count == 0)
+                        {
+                            // What about incorrectly formatted vendor part numbers?
+                            PurLine purLine = new PurLine(
+                                Id_: new PurLineId(),
+                                PurOrderId_: mOrderId,
+                                VendorProductId_: new VendorProductId(),
+                                CaseCostOverride_: 0M,
+                                EachCostOverride_: 0M,
+                                OrderedEaches_: importLine.OrderEaches,
+                                QtyOrdered_: importLine.QtyOrd,
+                                QtyReceived_: 0,
+                                QtyBackordered_: 0,
+                                QtyDamaged_: 0,
+                                QtyMissing_: 0,
+                                QtyOnHand_: importLine.OnHand,
+                                SpecialOrder_: false,
+                                Notes_: string.Empty,
+                                ProductName_: importLine.ProductName,
+                                ProductSubCategoryId_: importLine.SubCategoryId,
+                                Size_: importLine.Size,
+                                RetailPrice_: 0M,
+                                ProductBrandId_: importLine.BrandId,
+                                ManufacturerBarcode_: string.Empty,
+                                ManufacturerPartNum_: importLine.Model,
+                                ShelfOrder_: string.Empty,
+                                RetailPriceOverride_: 0M,
+                                VendorPartNum_: importLine.VendorCode,
+                                CaseCost_: importLine.CaseCost,
+                                CountInCase_: importLine.CaseSize,
+                                EachCost_: importLine.EachCost,
+                                PreferredSource_: false,
+                                WholeCasesOnly_: false,
+                                CreateDate_: DateTime.Now,
+                                ModifyDate_: DateTime.Now);
+                            OrderingRepositories.PurLine.Insert(purLine);
+                            linesAdded++;
+                        }
+                        else
+                        {
+                            MessageBox.Show(string.Format("Multiple definitions for vendor product {0} {1}", importLine.VendorCode, importLine.ProductName));
+                            invalidPartNumbers++;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(string.Format("Order already includes a line for {0} {1}", importLine.VendorCode, importLine.ProductName));
+                    }
+                }
+            }
+            MessageBox.Show(string.Format("Added {0} order lines, and skipped {1} lines.", linesAdded, invalidPartNumbers));
+            this.Close();
+        }
+
+        private void btnUpdateQuantities_Click(object sender, EventArgs e)
+        {
+            int linesUpdated = 0;
+            int linesSkipped = 0;
+            if (MessageBox.Show("Are you sure you want to update order quantities?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2) != DialogResult.OK)
+                return;
+            if (mColQtyOnHand == MissingColumn && mColQtyOrdered == MissingColumn)
+            {
+                MessageBox.Show(string.Format("Cannot update quantities, because the imported " +
+                    "data does not contain either \"{0}\" or \"{1}\" columns to update from.",
+                    PurLineForm.ColNameOrdered, PurLineForm.ColNameOnHand));
+                return;
+            }
+            using (Ambient.DbSession.Activate())
+            {
+                foreach (var importLine in mImportedLines)
+                {
+                    if (mPurLineDictionary.TryGetValue(importLine.VendorCode, out var purJoinLine))
+                    {
+                        PurLine purLine = purJoinLine.InnerPurLine;
+                        if (mColQtyOnHand != MissingColumn)
+                            purLine.QtyOnHand = importLine.OnHand;
+                        if (mColQtyOrdered != MissingColumn)
+                            purLine.QtyOrdered = importLine.QtyOrd;
+                        OrderingRepositories.PurLine.Update(purLine);
+                        linesUpdated++;
+                    }
+                    else
+                    {
+                        MessageBox.Show(string.Format("Order does not contain a line for {0} {1}", importLine.VendorCode, importLine.ProductName));
+                        linesSkipped++;
+                    }
+                }
+            }
+            MessageBox.Show(string.Format("Updated {0} lines, skipped {1} lines.", linesUpdated, linesSkipped));
             this.Close();
         }
 

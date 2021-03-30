@@ -54,6 +54,9 @@ namespace Willowsoft.Ordering.UI.SetupForms
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2) != DialogResult.OK)
+                return;
             foreach (NewProductData rec in mProductDataToSave)
             {
                 using (Ambient.DbSession.Activate())
@@ -388,18 +391,18 @@ namespace Willowsoft.Ordering.UI.SetupForms
         private void ShowNewProductData(NewProductData newProd)
         {
             ListViewItem item = new ListViewItem(new string[] {
+                mAllowedSubcategories.Find(subcat=>newProd.Product.ProductSubCategoryId==subcat.Id).SubCategoryName,
+                newProd.BrandName,
                 newProd.Product.ProductName,
                 newProd.Product.Size,
+                newProd.Product.ManufacturerPartNum,
                 newProd.VendorProduct.VendorPartNum,
                 newProd.Product.RetailPrice.ToString("C2"),
+                newProd.VendorProduct.EachCost.ToString("C2"),
                 newProd.VendorProduct.CaseCost.ToString("C2"),
                 newProd.VendorProduct.CountInCase.ToString(),
-                newProd.VendorProduct.EachCost.ToString("C2"),
-                newProd.BrandName,
-                mAllowedSubcategories.Find(subcat=>newProd.Product.ProductSubCategoryId==subcat.Id).SubCategoryName,
                 newProd.Product.IsActive.ToString(),
-                newProd.Product.ManufacturerBarcode,
-                newProd.Product.ManufacturerPartNum
+                newProd.Product.ManufacturerBarcode
             });
             lvwNewProducts.Items.Add(item);
         }

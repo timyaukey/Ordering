@@ -27,8 +27,10 @@ namespace Willowsoft.Ordering.UI
         private VendorId mVendorId;
         private PurLineJoinGridHelper mHelper;
         private List<ProductCategory> mCategories;
-        private Dictionary<int, ProductSubCategory> mSubCategories;
-        private Dictionary<int, ProductBrand> mBrands;
+        private List<ProductSubCategory> mSubCategories;
+        private Dictionary<int, ProductSubCategory> mSubCategoriesById;
+        private List<ProductBrand> mBrands;
+        private Dictionary<int, ProductBrand> mBrandsById;
 
         public PurLineForm()
         {
@@ -139,22 +141,26 @@ namespace Willowsoft.Ordering.UI
             using (Ambient.DbSession.Activate())
             {
                 mCategories = OrderingRepositories.ProductCategory.GetAll();
-                mSubCategories = new Dictionary<int, ProductSubCategory>();
+                mSubCategories = new List<ProductSubCategory>();
+                mSubCategoriesById = new Dictionary<int, ProductSubCategory>();
                 subCatBindingList.AddNew();
                 foreach (ProductSubCategory subCat in OrderingRepositories.ProductSubCategory.GetAll())
                 {
-                    mSubCategories.Add(subCat.Id.Value, subCat);
+                    mSubCategories.Add(subCat);
+                    mSubCategoriesById.Add(subCat.Id.Value, subCat);
                     subCatBindingList.Add(subCat);
                 }
-                mBrands = new Dictionary<int, ProductBrand>();
+                mBrands = new List<ProductBrand>();
+                mBrandsById = new Dictionary<int, ProductBrand>();
                 brandBindingList.AddNew();
                 foreach (ProductBrand brand in OrderingRepositories.ProductBrand.GetAll())
                 {
-                    mBrands.Add(brand.Id.Value, brand);
+                    mBrands.Add(brand);
+                    mBrandsById.Add(brand.Id.Value, brand);
                     brandBindingList.Add(brand);
                 }
             }
-            mHelper.Init(mOrder, mSubCategories, mBrands);
+            mHelper.Init(mOrder, mSubCategoriesById, mBrandsById);
             mHelper.AddAllColumns(subCatBindingList, brandBindingList);
             (new ToolTip()).SetToolTip(btnSetBrands, "Set brand of all selected rows that are manually entered or imported, to the brand of the first selected row.");
             (new ToolTip()).SetToolTip(btnSetSubcategories, "Set subcategory of all selected rows that are manually entered or imported, to the subcategory of the first selected row.");
@@ -166,7 +172,7 @@ namespace Willowsoft.Ordering.UI
         public void ShowLines()
         {
             JoinPlToVpToProdBindingList data = JoinPlToVpToProdBindingList.GetOrderLines(
-                mOrderId, false, mCategories, mSubCategories, mBrands, out mOrder);
+                mOrderId, false, mCategories, mSubCategoriesById, mBrandsById, out mOrder);
             mHelper.DataSource = data;
         }
 
@@ -363,7 +369,7 @@ namespace Willowsoft.Ordering.UI
                 if (onFirstRow)
                 {
                     subCatId = purLine.PurLine_ProductSubCategoryId;
-                    ProductSubCategory subCat = mSubCategories[subCatId.Value];
+                    ProductSubCategory subCat = mSubCategoriesById[subCatId.Value];
                     string prompt = "Use subcategory \"" + subCat.SubCategoryName + "\"?";
                     if (MessageBox.Show(prompt, "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
                         return;
@@ -408,7 +414,7 @@ namespace Willowsoft.Ordering.UI
                 if (onFirstRow)
                 {
                     brandId = purLine.PurLine_ProductBrandId;
-                    ProductBrand brand = mBrands[brandId.Value];
+                    ProductBrand brand = mBrandsById[brandId.Value];
                     string prompt = "Use brand \"" + brand.BrandName + "\"?";
                     if (MessageBox.Show(prompt, "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
                         return;
@@ -439,7 +445,7 @@ namespace Willowsoft.Ordering.UI
         {
             using (ImportPurLineForm frm = new ImportPurLineForm())
             {
-                frm.Show(mOrder.VendorId, mOrderId, mHelper.DataSource);
+                frm.Show(mOrder.VendorId, mOrderId, mHelper.DataSource, mSubCategories, mBrands);
                 ShowLines();
                 ShowTotalCost();
             }
@@ -482,19 +488,22 @@ namespace Willowsoft.Ordering.UI
                     row.PurLine_QtyOnHand,
                     row.SubCategoryName,
                     row.BrandName,
-                    row.Product_ProductName,
-                    row.Product_Size,
-                    row.Product_ManufacturerPartNum,
-                    row.VendorProduct_VendorPartNum,
+                    row.PurLine_ProductName,
+                    row.PurLine_Size,
+                    row.PurLine_ManufacturerPartNum,
+                    row.PurLine_VendorPartNum,
                     row.PurLine_QtyOrdered,
                     (row.PurLine_OrderedEaches ? "Y" : "N"),
-                    row.VendorProduct_EachCost.ToString("F2"),
-                    row.VendorProduct_CaseCost.ToString("F2"),
-                    row.VendorProduct_CountInCase);
+                    row.PurLine_EachCost.ToString("F2"),
+                    row.PurLine_CaseCost.ToString("F2"),
+                    row.PurLine_CountInCase);
                 output.AppendLine(line);
             }
             System.Windows.Forms.Clipboard.SetText(output.ToString(), TextDataFormat.UnicodeText);
             MessageBox.Show("Order lines exported to clipboard in tab separated format.");
+            MessageBox.Show(string.Format("If you import this information into a spreadsheet, be sure to import the \"{0}\" column" +
+                " as text instead of numbers. Otherwise leading zeroes will be removed from part numbers.", PurLineForm.ColNameVendorCode),
+                "Data Loss Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }
