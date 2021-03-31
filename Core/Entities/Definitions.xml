@@ -331,7 +331,10 @@
 			<index name="PurLine_PurOrder">
 				PurOrderId
 			</index>
-		</sql>
+      <index name="PurLine_VendorProduct">
+        VendorProductId
+      </index>
+    </sql>
 		<sqlrepository datasetname="OrderingDataSet" namespace="Willowsoft.Ordering.Core.Repositories" />
 	</entity>
 	<sql role="Programs">
