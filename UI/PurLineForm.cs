@@ -491,7 +491,7 @@ namespace Willowsoft.Ordering.UI
                     row.PurLine_ProductName,
                     row.PurLine_Size,
                     row.PurLine_ManufacturerPartNum,
-                    row.PurLine_VendorPartNum,
+                    "#" + row.PurLine_VendorPartNum,
                     row.PurLine_QtyOrdered,
                     (row.PurLine_OrderedEaches ? "Y" : "N"),
                     row.PurLine_EachCost.ToString("F2"),
@@ -501,9 +501,10 @@ namespace Willowsoft.Ordering.UI
             }
             System.Windows.Forms.Clipboard.SetText(output.ToString(), TextDataFormat.UnicodeText);
             MessageBox.Show("Order lines exported to clipboard in tab separated format.");
-            MessageBox.Show(string.Format("If you import this information into a spreadsheet, be sure to import the \"{0}\" column" +
-                " as text instead of numbers. Otherwise leading zeroes will be removed from part numbers.", PurLineForm.ColNameVendorCode),
-                "Data Loss Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(string.Format("Vendor codes have been prefixed with \"#\" to prevent " + 
+                "spreadsheets from interpreting them as numbers and stripping leading zeros. " +
+                "Import will remove any leading \"#\" from vendor codes to undo this.", PurLineForm.ColNameVendorCode),
+                "Vendor Codes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

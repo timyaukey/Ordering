@@ -95,11 +95,14 @@ namespace Willowsoft.Ordering.UI
             colCaseSize.Text = PurLineForm.ColNameCaseSize;
         }
 
+        private const int MAX_IMPORT_ERRORS = 5;
+
         private void btnReadClipboard_Click(object sender, EventArgs e)
         {
             using (StringReader input = new StringReader(System.Windows.Forms.Clipboard.GetText()))
             {
                 int lineNumber = 0;
+                int errorCount = 0;
                 string headerLine = input.ReadLine();
                 if (string.IsNullOrEmpty(headerLine))
                 {
@@ -130,62 +133,88 @@ namespace Willowsoft.Ordering.UI
                     if (inputLine == null)
                         break;
                     lineNumber++;
-                    string[] fields = inputLine.Split('\t');
-                    ImportedPurLine importedLine = new ImportedPurLine();
-                    
-                    importedLine.SubCategoryName = GetField(fields, mColSubCategory);
-                    ProductSubCategory subCat = mSubCats.Find(s => s.SubCategoryName == importedLine.SubCategoryName);
-                    if (subCat == null)
+                    if (!TryParseClipboardLine(inputLine, lineNumber))
                     {
-                        MessageBox.Show(string.Format("Unrecognized subcategory name\"{0}\" on line {1}", importedLine.SubCategoryName, lineNumber));
-                        return;
-                    }
-                    importedLine.SubCategoryId = subCat.Id;
-                    
-                    importedLine.BrandName = GetField(fields, mColBrand);
-                    ProductBrand brand = mBrands.Find(b => b.BrandName == importedLine.BrandName);
-                    if (brand == null)
-                    {
-                        MessageBox.Show(string.Format("Unrecognized brand name\"{0}\" on line {1}", importedLine.BrandName, lineNumber));
-                        return;
-                    }
-                    importedLine.BrandId = brand.Id;
-                    
-                    importedLine.ProductName = GetField(fields, mColProductName);
-                    importedLine.Size = GetField(fields, mColSize);
-                    importedLine.Model = GetField(fields, mColModel);
-                    importedLine.VendorCode = GetField(fields, mColVendorCode);
-                    if (!TryGetInt(fields, mColQtyOnHand, out importedLine.OnHand, string.Format("Invalid amount on hand in line {0}", lineNumber)))
-                        return;
-                    if (!TryGetInt(fields, mColQtyOrdered, out importedLine.QtyOrd, string.Format("Invalid amount ordered in line {0}", lineNumber)))
-                        return;
-                    if (!TryGetInt(fields, mColCaseSize, out importedLine.CaseSize, string.Format("Invalid case size in line {0}", lineNumber)))
-                        return;
-                    if (!TryGetDecimal(fields, mColEachCost, out importedLine.EachCost, string.Format("Invalid each cost in line {0}", lineNumber)))
-                        return;
-                    if (!TryGetDecimal(fields, mColCaseCost, out importedLine.CaseCost, string.Format("Invalid case cost in line {0}", lineNumber)))
-                        return;
-                    importedLine.OrderEaches = (GetField(fields, mColOrderEaches).ToUpper() != "Y");
-                    mImportedLines.Add(importedLine);
-                    ListViewItem lvwItem = new ListViewItem(
-                        new string[]
+                        errorCount++;
+                        if (errorCount > MAX_IMPORT_ERRORS)
                         {
-                            importedLine.OnHand.ToString(),
-                            importedLine.SubCategoryName,
-                            importedLine.BrandName,
-                            importedLine.ProductName,
-                            importedLine.Size,
-                            importedLine.Model,
-                            importedLine.VendorCode,
-                            importedLine.QtyOrd.ToString(),
-                            (importedLine.OrderEaches ? "Y" : "N"),
-                            importedLine.EachCost.ToString("C2"),
-                            importedLine.CaseCost.ToString("C2"),
-                            importedLine.CaseSize.ToString()
-                        });
-                    lvwImportLines.Items.Add(lvwItem);
+                            MessageBox.Show(string.Format("Stopping after {0} errors.", MAX_IMPORT_ERRORS));
+                            break;
+                        }
+                    }
                 }
             }
+        }
+
+        private bool TryParseClipboardLine(string inputLine, int lineNumber)
+        {
+            string[] fields = inputLine.Split('\t');
+            ImportedPurLine importedLine = new ImportedPurLine();
+
+            importedLine.SubCategoryName = GetField(fields, mColSubCategory);
+            ProductSubCategory subCat = mSubCats.Find(s => s.SubCategoryName == importedLine.SubCategoryName);
+            if (subCat == null)
+            {
+                MessageBox.Show(string.Format("Unrecognized subcategory name \"{0}\" on line {1}", importedLine.SubCategoryName, lineNumber));
+                return false;
+            }
+            importedLine.SubCategoryId = subCat.Id;
+
+            importedLine.BrandName = GetField(fields, mColBrand);
+            ProductBrand brand = mBrands.Find(b => b.BrandName == importedLine.BrandName);
+            if (brand == null)
+            {
+                MessageBox.Show(string.Format("Unrecognized brand name \"{0}\" on line {1}", importedLine.BrandName, lineNumber));
+                return false;
+            }
+            importedLine.BrandId = brand.Id;
+
+            importedLine.ProductName = GetField(fields, mColProductName).Trim();
+            if (string.IsNullOrEmpty(importedLine.ProductName))
+            {
+                MessageBox.Show(string.Format("Empty product name on line {0}", lineNumber));
+                return false;
+            }
+            importedLine.Size = GetField(fields, mColSize).Trim();
+            importedLine.Model = GetField(fields, mColModel).Trim();
+            importedLine.VendorCode = GetField(fields, mColVendorCode).Trim();
+            if (importedLine.VendorCode.StartsWith("#"))
+                importedLine.VendorCode = importedLine.VendorCode.Substring(1);
+            if (string.IsNullOrEmpty(importedLine.VendorCode))
+            {
+                MessageBox.Show(string.Format("Empty vendor code on line {0}", lineNumber));
+                return false;
+            }
+            if (!TryGetInt(fields, mColQtyOnHand, out importedLine.OnHand, string.Format("Invalid amount on hand in line {0}", lineNumber)))
+                return false;
+            if (!TryGetInt(fields, mColQtyOrdered, out importedLine.QtyOrd, string.Format("Invalid amount ordered in line {0}", lineNumber)))
+                return false;
+            if (!TryGetInt(fields, mColCaseSize, out importedLine.CaseSize, string.Format("Invalid case size in line {0}", lineNumber)))
+                return false;
+            if (!TryGetDecimal(fields, mColEachCost, out importedLine.EachCost, string.Format("Invalid each cost in line {0}", lineNumber)))
+                return false;
+            if (!TryGetDecimal(fields, mColCaseCost, out importedLine.CaseCost, string.Format("Invalid case cost in line {0}", lineNumber)))
+                return false;
+            importedLine.OrderEaches = (GetField(fields, mColOrderEaches).ToUpper() != "Y");
+            mImportedLines.Add(importedLine);
+            ListViewItem lvwItem = new ListViewItem(
+                new string[]
+                {
+                    importedLine.OnHand.ToString(),
+                    importedLine.SubCategoryName,
+                    importedLine.BrandName,
+                    importedLine.ProductName,
+                    importedLine.Size,
+                    importedLine.Model,
+                    importedLine.VendorCode,
+                    importedLine.QtyOrd.ToString(),
+                    (importedLine.OrderEaches ? "Y" : "N"),
+                    importedLine.EachCost.ToString("C2"),
+                    importedLine.CaseCost.ToString("C2"),
+                    importedLine.CaseSize.ToString()
+                });
+            lvwImportLines.Items.Add(lvwItem);
+            return true;
         }
 
         private string GetField(string[] fields, int colIndex)

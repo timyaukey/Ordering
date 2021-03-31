@@ -236,6 +236,8 @@ namespace Willowsoft.Ordering.UI.SetupForms
             if (ValidateString("Product size", productSize, 0, 30, lineNumber))
                 return false;
             string vendorCode = GetInputColumn(fields, mColVendorCode).Trim();
+            if (vendorCode.StartsWith("#"))
+                vendorCode = vendorCode.Substring(1);
             if (ValidateString("Vendor code", vendorCode, 1, 30, lineNumber))
                 return false;
             decimal retailPrice;
