@@ -95,7 +95,7 @@ namespace Willowsoft.Ordering.UI
             colCaseSize.Text = PurLineForm.ColNameCaseSize;
         }
 
-        private const int MAX_IMPORT_ERRORS = 5;
+        private const int MAX_IMPORT_ERRORS = 10;
 
         private void btnReadClipboard_Click(object sender, EventArgs e)
         {
@@ -136,7 +136,7 @@ namespace Willowsoft.Ordering.UI
                     if (!TryParseClipboardLine(inputLine, lineNumber))
                     {
                         errorCount++;
-                        if (errorCount > MAX_IMPORT_ERRORS)
+                        if (errorCount >= MAX_IMPORT_ERRORS)
                         {
                             MessageBox.Show(string.Format("Stopping after {0} errors.", MAX_IMPORT_ERRORS));
                             break;
