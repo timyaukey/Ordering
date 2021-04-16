@@ -22,6 +22,8 @@ DROP PROC dbo.GetPurLineByShelfOrder
 DROP PROC dbo.PurLineGetCategories
 DROP PROC dbo.PurLineAddCategory
 DROP PROC dbo.PurLineRemoveCategory
+DROP PROC dbo.PurLineRefreshFromDefinitions
+DROP PROC dbo.PurLineSaveToDefinitions
 
 DROP VIEW dbo.PurLinesForProduct
 
@@ -551,5 +553,66 @@ GO
 GRANT EXECUTE ON dbo.PurLineRemoveCategory TO Programs
 GO
 
+-----------------------------------------------------
 
+CREATE PROC dbo.PurLineRefreshFromDefinitions
+	@VendorId int
+AS
+
+UPDATE	PurLine
+SET		ProductName = pr.ProductName,
+		ProductSubCategoryId = pr.ProductSubCategoryId,
+		Size = pr.Size,
+		ProductBrandId = pr.ProductBrandId,
+		ManufacturerBarcode = pr.ManufacturerBarcode, 
+		ManufacturerPartNum = pr.ManufacturerPartNum
+FROM	PurLine pl
+		JOIN
+		VendorProduct vp
+			ON pl.VendorProductId = vp.VendorProductId
+		JOIN Product pr
+			ON vp.ProductId = pr.ProductId
+WHERE vp.VendorId = @VendorId
+
+GO
+
+GRANT EXECUTE ON dbo.PurLineRefreshFromDefinitions TO Programs
+GO
+
+
+-----------------------------------------------------
+
+CREATE PROC dbo.PurLineSaveToDefinitions
+	@OrderId int
+AS
+
+UPDATE	Product
+SET		RetailPrice = CASE WHEN pl.RetailPrice <> 0 THEN pl.RetailPrice ELSE pr.RetailPrice END,
+		ProductName = pl.ProductName,
+		ProductSubCategoryId = pl.ProductSubCategoryId,
+		Size = pl.Size,
+		ProductBrandId = pl.ProductBrandId,
+		ManufacturerBarcode = pl.ManufacturerBarcode, 
+		ManufacturerPartNum = pl.ManufacturerPartNum
+FROM	PurLine pl
+		JOIN VendorProduct vp
+			ON pl.VendorProductId = vp.VendorProductId
+		JOIN Product pr
+			ON vp.ProductId = pr.ProductId
+WHERE	pl.PurOrderId = @OrderId
+
+UPDATE	VendorProduct
+SET		RetailPriceOverride = CASE WHEN pl.RetailPriceOverride <> 0 THEN pl.RetailPriceOverride ELSE vp.RetailPriceOverride END,
+		CaseCost = CASE WHEN pl.CaseCost <> 0 THEN pl.CaseCost ELSE vp.CaseCost END, 
+		CountInCase = CASE WHEN pl.CountInCase <> 0 THEN pl.CountInCase ELSE vp.CountInCase END, 
+		EachCost = CASE WHEN pl.EachCost <> 0 THEN pl.EachCost ELSE vp.EachCost END
+FROM	PurLine pl
+		JOIN VendorProduct vp
+			ON pl.VendorProductId = vp.VendorProductId
+WHERE	pl.PurOrderId = @OrderId
+
+GO
+
+GRANT EXECUTE ON dbo.PurLineSaveToDefinitions TO Programs
+GO
 

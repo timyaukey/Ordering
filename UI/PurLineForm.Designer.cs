@@ -44,6 +44,7 @@
             this.btnSetBrands = new System.Windows.Forms.Button();
             this.btnImportOrder = new System.Windows.Forms.Button();
             this.btnExportOrder = new System.Windows.Forms.Button();
+            this.btnUpdateProducts = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.lineBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdLines)).BeginInit();
             this.SuspendLayout();
@@ -58,7 +59,7 @@
             this.grdLines.Location = new System.Drawing.Point(12, 12);
             this.grdLines.Name = "grdLines";
             this.grdLines.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdLines.Size = new System.Drawing.Size(965, 494);
+            this.grdLines.Size = new System.Drawing.Size(1048, 494);
             this.grdLines.TabIndex = 0;
             this.grdLines.SelectionChanged += new System.EventHandler(this.grdLines_SelectionChanged);
             // 
@@ -75,10 +76,10 @@
             // btnFindVendor
             // 
             this.btnFindVendor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindVendor.Location = new System.Drawing.Point(902, 541);
+            this.btnFindVendor.Location = new System.Drawing.Point(985, 541);
             this.btnFindVendor.Name = "btnFindVendor";
             this.btnFindVendor.Size = new System.Drawing.Size(75, 23);
-            this.btnFindVendor.TabIndex = 13;
+            this.btnFindVendor.TabIndex = 14;
             this.btnFindVendor.Text = "Find";
             this.btnFindVendor.UseVisualStyleBackColor = true;
             this.btnFindVendor.Click += new System.EventHandler(this.btnFindVendor_Click);
@@ -86,29 +87,29 @@
             // txtVendorCode
             // 
             this.txtVendorCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtVendorCode.Location = new System.Drawing.Point(777, 544);
+            this.txtVendorCode.Location = new System.Drawing.Point(860, 544);
             this.txtVendorCode.Name = "txtVendorCode";
             this.txtVendorCode.Size = new System.Drawing.Size(119, 20);
-            this.txtVendorCode.TabIndex = 12;
+            this.txtVendorCode.TabIndex = 13;
             this.txtVendorCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVendorPart_KeyPress);
             // 
             // lblVendorCode
             // 
             this.lblVendorCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVendorCode.AutoSize = true;
-            this.lblVendorCode.Location = new System.Drawing.Point(699, 547);
+            this.lblVendorCode.Location = new System.Drawing.Point(782, 547);
             this.lblVendorCode.Name = "lblVendorCode";
             this.lblVendorCode.Size = new System.Drawing.Size(72, 13);
-            this.lblVendorCode.TabIndex = 11;
+            this.lblVendorCode.TabIndex = 12;
             this.lblVendorCode.Text = "Vendor &Code:";
             // 
             // btnPurchaseHistory
             // 
             this.btnPurchaseHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPurchaseHistory.Location = new System.Drawing.Point(568, 542);
+            this.btnPurchaseHistory.Location = new System.Drawing.Point(651, 542);
             this.btnPurchaseHistory.Name = "btnPurchaseHistory";
             this.btnPurchaseHistory.Size = new System.Drawing.Size(116, 23);
-            this.btnPurchaseHistory.TabIndex = 10;
+            this.btnPurchaseHistory.TabIndex = 11;
             this.btnPurchaseHistory.Text = "Purchase History";
             this.btnPurchaseHistory.UseVisualStyleBackColor = true;
             this.btnPurchaseHistory.Click += new System.EventHandler(this.btnPurchaseHistory_Click);
@@ -116,7 +117,7 @@
             // btnCheckInReport
             // 
             this.btnCheckInReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheckInReport.Location = new System.Drawing.Point(861, 512);
+            this.btnCheckInReport.Location = new System.Drawing.Point(944, 512);
             this.btnCheckInReport.Name = "btnCheckInReport";
             this.btnCheckInReport.Size = new System.Drawing.Size(116, 23);
             this.btnCheckInReport.TabIndex = 7;
@@ -127,7 +128,7 @@
             // btnWorksheetReport
             // 
             this.btnWorksheetReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnWorksheetReport.Location = new System.Drawing.Point(739, 512);
+            this.btnWorksheetReport.Location = new System.Drawing.Point(822, 512);
             this.btnWorksheetReport.Name = "btnWorksheetReport";
             this.btnWorksheetReport.Size = new System.Drawing.Size(116, 23);
             this.btnWorksheetReport.TabIndex = 6;
@@ -138,7 +139,7 @@
             // btnPOFaxReport
             // 
             this.btnPOFaxReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPOFaxReport.Location = new System.Drawing.Point(568, 512);
+            this.btnPOFaxReport.Location = new System.Drawing.Point(651, 512);
             this.btnPOFaxReport.Name = "btnPOFaxReport";
             this.btnPOFaxReport.Size = new System.Drawing.Size(165, 23);
             this.btnPOFaxReport.TabIndex = 5;
@@ -149,10 +150,10 @@
             // btnCreateProducts
             // 
             this.btnCreateProducts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCreateProducts.Location = new System.Drawing.Point(446, 542);
+            this.btnCreateProducts.Location = new System.Drawing.Point(529, 542);
             this.btnCreateProducts.Name = "btnCreateProducts";
             this.btnCreateProducts.Size = new System.Drawing.Size(116, 23);
-            this.btnCreateProducts.TabIndex = 9;
+            this.btnCreateProducts.TabIndex = 10;
             this.btnCreateProducts.Text = "Create Products";
             this.btnCreateProducts.UseVisualStyleBackColor = true;
             this.btnCreateProducts.Click += new System.EventHandler(this.btnCreateProducts_Click);
@@ -160,7 +161,7 @@
             // btnSetSubcategories
             // 
             this.btnSetSubcategories.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetSubcategories.Location = new System.Drawing.Point(324, 512);
+            this.btnSetSubcategories.Location = new System.Drawing.Point(407, 512);
             this.btnSetSubcategories.Name = "btnSetSubcategories";
             this.btnSetSubcategories.Size = new System.Drawing.Size(116, 23);
             this.btnSetSubcategories.TabIndex = 3;
@@ -171,7 +172,7 @@
             // btnSetBrands
             // 
             this.btnSetBrands.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetBrands.Location = new System.Drawing.Point(446, 512);
+            this.btnSetBrands.Location = new System.Drawing.Point(529, 512);
             this.btnSetBrands.Name = "btnSetBrands";
             this.btnSetBrands.Size = new System.Drawing.Size(116, 23);
             this.btnSetBrands.TabIndex = 4;
@@ -182,7 +183,7 @@
             // btnImportOrder
             // 
             this.btnImportOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImportOrder.Location = new System.Drawing.Point(202, 512);
+            this.btnImportOrder.Location = new System.Drawing.Point(285, 512);
             this.btnImportOrder.Name = "btnImportOrder";
             this.btnImportOrder.Size = new System.Drawing.Size(116, 23);
             this.btnImportOrder.TabIndex = 2;
@@ -193,7 +194,7 @@
             // btnExportOrder
             // 
             this.btnExportOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportOrder.Location = new System.Drawing.Point(80, 512);
+            this.btnExportOrder.Location = new System.Drawing.Point(163, 512);
             this.btnExportOrder.Name = "btnExportOrder";
             this.btnExportOrder.Size = new System.Drawing.Size(116, 23);
             this.btnExportOrder.TabIndex = 1;
@@ -201,11 +202,23 @@
             this.btnExportOrder.UseVisualStyleBackColor = true;
             this.btnExportOrder.Click += new System.EventHandler(this.btnExportOrder_Click);
             // 
+            // btnUpdateProducts
+            // 
+            this.btnUpdateProducts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdateProducts.Location = new System.Drawing.Point(407, 542);
+            this.btnUpdateProducts.Name = "btnUpdateProducts";
+            this.btnUpdateProducts.Size = new System.Drawing.Size(116, 23);
+            this.btnUpdateProducts.TabIndex = 9;
+            this.btnUpdateProducts.Text = "Update Products";
+            this.btnUpdateProducts.UseVisualStyleBackColor = true;
+            this.btnUpdateProducts.Click += new System.EventHandler(this.btnUpdateProducts_Click);
+            // 
             // PurLineForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(989, 573);
+            this.ClientSize = new System.Drawing.Size(1072, 573);
+            this.Controls.Add(this.btnUpdateProducts);
             this.Controls.Add(this.btnExportOrder);
             this.Controls.Add(this.btnImportOrder);
             this.Controls.Add(this.btnSetBrands);
@@ -248,5 +261,6 @@
         private System.Windows.Forms.Button btnSetBrands;
         private System.Windows.Forms.Button btnImportOrder;
         private System.Windows.Forms.Button btnExportOrder;
+        private System.Windows.Forms.Button btnUpdateProducts;
     }
 }

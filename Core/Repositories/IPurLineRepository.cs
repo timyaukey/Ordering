@@ -12,5 +12,7 @@ namespace Willowsoft.Ordering.Core.Repositories
         void AddCategory(PurOrderId orderId, ProductCategoryId categoryId, bool includeInactive);
         int RemoveCategory(PurOrderId orderId, ProductCategoryId categoryId);
         List<ProductCategory> GetCategories(PurOrderId orderId);
+        void RefreshFromDefinitions(VendorId vendorId);
+        void SaveToDefinitions(PurOrderId orderId);
     }
 }

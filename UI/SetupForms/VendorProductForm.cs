@@ -148,6 +148,7 @@ namespace Willowsoft.Ordering.UI.SetupForms
             btnFilter.Visible = true;
             btnClearFilter.Visible = true;
             btnPrint.Visible = true;
+            btnRefreshOrders.Visible = true;
         }
 
         private ProductSubCategoryBindingList GetSubCategoriesOfCategory()
@@ -362,6 +363,29 @@ namespace Willowsoft.Ordering.UI.SetupForms
             }
             VendorProductReport report = new VendorProductReport();
             report.Run(mVendor, mProductCategory, this.MdiParent);
+        }
+
+        private void btnRefreshOrders_Click(object sender, EventArgs e)
+        {
+            DialogResult dlgRes = MessageBox.Show("This will refresh all existing order lines for the selected " +
+                "vendor with the current product names, subcategories, brands, sizes, models, and barcodes. " +
+                "Prices will NOT be refreshed.", "Confirm", 
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (dlgRes != DialogResult.OK)
+            {
+                MessageBox.Show("Refresh operation canceled.");
+                return;
+            }
+            if (mVendor == null)
+            {
+                MessageBox.Show("Select vendor first.");
+                return;
+            }
+            using (Ambient.DbSession.Activate())
+            {
+                OrderingRepositories.PurLine.RefreshFromDefinitions(mVendor.Id);
+            }
+            MessageBox.Show("All order lines for this vendor refreshed.");
         }
     }
 }

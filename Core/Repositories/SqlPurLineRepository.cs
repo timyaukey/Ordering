@@ -76,6 +76,24 @@ namespace Willowsoft.Ordering.Core.Repositories
                 });
         }
 
+        public void RefreshFromDefinitions(VendorId vendorId)
+        {
+            ExecuteNonQuery("dbo.PurLineRefreshFromDefinitions",
+                delegate (SqlCommand cmd)
+                {
+                    SqlHelper.AddParamInputId(cmd, "@VendorId", vendorId.Value);
+                });
+        }
+
+        public void SaveToDefinitions(PurOrderId orderId)
+        {
+            ExecuteNonQuery("dbo.PurLineSaveToDefinitions",
+                delegate (SqlCommand cmd)
+                {
+                    SqlHelper.AddParamInputId(cmd, "@OrderId", orderId.Value);
+                });
+        }
+
         #endregion
 
     }

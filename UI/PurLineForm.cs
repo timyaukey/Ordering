@@ -506,5 +506,23 @@ namespace Willowsoft.Ordering.UI
                 "Import will remove any leading \"#\" from vendor codes to undo this.", PurLineForm.ColNameVendorCode),
                 "Vendor Codes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
+        private void btnUpdateProducts_Click(object sender, EventArgs e)
+        {
+            DialogResult dlgRes = MessageBox.Show("This will copy all product definitions, and prices, " +
+                "from the lines of the current order back to their vendor product definitions. " +
+                "Order lines not associated with a vendor product will be skipped.", "Confirm",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (dlgRes != DialogResult.OK)
+            {
+                MessageBox.Show("Update operation canceled.");
+                return;
+            }
+            using (Ambient.DbSession.Activate())
+            {
+                OrderingRepositories.PurLine.SaveToDefinitions(mOrder.Id);
+            }
+            MessageBox.Show("All order line information saved to vendor products.");
+        }
     }
 }
