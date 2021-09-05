@@ -195,7 +195,7 @@ namespace Willowsoft.Ordering.UI
                 return false;
             if (!TryGetDecimal(fields, mColCaseCost, out importedLine.CaseCost, string.Format("Invalid case cost in line {0}", lineNumber)))
                 return false;
-            importedLine.OrderEaches = (GetField(fields, mColOrderEaches).ToUpper() != "Y");
+            importedLine.OrderEaches = (GetField(fields, mColOrderEaches).ToUpper() == "Y");
             mImportedLines.Add(importedLine);
             ListViewItem lvwItem = new ListViewItem(
                 new string[]
